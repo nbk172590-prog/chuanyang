@@ -7,7 +7,7 @@ import ArticlesCard from "@/app/component/articlesCard/page";
 
 
 
-function Peference() {
+function Preference() {
 
     const products = [
         {
@@ -51,4 +51,4 @@ function Peference() {
     );
 }
 
-export default Peference;
+export default Preference;

@@ -5,63 +5,61 @@ import BannerGrid from "@/app/component/bannerGrid/page";
 import {NewArrivals} from "./component/newArrivals/page";
 import Videos from "./component/videos/page";
 import Articles from "@/app/component/articles/page";
-import Peference from "@/app/component/peference/page";
 import FooterComponent from "@/app/component/footer/page";
 import StormService from "@/app/component/stormService/page";
 import SuperiorQuality from "@/app/component/superiorQuality/page";
 import SponsorBrand from "@/app/component/sponsorBrand/page";
 import {PromoBar} from "@/app/component/announcementBar/page";
+import Preference from "@/app/component/peference/page";
+import React from "react";
+
+/**
+ * Reusable layout container
+ */
+const Container = ({children}: { children: React.ReactNode }) => {
+    return (
+        <div
+            className="mx-auto w-full max-w-360 px-4 md:px-8 xl:px-20 2xl:px-40 pb-10 flex flex-col gap-8 items-center">
+            {children}
+        </div>
+    );
+};
 
 export default function Home() {
     return (
-        <main className="bg-white min-h-screen">
-            {/* 🔥 Banner quảng cáo */}
-            <PromoBar />
+        <main className="bg-white min-h-screen flex flex-col">
+            {/* 🔥 Top announcement */}
+            <PromoBar/>
 
-            <div
-                className="mx-auto flex flex-col items-center"
-                style={{
-                    maxWidth: "1440px",
-                    padding: "0px 160px 40px",
-                    gap: "32px",
-                }}
-            >
+            {/* 🔝 Main hero section */}
+            <Container>
                 <HeaderComponent/>
                 <Slider/>
                 <BrandHeader/>
                 <BannerGrid/>
                 <NewArrivals/>
                 <Videos/>
-            </div>
-            <div>
-                <SuperiorQuality/>
-                <div
-                    className="mx-auto flex flex-col items-center"
-                    style={{
-                        maxWidth: "1440px",
-                        padding: "0px 160px 40px",
-                        gap: "32px",
-                    }}
-                >
-                    <Peference/>
-                </div>
+            </Container>
 
-                <SponsorBrand/>
-                <div
-                    className="mx-auto flex flex-col items-center"
-                    style={{
-                        maxWidth: "1440px",
-                        padding: "0px 160px 40px",
-                        gap: "32px",
-                    }}
-                >
-                    <Articles/>
-                    <StormService/>
-                </div>
+            {/* 💎 Quality highlight (full width section) */}
+            <SuperiorQuality/>
 
-                <FooterComponent/>
-            </div>
+            {/* 🎯 Middle content */}
+            <Container>
+                <Preference/>
+            </Container>
+
+            {/* 🤝 Brands */}
+            <SponsorBrand/>
+
+            {/* 📰 Articles + services */}
+            <Container>
+                <Articles/>
+                <StormService/>
+            </Container>
+
+            {/* 🔚 Footer */}
+            <FooterComponent/>
         </main>
-
     );
 }

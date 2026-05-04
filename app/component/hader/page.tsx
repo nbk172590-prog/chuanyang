@@ -4,7 +4,7 @@ import React from 'react';
 
 function HeaderComponent() {
     return (
-            <header className="w-full max-w-[1440px] mx-auto flex items-center justify-between py-4 px-5 bg-background">
+            <header className="w-full max-w-[1440px] mx-auto flex items-center justify-between py-6 px-5 bg-background">
 
                 {/* Logo */}
                 <a href="#" className="flex items-center gap-2 shrink-0">

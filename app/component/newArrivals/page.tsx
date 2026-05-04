@@ -172,9 +172,9 @@ const products = [
 export function NewArrivals() {
     return (
         <section className="w-full">
-            {/* Header */}
+
             <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-900 tracking-tight">New Arrivals</h2>
+                <h2 className="text-2xl font-bold text-gray-900 tracking-tight py-12">New Arrivals</h2>
                 <a
                     href="#"
                     className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900 transition-colors"
@@ -184,9 +184,8 @@ export function NewArrivals() {
                 </a>
             </div>
 
-            {/* Product Grid - 7 columns, 2 rows */}
             <div className="grid grid-cols-4 gap-3">
-                {products.map((product) => (
+                {products.slice(0, 12).map((product) => (
                     <ProductCard key={product.id} product={product} />
                 ))}
             </div>

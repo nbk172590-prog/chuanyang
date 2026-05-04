@@ -3,11 +3,11 @@ import React from 'react';
 const dataSponsor = [
     {
         id: 1,
-        image: '/sponsorBrand/anh1.png'
+        image: '/sponsorBrand/anh2.png'
     },
     {
         id: 2,
-        image: '/sponsorBrand/anh2.png'
+        image: '/sponsorBrand/anh1.png'
     },
     {
         id: 3,

@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import {ArrowRight} from "lucide-react";
 import {ProductCard} from "../productCard/page";
 
 
@@ -173,20 +173,25 @@ export function NewArrivals() {
     return (
         <section className="w-full">
 
-            <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-900 tracking-tight py-12">New Arrivals</h2>
+            {/* HEADER */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 md:mb-8">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
+                    New Arrivals
+                </h2>
+
                 <a
                     href="#"
-                    className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                    className="flex items-center gap-1 text-sm sm:text-base text-gray-600 hover:text-gray-900 transition-colors border-b border-[#141718] w-fit"
                 >
                     More Products
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4"/>
                 </a>
             </div>
 
-            <div className="grid grid-cols-4 gap-3">
+            {/* GRID */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
                 {products.slice(0, 12).map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                    <ProductCard key={product.id} product={product}/>
                 ))}
             </div>
         </section>

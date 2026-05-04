@@ -7,43 +7,33 @@ interface CategoryCardProps {
     contentPosition?: "top-left" | "bottom-left";
 }
 
-function CategoryCard({title, imageUrl, arrowUrl, contentPosition = "top-left"}: CategoryCardProps) {
-    const positionClass = contentPosition === "bottom-left"
-        ? "absolute bottom-8 left-8"
-        : "absolute top-12 left-8";
+function CategoryCard({
+                          title,
+                          imageUrl,
+                          arrowUrl,
+                          contentPosition = "top-left",
+                      }: CategoryCardProps) {
+
+    const positionClass =
+        contentPosition === "bottom-left"
+            ? "absolute bottom-4 left-4 md:bottom-8 md:left-8"
+            : "absolute top-4 left-4 md:top-12 md:left-8";
 
     return (
         <div
-            className="relative w-full h-full rounded-lg overflow-hidden"
-            style={{
-                backgroundImage: `url(${imageUrl})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-            }}
+            className="relative w-full h-full rounded-lg overflow-hidden bg-cover bg-center"
+            style={{backgroundImage: `url(${imageUrl})`}}
         >
             <div className={positionClass}>
-                <h2
-                    className="text-[#141718] font-medium leading-[38px] tracking-[-0.6px]"
-                    style={{fontFamily: "Poppins, sans-serif", fontSize: "34px"}}
-                >
+                <h2 className="text-lg md:text-3xl font-medium text-[#141718]">
                     {title}
                 </h2>
-                <a
-                    href="#"
-                    className="inline-flex items-center gap-1 mt-3"
-                    style={{fontFamily: "Inter, sans-serif"}}
-                >
-          <span
-              className="text-[#141718] font-medium leading-7 tracking-[-0.4px]"
-              style={{fontSize: "16px", borderBottom: "1px solid #141718"}}
-          >
-            Shop Now
-          </span>
-                    <img
-                        src={arrowUrl}
-                        alt="arrow"
-                        className="w-5 h-5"
-                    />
+
+                <a href="#" className="inline-flex items-center gap-1 mt-2 md:mt-3">
+                    <span className="text-sm md:text-base border-b border-[#141718]">
+                        Shop Now
+                    </span>
+                    <img src={arrowUrl} alt="arrow" className="w-4 h-4 md:w-5 md:h-5"/>
                 </a>
             </div>
         </div>
@@ -53,20 +43,21 @@ function CategoryCard({title, imageUrl, arrowUrl, contentPosition = "top-left"}:
 export default function BannerGrid() {
     return (
         <section className="w-full bg-white">
-            <div className="flex flex-row gap-6">
-                {/* Large left productCard */}
-                <div className="flex-none" style={{width: "548px", height: "664px"}}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+
+                {/* LEFT BIG */}
+                <div className="aspect-[4/5] md:aspect-[548/664]">
                     <CategoryCard
                         title="Bathroom"
                         imageUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-1d6c5bfc5ee9cf06.png"
                         arrowUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-0db9131d45f1b116.svg"
-                        contentPosition="top-left"
                     />
                 </div>
 
-                {/* Right column with two stacked cards */}
-                <div className="flex flex-col gap-6 flex-none" style={{width: "548px", height: "664px"}}>
-                    <div style={{height: "319px"}}>
+                {/* RIGHT COLUMN */}
+                <div className="flex flex-col gap-4 md:gap-6">
+
+                    <div className="aspect-[4/3] md:aspect-[548/319]">
                         <CategoryCard
                             title="Lavabo/Restroom"
                             imageUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-0569f57b8e21f96b.png"
@@ -74,7 +65,8 @@ export default function BannerGrid() {
                             contentPosition="bottom-left"
                         />
                     </div>
-                    <div style={{height: "319px"}}>
+
+                    <div className="aspect-[4/3] md:aspect-[548/319]">
                         <CategoryCard
                             title="Kitchen"
                             imageUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-78deba1751c9c6a2.png"
@@ -82,6 +74,7 @@ export default function BannerGrid() {
                             contentPosition="bottom-left"
                         />
                     </div>
+
                 </div>
             </div>
         </section>

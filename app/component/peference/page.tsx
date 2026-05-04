@@ -1,14 +1,10 @@
-'use client'
+"use client";
 
-import React from 'react';
+import React from "react";
 import {ArrowRight} from "lucide-react";
 import ArticlesCard from "@/app/component/articlesCard/page";
 
-
-
-
 function Preference() {
-
     const products = [
         {
             id: 1,
@@ -24,27 +20,31 @@ function Preference() {
             id: 3,
             name: "Taiheyuan Housing Project – Changhua",
             image: "/imgArticles/3.png",
-
-        }
+        },
     ];
 
     return (
         <section className="w-full">
-            <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-900 tracking-tight py-12">Peference Project </h2>
+
+            {/* HEADER */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 md:mb-8">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
+                    Preference Project
+                </h2>
+
                 <a
                     href="#"
-                    className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900 transition-colors "
-                    style={{fontSize: "16px", borderBottom: "1px solid #141718"}}
+                    className="flex items-center gap-1 text-sm sm:text-base text-gray-600 hover:text-gray-900 transition-colors border-b border-[#141718] w-fit"
                 >
-                    More Peference Project
-                    <ArrowRight className="w-4 h-4" />
+                    More Preference Project
+                    <ArrowRight className="w-4 h-4"/>
                 </a>
             </div>
 
-            <div className="grid grid-cols-3 gap-3">
+            {/* GRID */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
                 {products.map((product) => (
-                    <ArticlesCard key={product.id} product={product} />
+                    <ArticlesCard key={product.id} product={product}/>
                 ))}
             </div>
         </section>

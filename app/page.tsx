@@ -7,11 +7,13 @@ import Videos from "./component/videos/page";
 import Articles from "@/app/component/articles/page";
 import Peference from "@/app/component/peference/page";
 import FooterComponent from "@/app/component/footer/page";
+import StormService from "@/app/component/stormService/page";
+import SuperiorQuality from "@/app/component/superiorQuality/page";
+import SponsorBrand from "@/app/component/sponsorBrand/page";
 
 export default function Home() {
     return (
         <main className="bg-white min-h-screen">
-            {/* Slider Section — 1440px wide, centered, padded 160px sides, 40px bottom */}
             <div
                 className="mx-auto flex flex-col items-center"
                 style={{
@@ -24,11 +26,13 @@ export default function Home() {
                 <Slider/>
                 <BrandHeader/>
                 <BannerGrid/>
-                <NewArrivals />
+                <NewArrivals/>
                 <Videos/>
+                <SuperiorQuality/>
                 <Peference/>
+                <SponsorBrand/>
                 <Articles/>
-
+                <StormService/>
                 <FooterComponent/>
             </div>
         </main>

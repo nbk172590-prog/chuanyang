@@ -31,7 +31,7 @@ function Articles() {
     return (
         <section className="w-full">
             <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Peference Project </h2>
+                <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Articles Project </h2>
                 <a
                     href="#"
                     className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900 transition-colors "

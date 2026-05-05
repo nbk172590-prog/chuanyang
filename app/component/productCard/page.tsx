@@ -126,3 +126,21 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
     );
 }
+
+const sampleProduct: Product = {
+    id: 0,
+    name: "Sample Product",
+    price: 49.99,
+    rating: 4.5,
+    reviewCount: 10,
+    image: "https://images.pexels.com/photos/18185916/pexels-photo-18185916.png?auto=compress&cs=tinysrgb&h=650",
+    isNew: true,
+    discount: 20,
+    code: "CY-SAMPLE",
+};
+
+function ProductCardPage() {
+    return <ProductCard product={sampleProduct} />;
+}
+
+export default ProductCardPage;

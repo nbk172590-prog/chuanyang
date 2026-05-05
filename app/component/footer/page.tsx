@@ -21,10 +21,10 @@ function FooterComponent() {
                         <p className="text-2xl">Chuan Yang Global</p>
 
                         <nav className="flex gap-10">
-                            <a href="#">Home</a>
-                            <a href="#">Shop</a>
-                            <a href="#">Product</a>
-                            <a href="#">Contact Us</a>
+                            <a href="/">Home</a>
+                            <a href="/shop">Shop</a>
+                            <a href="/product">Product</a>
+                            <a href="/contact-us">Contact Us</a>
                         </nav>
                     </div>
 
@@ -60,11 +60,11 @@ function FooterComponent() {
 
                 {/* Menu */}
                 <div className="flex flex-col gap-4 mb-8 text-sm">
-                    <a href="#">Home</a>
-                    <a href="#">Shop</a>
-                    <a href="#">Product</a>
+                    <a href="/">Home</a>
+                    <a href="/shop">Shop</a>
+                    <a href="/product">Product</a>
                     <a href="#">Blog</a>
-                    <a href="#">Contact Us</a>
+                    <a href="/contact-us">Contact Us</a>
                 </div>
 
                 <div className="border-t border-white/20 mb-6" />

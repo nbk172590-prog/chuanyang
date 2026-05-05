@@ -14,16 +14,16 @@ function HeaderComponent() {
 
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center gap-10">
-                    <a href="#" className="text-figma-14 font-medium font-heading leading-figma-24 text-secondary transition-opacity hover:opacity-80">
+                    <a href="/" className="text-figma-14 font-medium font-heading leading-figma-24 text-secondary transition-opacity hover:opacity-80">
                         Home
                     </a>
-                    <a href="#" className="text-figma-14 font-medium font-heading leading-figma-24 text-figma-text-1 transition-opacity hover:opacity-80">
+                    <a href="/shop" className="text-figma-14 font-medium font-heading leading-figma-24 text-figma-text-1 transition-opacity hover:opacity-80">
                         Shop
                     </a>
-                    <a href="#" className="text-figma-14 font-medium font-heading leading-figma-24 text-figma-text-1 transition-opacity hover:opacity-80">
+                    <a href="/product" className="text-figma-14 font-medium font-heading leading-figma-24 text-figma-text-1 transition-opacity hover:opacity-80">
                         Product
                     </a>
-                    <a href="#" className="text-figma-14 font-medium font-heading leading-figma-24 text-figma-text-1 transition-opacity hover:opacity-80">
+                    <a href="/contact-us" className="text-figma-14 font-medium font-heading leading-figma-24 text-figma-text-1 transition-opacity hover:opacity-80">
                         Contact Us
                     </a>
                 </nav>

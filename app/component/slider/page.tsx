@@ -87,3 +87,5 @@ export function Slider() {
         </div>
     );
 }
+
+export default Slider;

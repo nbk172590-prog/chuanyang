@@ -49,3 +49,5 @@ export function PromoBar() {
         </div>
     );
 }
+
+export default PromoBar;

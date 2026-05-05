@@ -197,3 +197,5 @@ export function NewArrivals() {
         </section>
     );
 }
+
+export default NewArrivals;

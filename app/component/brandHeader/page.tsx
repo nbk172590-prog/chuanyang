@@ -30,3 +30,5 @@ export function BrandHeader() {
         </div>
     );
 }
+
+export default BrandHeader;

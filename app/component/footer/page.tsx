@@ -7,11 +7,6 @@ function FooterComponent() {
         <footer className="w-full">
 
             {/* Background */}
-            <img
-                src="/bg-ft.png"
-                alt=""
-                className="w-full h-auto object-cover"
-            />
 
             {/* ===== DESKTOP ===== */}
             <div className="hidden md:block bg-[#0F1416] text-white">
@@ -33,21 +28,21 @@ function FooterComponent() {
                                 <div className="flex flex-col gap-4">
 
                                     <div className="flex items-center gap-3">
-                                        <img src="/dienthoai.png" className="w-5 h-5" />
+                                        <img src="/dienthoai.png" className="w-5 h-5"/>
                                         <p className="text-[15px] text-[#E8ECEF]">
                                             +84 971 617 101
                                         </p>
                                     </div>
 
                                     <div className="flex items-center gap-3">
-                                        <img src="/email.png" className="w-5 h-5" />
+                                        <img src="/email.png" className="w-5 h-5"/>
                                         <p className="text-[15px] text-[#E8ECEF]">
                                             chuanyangvn@gmail.com
                                         </p>
                                     </div>
 
                                     <div className="flex items-start gap-3">
-                                        <img src="/diachi.png" className="w-5 h-5 mt-[3px]" />
+                                        <img src="/diachi.png" className="w-5 h-5 mt-[3px]"/>
                                         <p className="text-[14px] text-[#E8ECEF] leading-6">
                                             Y01-L13, An Phú Shop Villa KĐT Dương Nội, Hà Đông,
                                             Hanoi, Viet Nam
@@ -68,7 +63,7 @@ function FooterComponent() {
                         </div>
 
                         {/* Divider */}
-                        <div className="w-full h-[1px] bg-[#2A2F2F]" />
+                        <div className="w-full h-[1px] bg-[#2A2F2F]"/>
 
                         {/* BOTTOM */}
                         <div className="flex items-center justify-between">
@@ -101,7 +96,7 @@ function FooterComponent() {
                         Chuan Yang Global
                     </h2>
 
-                    <div className="w-8 h-[1px] bg-white/40" />
+                    <div className="w-8 h-[1px] bg-white/40"/>
 
                     {/* Menu (mobile giữ lại) */}
                     <div className="flex flex-col gap-4 text-sm">
@@ -111,23 +106,23 @@ function FooterComponent() {
                         <a href="/contact-us">Contact Us</a>
                     </div>
 
-                    <div className="w-full h-[1px] bg-white/20" />
+                    <div className="w-full h-[1px] bg-white/20"/>
 
                     {/* Contact */}
                     <div className="flex flex-col gap-4 text-sm text-[#E8ECEF]">
 
                         <div className="flex items-center justify-center gap-2">
-                            <img src="/dienthoai.png" className="w-4 h-4" />
+                            <img src="/dienthoai.png" className="w-4 h-4"/>
                             <span>+84 234 567 890</span>
                         </div>
 
                         <div className="flex items-center justify-center gap-2">
-                            <img src="/email.png" className="w-4 h-4" />
+                            <img src="/email.png" className="w-4 h-4"/>
                             <span>hello@chuanyang.com</span>
                         </div>
 
                         <div className="flex items-start justify-center gap-2 px-4">
-                            <img src="/diachi.png" className="w-4 h-4 mt-[3px]" />
+                            <img src="/diachi.png" className="w-4 h-4 mt-[3px]"/>
                             <span className="leading-5">
                 Y01-L13, An Phú Shop Villa KĐT Dương Nội,
                 Hà Đông, Hanoi, Viet Nam
@@ -136,7 +131,7 @@ function FooterComponent() {
 
                     </div>
 
-                    <div className="w-full h-[1px] bg-white/20" />
+                    <div className="w-full h-[1px] bg-white/20"/>
 
                     <div className="flex gap-6 text-xs text-gray-300">
                         <p>Privacy Policy</p>

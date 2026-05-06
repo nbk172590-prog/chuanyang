@@ -6,6 +6,7 @@ import {SidebarShop} from "@/app/shop/sidebar/page";
 import PromoBar from "@/app/component/announcementBar/page";
 import HeaderComponent from "@/app/component/hader/page";
 import FooterComponent from "@/app/component/footer/page";
+import FooterBackground from "@/app/component/footer/footerBg/page";
 
 
 
@@ -24,6 +25,7 @@ export default function ShopPage() {
                 </div>
 
             </div>
+            <FooterBackground/>
             <FooterComponent />
         </main>
     );

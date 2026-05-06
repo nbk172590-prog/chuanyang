@@ -1,3 +1,5 @@
+'use client'
+
 import HeaderComponent from "@/app/component/hader/page";
 import {Slider} from "@/app/component/slider/page";
 import {BrandHeader} from "@/app/component/brandHeader/page";
@@ -11,6 +13,7 @@ import SponsorBrand from "@/app/component/sponsorBrand/page";
 import {PromoBar} from "@/app/component/announcementBar/page";
 import Preference from "@/app/component/peference/page";
 import React from "react";
+import FooterBackground from "@/app/component/footer/footerBg/page";
 
 /**
  * Reusable layout container
@@ -58,6 +61,7 @@ export default function Home() {
             </Container>
 
             {/* 🔚 Footer */}
+            <FooterBackground/>
             <FooterComponent/>
         </main>
     );

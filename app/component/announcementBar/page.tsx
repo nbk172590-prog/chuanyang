@@ -21,31 +21,32 @@ export function PromoBar() {
     if (!visible) return null;
 
     return (
-        <div className="relative w-full bg-[#F3F5F7] px-4 py-2">
+        <div className="relative w-full bg-[#F3F5F7] px-4 py-5">
 
-            {/* Nội dung ở giữa */}
-            <div className="flex items-center justify-center gap-2 text-sm md:text-base font-medium">
-                <img src="/ticket-percent.png" alt=""/>
+            {/* CONTENT CENTER */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center gap-2 text-sm md:text-base font-medium">
 
-                <span className="text-[#343839]">
-                    30% off storewide — Limited time!
-                </span>
+                <img src="/ticket-percent.png" alt="" />
 
-                <Link href="/shop" className="inline-flex items-center gap-1 mt-2 md:mt-3">
-    <span className="text-sm md:text-base border-b border-[#141718]">
+                <span className="text-[#343839] whitespace-nowrap mr-2">
+            30% off storewide — Limited time!
+        </span>
+
+                <Link href="/shop" className="inline-flex items-center gap-1">
+    <span className="text-[#377DFF] border-b border-[#377DFF]">
         Mua sắm ngay
     </span>
-                    <ArrowRight className="w-4 h-4"/>
+                    <ArrowRight className="w-4 h-4 text-[#377DFF]" />
                 </Link>
 
             </div>
 
-            {/* Nút X bên phải */}
+            {/* CLOSE BUTTON */}
             <button
                 onClick={handleClose}
                 className="absolute right-4 top-1/2 -translate-y-1/2 hover:opacity-70 transition"
             >
-                <X className="w-5 h-5 text-[#121212] cursor-pointer"/>
+                <X className="w-5 h-5 text-[#121212]" />
             </button>
         </div>
     );

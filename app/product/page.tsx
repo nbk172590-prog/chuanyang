@@ -3,6 +3,7 @@ import FooterComponent from "@/app/component/footer/page";
 import { PromoBar } from "@/app/component/announcementBar/page";
 import { ProductCard } from "@/app/component/productCard/page";
 import React from "react";
+import FooterBackground from "@/app/component/footer/footerBg/page";
 
 const featuredProduct = {
   id: 1,
@@ -149,7 +150,7 @@ export default function ProductPage() {
           </div>
         </div>
       </section>
-
+      <FooterBackground/>
       <FooterComponent />
     </main>
   );

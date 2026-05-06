@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronLeft, Upload } from 'lucide-react';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '@/firebase-config';
+import { ChevronLeft, Upload, Loader, AlertCircle, CheckCircle } from 'lucide-react';
 
 export default function AddProductPage() {
   const router = useRouter();
@@ -12,14 +14,13 @@ export default function AddProductPage() {
     description: '',
     category: '',
     price: '',
-    cost: '',
     stock: '',
-    sku: '',
     status: 'active',
-    image: null as File | null,
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -29,29 +30,66 @@ export default function AddProductPage() {
     }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setFormData(prev => ({
-        ...prev,
-        image: file,
-      }));
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+    setIsSubmitting(true);
+
+    try {
+      // Validation
+      if (!formData.name.trim()) {
+        setError('Vui lòng nhập tên sản phẩm');
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!formData.category) {
+        setError('Vui lòng chọn danh mục');
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!formData.price || parseFloat(formData.price) < 0) {
+        setError('Vui lòng nhập giá hợp lệ');
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!formData.stock || parseInt(formData.stock) < 0) {
+        setError('Vui lòng nhập tồn kho hợp lệ');
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Save to Firestore
+      const productData = {
+        name: formData.name.trim(),
+        description: formData.description.trim(),
+        category: formData.category,
+        price: parseFloat(formData.price),
+        stock: parseInt(formData.stock),
+        status: formData.status,
+        image: '/placeholder.jpg', // Placeholder image
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      };
+
+      await addDoc(collection(db, 'products'), productData);
+
+      setSuccess('Thêm sản phẩm thành công!');
+      setTimeout(() => {
+        router.push('/admin/products');
+      }, 1500);
+    } catch (err: any) {
+      setError('Lỗi khi thêm sản phẩm: ' + err.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    console.log('Product added:', formData);
-    router.push('/admin/products');
-  };
-
   return (
-    <div>
+    <div className="p-8">
       <div className="flex items-center gap-4 mb-8">
         <Link
           href="/admin/products"
@@ -60,102 +98,105 @@ export default function AddProductPage() {
           <ChevronLeft size={24} />
         </Link>
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Add New Product</h1>
-          <p className="text-gray-600 mt-2">Fill in the product details below</p>
+          <h1 className="text-3xl font-bold text-gray-800">Thêm Sản Phẩm Mới</h1>
+          <p className="text-gray-600 mt-2">Điền thông tin chi tiết sản phẩm bên dưới</p>
         </div>
       </div>
+
+      {/* Alert Messages */}
+      {error && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
+          <AlertCircle className="text-red-500 flex-shrink-0 mt-0.5" size={20} />
+          <p className="text-red-700">{error}</p>
+        </div>
+      )}
+
+      {success && (
+        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
+          <CheckCircle className="text-green-500 flex-shrink-0 mt-0.5" size={20} />
+          <p className="text-green-700">{success}</p>
+        </div>
+      )}
 
       <div className="bg-white rounded-lg shadow-md p-8">
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Product Name */}
           <div className="md:col-span-2">
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Product Name *
+              Tên Sản Phẩm *
             </label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              placeholder="Enter product name"
+              placeholder="Nhập tên sản phẩm"
+              disabled={isSubmitting}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
             />
           </div>
 
           {/* Description */}
           <div className="md:col-span-2">
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Description
+              Mô Tả
             </label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleInputChange}
-              placeholder="Enter product description"
+              placeholder="Nhập mô tả sản phẩm"
               rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={isSubmitting}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
             />
           </div>
 
           {/* Category */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Category *
+              Danh Mục *
             </label>
             <select
               name="category"
               value={formData.category}
               onChange={handleInputChange}
+              disabled={isSubmitting}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
             >
-              <option value="">Select a category</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Accessories">Accessories</option>
-              <option value="Clothing">Clothing</option>
-              <option value="Home">Home</option>
-              <option value="Other">Other</option>
+              <option value="">Chọn danh mục</option>
+              <option value="Điện tử">Điện tử</option>
+              <option value="Phụ kiện">Phụ kiện</option>
+              <option value="Quần áo">Quần áo</option>
+              <option value="Nhà cửa">Nhà cửa</option>
+              <option value="Khác">Khác</option>
             </select>
           </div>
 
           {/* Price */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Price *
+              Giá Bán *
             </label>
             <input
               type="number"
               name="price"
               value={formData.price}
               onChange={handleInputChange}
-              placeholder="0.00"
-              step="0.01"
+              placeholder="0"
+              step="1"
+              disabled={isSubmitting}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* Cost */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Cost
-            </label>
-            <input
-              type="number"
-              name="cost"
-              value={formData.cost}
-              onChange={handleInputChange}
-              placeholder="0.00"
-              step="0.01"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
             />
           </div>
 
           {/* Stock */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Stock Quantity *
+              Tồn Kho *
             </label>
             <input
               type="number"
@@ -163,64 +204,27 @@ export default function AddProductPage() {
               value={formData.stock}
               onChange={handleInputChange}
               placeholder="0"
+              disabled={isSubmitting}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {/* SKU */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              SKU
-            </label>
-            <input
-              type="text"
-              name="sku"
-              value={formData.sku}
-              onChange={handleInputChange}
-              placeholder="Enter SKU"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
             />
           </div>
 
           {/* Status */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Status
+              Trạng Thái
             </label>
             <select
               name="status"
               value={formData.status}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={isSubmitting}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
             >
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
+              <option value="active">Hoạt động</option>
+              <option value="inactive">Ngừng</option>
             </select>
-          </div>
-
-          {/* Product Image */}
-          <div className="md:col-span-2">
-            <label className="block text-sm font-semibold text-gray-700 mb-4">
-              Product Image
-            </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition-colors cursor-pointer">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="hidden"
-                id="imageInput"
-              />
-              <label htmlFor="imageInput" className="cursor-pointer">
-                <Upload className="mx-auto text-gray-400 mb-2" size={24} />
-                <p className="text-gray-700 font-medium">Click to upload or drag and drop</p>
-                <p className="text-gray-500 text-sm">PNG, JPG up to 10MB</p>
-                {formData.image && (
-                  <p className="text-green-600 text-sm mt-2">✓ {formData.image.name} selected</p>
-                )}
-              </label>
-            </div>
           </div>
 
           {/* Submit Buttons */}
@@ -228,16 +232,18 @@ export default function AddProductPage() {
             <button
               type="button"
               onClick={() => router.back()}
-              className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+              disabled={isSubmitting}
+              className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50"
             >
-              Cancel
+              Hủy
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:bg-blue-400"
+              className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium disabled:bg-blue-400 flex items-center justify-center gap-2"
             >
-              {isSubmitting ? 'Adding...' : 'Add Product'}
+              {isSubmitting && <Loader size={20} className="animate-spin" />}
+              {isSubmitting ? 'Đang thêm...' : 'Thêm Sản Phẩm'}
             </button>
           </div>
         </form>

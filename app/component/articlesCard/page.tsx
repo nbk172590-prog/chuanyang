@@ -31,7 +31,7 @@ function ArticlesCard({product}: ArticlesCardProps) {
                     className="text-[#141718] font-medium leading-7 tracking-[-0.4px]"
                     style={{fontSize: "16px", borderBottom: "1px solid #141718"}}
                 >
-            Red more
+            Xem thêm
           </span>
                 <ArrowRight className="w-4 h-4"/>
             </div>

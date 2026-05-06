@@ -35,14 +35,14 @@ function FooterComponent() {
                                     <div className="flex items-center gap-3">
                                         <img src="/dienthoai.png" className="w-5 h-5" />
                                         <p className="text-[15px] text-[#E8ECEF]">
-                                            +84 234 567 890
+                                            +84 971 617 101
                                         </p>
                                     </div>
 
                                     <div className="flex items-center gap-3">
                                         <img src="/email.png" className="w-5 h-5" />
                                         <p className="text-[15px] text-[#E8ECEF]">
-                                            hello@chuanyang.com
+                                            chuanyangvn@gmail.com
                                         </p>
                                     </div>
 

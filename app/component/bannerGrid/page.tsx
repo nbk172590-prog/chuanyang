@@ -1,5 +1,7 @@
 'use client'
 
+import Link from "next/link";
+
 interface CategoryCardProps {
     title: string;
     imageUrl: string;
@@ -29,15 +31,16 @@ function CategoryCard({
                     {title}
                 </h2>
 
-                <a href="#" className="inline-flex items-center gap-1 mt-2 md:mt-3">
-                    <span className="text-sm md:text-base border-b border-[#141718]">
-                        Shop Now
-                    </span>
+                <Link href="/shop" className="inline-flex items-center gap-1 mt-2 md:mt-3">
+    <span className="text-sm md:text-base border-b border-[#141718]">
+        Mua sắm ngay
+    </span>
                     <img src={arrowUrl} alt="arrow" className="w-4 h-4 md:w-5 md:h-5"/>
-                </a>
+                </Link>
             </div>
         </div>
-    );
+)
+    ;
 }
 
 export default function BannerGrid() {
@@ -48,7 +51,7 @@ export default function BannerGrid() {
                 {/* LEFT BIG */}
                 <div className="aspect-[4/5] md:aspect-[548/664]">
                     <CategoryCard
-                        title="Bathroom"
+                        title="Phòng tắm"
                         imageUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-1d6c5bfc5ee9cf06.png"
                         arrowUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-0db9131d45f1b116.svg"
                     />
@@ -59,7 +62,7 @@ export default function BannerGrid() {
 
                     <div className="aspect-[4/3] md:aspect-[548/319]">
                         <CategoryCard
-                            title="Lavabo/Restroom"
+                            title="Lavabo/Nhà vệ sinh"
                             imageUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-0569f57b8e21f96b.png"
                             arrowUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-7079d2de927937b5.svg"
                             contentPosition="bottom-left"
@@ -68,7 +71,7 @@ export default function BannerGrid() {
 
                     <div className="aspect-[4/3] md:aspect-[548/319]">
                         <CategoryCard
-                            title="Kitchen"
+                            title="Phòng bếp"
                             imageUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-78deba1751c9c6a2.png"
                             arrowUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-788131a26ffffd29.svg"
                             contentPosition="bottom-left"

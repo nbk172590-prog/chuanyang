@@ -4,7 +4,6 @@ import {BrandHeader} from "@/app/component/brandHeader/page";
 import BannerGrid from "@/app/component/bannerGrid/page";
 import {NewArrivals} from "./component/newArrivals/page";
 import Videos from "./component/videos/page";
-import Articles from "@/app/component/articles/page";
 import FooterComponent from "@/app/component/footer/page";
 import StormService from "@/app/component/stormService/page";
 import SuperiorQuality from "@/app/component/superiorQuality/page";

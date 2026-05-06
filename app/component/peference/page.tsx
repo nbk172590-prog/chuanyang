@@ -29,14 +29,14 @@ function Preference() {
             {/* HEADER */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 md:mb-8 py-6">
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
-                    Preference Project
+                    DỰ ÁN THAM KHẢO
                 </h2>
 
                 <a
                     href="#"
                     className="flex items-center gap-1 text-sm sm:text-base text-gray-600 hover:text-gray-900 transition-colors border-b border-[#141718] w-fit"
                 >
-                    More Preference Project
+                    Xem thêm
                     <ArrowRight className="w-4 h-4"/>
                 </a>
             </div>

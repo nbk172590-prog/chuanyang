@@ -2,6 +2,7 @@
 
 import React from "react";
 import {ArrowRight} from "lucide-react";
+import Link from "next/link";
 
 function SuperiorQuality() {
     return (
@@ -26,26 +27,23 @@ function SuperiorQuality() {
                     <p className="font-medium text-[#141718]
                                   text-2xl sm:text-3xl md:text-5xl
                                   mb-3 md:mb-4">
-                        Superior Quality
+                        Chất lượng vượt trội
                     </p>
 
                     <p className="text-[#141718]
                                   text-sm sm:text-base md:text-xl
                                   mb-5 md:mb-6 leading-relaxed">
-                        Crafted from premium materials to ensure durability and a flawless
-                        finish for your sanctuary.
+                        Được chế tác từ vật liệu cao cấp để đảm bảo độ bền và lớp hoàn thiện hoàn hảo cho không gian
+                        nghỉ dưỡng của bạn.
                     </p>
 
                     <div>
-                        <a
-                            href="#"
-                            className="flex items-center gap-1
-                                       text-sm md:text-base 
-                                       border-b border-[#141718] w-fit"
-                        >
-                            Shop Now
+                        <Link href="/shop" className="inline-flex items-center gap-1 mt-2 md:mt-3">
+    <span className="text-sm md:text-base border-b border-[#141718]">
+        Mua sắm ngay
+    </span>
                             <ArrowRight className="w-4 h-4"/>
-                        </a>
+                        </Link>
                     </div>
                 </div>
             </div>

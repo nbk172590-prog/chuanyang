@@ -2,6 +2,7 @@
 
 import React, {useEffect, useState} from "react";
 import {X, ArrowRight} from "lucide-react";
+import Link from "next/link";
 
 export function PromoBar() {
     const [visible, setVisible] = useState(true);
@@ -30,13 +31,13 @@ export function PromoBar() {
                     30% off storewide — Limited time!
                 </span>
 
-                <a
-                    href="#"
-                    className="flex items-center gap-1 text-[#377DFF] border-b border-[#141718] w-fit"
-                >
-                    Shop Now
+                <Link href="/shop" className="inline-flex items-center gap-1 mt-2 md:mt-3">
+    <span className="text-sm md:text-base border-b border-[#141718]">
+        Mua sắm ngay
+    </span>
                     <ArrowRight className="w-4 h-4"/>
-                </a>
+                </Link>
+
             </div>
 
             {/* Nút X bên phải */}

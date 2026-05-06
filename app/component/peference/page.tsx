@@ -27,7 +27,7 @@ function Preference() {
         <section className="w-full">
 
             {/* HEADER */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 md:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 md:mb-8 py-6">
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
                     Preference Project
                 </h2>

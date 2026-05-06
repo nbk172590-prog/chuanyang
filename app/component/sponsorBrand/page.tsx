@@ -1,66 +1,70 @@
-import React from 'react';
+'use client'
 
-const dataSponsor = [
-    {
-        id: 1,
-        image: '/sponsorBrand/anh2.png'
-    },
-    {
-        id: 2,
-        image: '/sponsorBrand/anh1.png'
-    },
-    {
-        id: 3,
-        image: '/sponsorBrand/anh3.png'
-    },
-    {
-        id: 4,
-        image: '/sponsorBrand/anh4.png'
-    },
-    {
-        id: 5,
-        image: '/sponsorBrand/anh5.png'
-    },
-    {
-        id: 6,
-        image: '/sponsorBrand/anh6.png'
-    },
-]
+import {useEffect, useRef, useState} from "react";
 
-function SponsorBrand() {
+type Sponsor = {
+    id: number;
+    image: string;
+};
+
+const dataSponsor: Sponsor[] = [
+    {id: 1, image: '/sponsorBrand/anh2.png'},
+    {id: 2, image: '/sponsorBrand/anh1.png'},
+    {id: 3, image: '/sponsorBrand/anh3.png'},
+    {id: 4, image: '/sponsorBrand/anh4.png'},
+    {id: 5, image: '/sponsorBrand/anh5.png'},
+    {id: 6, image: '/sponsorBrand/anh6.png'},
+];
+
+export default function SponsorBrand() {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [index, setIndex] = useState(0);
+
+    const ITEMS_PER_VIEW = 4;
+
+    const maxIndex = Math.max(0, dataSponsor.length - ITEMS_PER_VIEW);
+
+    const next = () => {
+        setIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    };
+
+    const prev = () => {
+        setIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
+    };
+
+    // Auto chạy
+    useEffect(() => {
+        const interval = setInterval(() => {
+            next();
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, [maxIndex]);
+
     return (
-        <section className="w-full">
-            {/*<div className="flex items-center justify-between mb-4">*/}
-            {/*    <h2 className="text-2xl font-bold text-gray-900 tracking-tight">*/}
-            {/*    </h2>*/}
+        <section className="w-full relative overflow-hidden">
 
-            {/*    <a*/}
-            {/*        href="#"*/}
-            {/*        className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"*/}
-            {/*        style={{ fontSize: "16px", borderBottom: "1px solid #141718" }}*/}
-            {/*    >*/}
-            {/*        More SponsorBrand*/}
-            {/*        <ArrowRight className="w-4 h-4" />*/}
-            {/*    </a>*/}
-            {/*</div>*/}
-
-            <div className="grid grid-cols-6 gap-4">
+            {/* Slider */}
+            <div
+                ref={containerRef}
+                className="flex transition-transform duration-500"
+                style={{
+                    transform: `translateX(-${index * (100 / ITEMS_PER_VIEW)}%)`,
+                }}
+            >
                 {dataSponsor.map((item) => (
                     <div
                         key={item.id}
-                        className="flex items-center justify-center py-[50px]"
+                        className="w-1/4 flex items-center justify-center py-10"
                     >
                         <img
                             src={item.image}
                             alt=""
-                            className="h-12 object-contain"
+                            className="h-10 xl:h-12 object-contain"
                         />
                     </div>
                 ))}
             </div>
         </section>
-
     );
 }
-
-export default SponsorBrand;

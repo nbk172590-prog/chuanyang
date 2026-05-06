@@ -54,7 +54,7 @@ export default function Home() {
 
             {/* 📰 Articles + services */}
             <Container>
-                <Articles/>
+                {/*<Articles/>*/}
                 <StormService/>
             </Container>
 

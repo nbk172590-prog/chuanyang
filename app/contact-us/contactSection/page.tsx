@@ -1,5 +1,13 @@
 "use client";
 
+import dynamic from "next/dynamic";
+
+const ContactMap = dynamic(
+    () => import("../mapComponent/page"),
+    {
+        ssr: false,
+    }
+);
 const INFO_CARDS = [
     {
         icon: "https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-5707d1ead947ed07.svg",
@@ -45,7 +53,6 @@ export function ContactSection() {
             >
                 Contact Us
             </h2>
-
             {/* INFO CARDS */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
 
@@ -123,7 +130,7 @@ export function ContactSection() {
                     flex
                     flex-col
 
-                    md:flex-row
+                    xl:flex-row
 
                     gap-10
                     md:gap-16
@@ -138,7 +145,7 @@ export function ContactSection() {
                     onSubmit={(e) => e.preventDefault()}
                     className="
                         w-full
-                        md:w-[544px]
+                        xl:w-[544px]
 
                         flex
                         flex-col
@@ -318,45 +325,8 @@ export function ContactSection() {
                 </form>
 
                 {/* MAP */}
-                <div
-                    className="
-                        flex-1
-
-                        h-[260px]
-                        sm:h-[320px]
-                        md:h-[404px]
-
-                        relative
-                        overflow-hidden
-                    "
-                >
-
-                    <img
-                        src="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-f8344553d6cff069.png"
-                        alt="map"
-                        className="w-full h-full object-cover block"
-                    />
-
-                    <img
-                        src="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-7d917f62c6eb7e7b.svg"
-                        alt="location pin"
-                        className="
-                            absolute
-
-                            w-12
-                            h-12
-
-                            md:w-16
-                            md:h-16
-
-                            top-1/2
-                            left-1/2
-
-                            -translate-x-1/2
-                            -translate-y-1/2
-                        "
-                    />
-
+                <div className="w-full xl:flex-1">
+                    <ContactMap/>
                 </div>
 
             </div>

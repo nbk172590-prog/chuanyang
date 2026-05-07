@@ -32,12 +32,9 @@ export function HeaderContact() {
                         text-[14px]
                         leading-[24px]
                         text-[#6C7275]
-
                         sm:text-[15px]
-
                         md:text-[16px]
                         md:leading-[26px]
-
                         max-w-full
                         md:max-w-[760px]
                     "

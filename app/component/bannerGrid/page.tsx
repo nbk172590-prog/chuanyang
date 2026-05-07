@@ -31,7 +31,7 @@ function CategoryCard({
                     {title}
                 </h2>
 
-                <Link href="/shop" className="inline-flex items-center gap-1 mt-2 md:mt-3">
+                <Link href="/products" className="inline-flex items-center gap-1 mt-2 md:mt-3">
     <span className="text-sm md:text-base border-b border-[#141718]">
         Mua sắm ngay
     </span>

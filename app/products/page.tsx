@@ -1,10 +1,10 @@
 'use client'
 
 import React from "react";
-import {ProductGrid} from "@/app/shop/productGrid/page";
-import {SidebarShop} from "@/app/shop/sidebar/page";
 import PromoBar from "@/app/component/announcementBar/page";
 import HeaderComponent from "@/app/component/hader/page";
+import {SidebarShop} from "@/app/products/sidebar/page";
+import {ProductGrid} from "@/app/products/productGrid/page";
 import FooterComponent from "@/app/component/footer/page";
 import FooterBackground from "@/app/component/footer/footerBg/page";
 

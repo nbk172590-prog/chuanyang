@@ -37,7 +37,7 @@ export const productApi = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
-    if (!response.ok) throw new Error('Failed to create product');
+    if (!response.ok) throw new Error('Failed to create detail');
     return response.json();
   },
 
@@ -47,7 +47,7 @@ export const productApi = {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, ...data }),
     });
-    if (!response.ok) throw new Error('Failed to update product');
+    if (!response.ok) throw new Error('Failed to update detail');
     return response.json();
   },
 
@@ -55,7 +55,7 @@ export const productApi = {
     const response = await fetch(`${apiBaseUrl}/products?id=${id}`, {
       method: 'DELETE',
     });
-    if (!response.ok) throw new Error('Failed to delete product');
+    if (!response.ok) throw new Error('Failed to delete detail');
     return response.json();
   },
 };

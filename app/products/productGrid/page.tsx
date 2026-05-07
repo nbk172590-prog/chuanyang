@@ -1,7 +1,7 @@
 'use client'
 
-import {ProductCard} from "@/app/shop/productCard/page";
 import React, {useState} from "react";
+import {ProductCard} from "@/app/products/productCard/page";
 
 const products = [
     {

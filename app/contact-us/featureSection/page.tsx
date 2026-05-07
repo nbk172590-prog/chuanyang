@@ -103,7 +103,7 @@ export function FeatureSection() {
 
                 {/* BUTTON */}
                 <Link
-                    href="/shop"
+                    href="/products"
                     className="
                         inline-flex
                         items-center

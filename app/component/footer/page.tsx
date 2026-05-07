@@ -55,7 +55,7 @@ function FooterComponent() {
                             {/* RIGHT: MENU */}
                             <nav className="flex gap-10 text-[15px] font-medium">
                                 <a href="/" className="hover:opacity-80">Home</a>
-                                <a href="/shop" className="hover:opacity-80">Shop</a>
+                                <a href="/products" className="hover:opacity-80">Shop</a>
                                 <a href="/product" className="hover:opacity-80">Product</a>
                                 <a href="/contact-us" className="hover:opacity-80">Contact Us</a>
                             </nav>
@@ -101,7 +101,7 @@ function FooterComponent() {
                     {/* Menu (mobile giữ lại) */}
                     <div className="flex flex-col gap-4 text-sm">
                         <a href="/">Home</a>
-                        <a href="/shop">Shop</a>
+                        <a href="/products">Shop</a>
                         <a href="/product">Product</a>
                         <a href="/contact-us">Contact Us</a>
                     </div>

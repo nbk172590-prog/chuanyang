@@ -172,7 +172,7 @@ Icons are provided by **Lucide React**, including:
 The admin panel uses fetch API for HTTP requests. All API calls go through the utility functions in `lib/admin-utils.ts`:
 
 ```typescript
-// Example: Create a product
+// Example: Create a detail
 await productApi.create({
   name: 'New Product',
   category: 'Electronics',
@@ -180,14 +180,14 @@ await productApi.create({
   // ... other fields
 });
 
-// Example: Update a product
-await productApi.update('product-id', {
+// Example: Update a detail
+await productApi.update('detail-id', {
   price: 89.99,
   stock: 50,
 });
 
-// Example: Delete a product
-await productApi.delete('product-id');
+// Example: Delete a detail
+await productApi.delete('detail-id');
 ```
 
 ## Development and Customization

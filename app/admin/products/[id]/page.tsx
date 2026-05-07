@@ -40,7 +40,7 @@ export default function ProductDetailPage() {
   const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState<Partial<Product>>({});
 
-  // Fetch product from Firestore
+  // Fetch detail from Firestore
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -67,7 +67,7 @@ export default function ProductDetailPage() {
           setError('Sản phẩm không tồn tại');
         }
       } catch (err: any) {
-        console.error('Error fetching product:', err);
+        console.error('Error fetching detail:', err);
         setError('Lỗi khi tải sản phẩm: ' + err.message);
       } finally {
         setLoading(false);

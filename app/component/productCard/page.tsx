@@ -1,7 +1,6 @@
 'use client'
 
-import { useState } from "react";
-import { ShoppingCart, Star } from "lucide-react";
+import {useRouter} from "next/navigation";
 
 interface Product {
     id: number;
@@ -21,6 +20,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+    const router = useRouter();
+
 
     return (
         <div
@@ -28,6 +29,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {/* Image container */}
             <div className="relative overflow-hidden bg-gray-50" style={{ paddingBottom: "100%" }}>
                 <img
+                    onClick={() =>router.push(`/products/${product.id}`) }
                     src={product.image}
                     alt={product.name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -57,8 +59,8 @@ export function ProductCard({ product }: ProductCardProps) {
                 {/*        <Star*/}
                 {/*            key={i}*/}
                 {/*            className="w-2.5 h-2.5"*/}
-                {/*            fill={i < Math.floor(product.rating) ? "#f59e0b" : "none"}*/}
-                {/*            stroke={i < Math.floor(product.rating) ? "#f59e0b" : "#d1d5db"}*/}
+                {/*            fill={i < Math.floor(detail.rating) ? "#f59e0b" : "none"}*/}
+                {/*            stroke={i < Math.floor(detail.rating) ? "#f59e0b" : "#d1d5db"}*/}
                 {/*            strokeWidth={1.5}*/}
                 {/*        />*/}
                 {/*    ))}*/}

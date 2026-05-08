@@ -8,20 +8,18 @@ export function SidebarShop() {
     const [activePrice, setActivePrice] = useState('$0.00 - 99.99');
 
     const categories = [
-        'All Rooms',
-        'Bathroom',
-        'Kitchen',
-        'Showers',
-        'Accessories',
+        'Tất cả',
+        'Phòng tắm / Sen cây tắm',
+        'Lavabo / Nhà vệ sinh',
+        'Nhà bếp',
+        'Phụ kiện',
     ];
 
     const priceRanges = [
-        'All Price',
-        '$0.00 - 99.99',
-        '$100.00 - 199.99',
-        '$200.00 - 299.99',
-        '$300.00 - 399.99',
-        '$400.00+',
+        'Tất cả',
+        '0 - 3 triệu',
+        '3 triệu - 10 triệu',
+        'trên 10 triệu  '
     ];
 
     return (
@@ -41,7 +39,7 @@ export function SidebarShop() {
           text-[18px] xl:text-[20px] 2xl:text-[22px]
           text-[#121212]
         ">
-          Filter
+          Tìm kiếm
         </span>
             </div>
 
@@ -52,7 +50,7 @@ export function SidebarShop() {
           text-[14px] xl:text-[15px] 2xl:text-[16px]
           tracking-[0.02em] text-[#121212]
         ">
-                    CATEGORIES
+                    Danh mục
                 </h3>
 
                 <ul className="flex flex-col gap-2 xl:gap-3">
@@ -83,7 +81,7 @@ export function SidebarShop() {
           text-[14px] xl:text-[15px] 2xl:text-[16px]
           tracking-[0.02em] text-[#121212]
         ">
-                    PRICE
+                    Giá tiền
                 </h3>
 
                 <ul className="flex flex-col gap-2 xl:gap-3">

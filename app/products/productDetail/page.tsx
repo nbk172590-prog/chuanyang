@@ -21,7 +21,7 @@ export default function ProductDetail() {
                 <div className="flex w-full flex-col gap-4 lg:w-[345px] lg:flex-shrink-0">
                     <div className="relative h-[458px] w-full lg:w-[345px]">
                         <button
-                            className="absolute left-[-20px] top-1/2 z-[2] flex -translate-y-1/2 items-center drop-shadow-[0px_8px_16px_rgba(0,0,0,0.04)]"
+                            className="absolute left-0 top-1/2 z-[2] flex -translate-y-1/2 items-center drop-shadow-[0px_8px_16px_rgba(0,0,0,0.04)] cursor-pointer"
                             aria-label="Previous"
                         >
                             <img
@@ -50,7 +50,7 @@ export default function ProductDetail() {
                         </div>
 
                         <button
-                            className="absolute right-[-20px] top-1/2 z-[2] flex -translate-y-1/2 items-center drop-shadow-[0px_8px_16px_rgba(0,0,0,0.04)]"
+                            className="absolute right-0 top-1/2 z-[2] flex -translate-y-1/2 items-center drop-shadow-[0px_8px_16px_rgba(0,0,0,0.04)] cursor-pointer"
                             aria-label="Next"
                         >
                             <img

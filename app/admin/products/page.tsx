@@ -10,7 +10,7 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
-import { db } from '@/firebase-config';
+import { db } from '../../../lib/firebase-config';
 import { Plus, Edit, Trash2, Eye, Loader, AlertCircle, CheckCircle } from 'lucide-react';
 
 interface Product {

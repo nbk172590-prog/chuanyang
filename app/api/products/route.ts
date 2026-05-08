@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to create product' },
+      { error: 'Failed to create detail' },
       { status: 400 }
     );
   }
@@ -100,7 +100,7 @@ export async function PUT(request: NextRequest) {
     return NextResponse.json(products[productIndex]);
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to update product' },
+      { error: 'Failed to update detail' },
       { status: 400 }
     );
   }
@@ -130,7 +130,7 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json(deletedProduct);
   } catch (error) {
     return NextResponse.json(
-      { error: 'Failed to delete product' },
+      { error: 'Failed to delete detail' },
       { status: 400 }
     );
   }

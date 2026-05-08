@@ -42,11 +42,8 @@ function HeaderComponent() {
                     <a href="/" className="text-sm md:text-base font-medium hover:opacity-80">
                         Home
                     </a>
-                    <a href="/shop" className="text-sm md:text-base font-medium hover:opacity-80">
-                        Shop
-                    </a>
-                    <a href="/product" className="text-sm md:text-base font-medium hover:opacity-80">
-                        Product
+                    <a href="/products" className="text-sm md:text-base font-medium hover:opacity-80">
+                        Products
                     </a>
                     <a href="/contact-us" className="text-sm md:text-base font-medium hover:opacity-80">
                         Contact Us
@@ -79,8 +76,7 @@ function HeaderComponent() {
 
                         <nav className="flex flex-col gap-4">
                             <a href="/" onClick={() => setOpen(false)}>Home</a>
-                            <a href="/shop" onClick={() => setOpen(false)}>Shop</a>
-                            <a href="/product" onClick={() => setOpen(false)}>Product</a>
+                            <a href="/products" onClick={() => setOpen(false)}>Products</a>
                             <a href="/contact-us" onClick={() => setOpen(false)}>Contact Us</a>
                         </nav>
 

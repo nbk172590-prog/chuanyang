@@ -1,14 +1,14 @@
 'use client'
 
-import {ProductCard} from "@/app/shop/productCard/page";
 import React, {useState} from "react";
+import {ProductCard} from "@/app/products/productCard/page";
 
 const products = [
     {
         id: 1,
         image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-07c83db7535d213b.png',
         badges: [
-            {text: 'NEW', bg: '#FFFFFF', color: '#FF5630'},
+            {text: 'Mới', bg: '#FFFFFF', color: '#FF5630'},
             {text: '-25%', bg: '#38CB89', color: '#FEFEFE'},
         ],
         rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-2aadd681dcafdc24.svg',
@@ -20,7 +20,7 @@ const products = [
         id: 2,
         image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-e2d90efb26f35eea.png',
         badges: [
-            {text: 'NEW', bg: '#FFFFFF', color: '#FF5630'},
+            {text: 'Mới', bg: '#FFFFFF', color: '#FF5630'},
             {text: '-30%', bg: '#38CB89', color: '#FEFEFE'},
         ],
         rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-b610452d46604952.svg',
@@ -191,7 +191,7 @@ export function ProductGrid() {
                         onClick={handleShowMore}
                         className="border rounded-full px-10 py-2 hover:bg-black hover:text-white transition"
                     >
-                        Show more
+                        Thêm sản phấm
                     </button>
                 </div>
             )}

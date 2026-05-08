@@ -1,6 +1,7 @@
 'use client'
 
 import React from "react";
+import {useRouter} from "next/navigation";
 
 type Badge = {
     text: string;
@@ -15,22 +16,27 @@ type ProductCardProps = {
     name: string;
     price: string;
     originalPrice?: string | null;
+    id: number;
 };
 
 export function ProductCard({
                                 image,
                                 badges = [],
-                                rating,
                                 name,
                                 price,
                                 originalPrice,
+                                id
                             }: ProductCardProps) {
+
+    const router = useRouter();
+
     return (
         <div className="flex flex-col w-full">
 
             {/* Image */}
-            <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden">
+            <div className="relative w-full aspect-3/4 rounded-lg overflow-hidden cursor-pointer">
                 <img
+                    onClick={() =>router.push(`/products/${id}`) }
                     src={image}
                     alt={name}
                     className="w-full h-full object-cover"
@@ -42,7 +48,7 @@ export function ProductCard({
                             <span
                                 key={i}
                                 className="px-3 py-1 text-xs font-bold uppercase rounded"
-                                style={{ backgroundColor: badge.bg, color: badge.color }}
+                                style={{backgroundColor: badge.bg, color: badge.color}}
                             >
                 {badge.text}
               </span>
@@ -50,10 +56,8 @@ export function ProductCard({
                     </div>
                 )}
             </div>
-a
             {/* Info */}
             <div className="flex flex-col gap-1 pt-3">
-                <img src={rating} alt="rating" className="w-[88px] h-[16px]" />
 
                 <p className="font-semibold text-[16px] text-[#141718]">
                     {name}

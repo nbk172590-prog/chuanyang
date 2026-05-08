@@ -1,10 +1,11 @@
+'use client'
+
 import HeaderComponent from "@/app/component/hader/page";
 import {Slider} from "@/app/component/slider/page";
 import {BrandHeader} from "@/app/component/brandHeader/page";
 import BannerGrid from "@/app/component/bannerGrid/page";
 import {NewArrivals} from "./component/newArrivals/page";
 import Videos from "./component/videos/page";
-import Articles from "@/app/component/articles/page";
 import FooterComponent from "@/app/component/footer/page";
 import StormService from "@/app/component/stormService/page";
 import SuperiorQuality from "@/app/component/superiorQuality/page";
@@ -12,6 +13,7 @@ import SponsorBrand from "@/app/component/sponsorBrand/page";
 import {PromoBar} from "@/app/component/announcementBar/page";
 import Preference from "@/app/component/peference/page";
 import React from "react";
+import FooterBackground from "@/app/component/footer/footerBg/page";
 
 /**
  * Reusable layout container
@@ -59,6 +61,7 @@ export default function Home() {
             </Container>
 
             {/* 🔚 Footer */}
+            <FooterBackground/>
             <FooterComponent/>
         </main>
     );

@@ -10,18 +10,24 @@ import {
   deleteDoc,
   serverTimestamp,
 } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db } from '@/firebase-config';
+import { storage } from '@/firebase-config';
 import { ChevronLeft, Save, Trash2, Loader, AlertCircle, CheckCircle } from 'lucide-react';
+import ReactQuill from 'react-quill-new';
+import "react-quill-new/dist/quill.snow.css";
 
 interface Product {
   id: string;
   name: string;
   description: string;
+  details: string;
   category: string;
   price: number;
   stock: number;
   status: 'active' | 'inactive';
   image: string;
+  images?: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -39,6 +45,16 @@ export default function ProductDetailPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState<Partial<Product>>({});
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [uploadingImages, setUploadingImages] = useState(false);
+
+  const handleDetailsChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      details: value,
+    }));
+  };
 
   // Fetch product from Firestore
   useEffect(() => {
@@ -53,6 +69,7 @@ export default function ProductDetailPage() {
             id: docSnap.id,
             name: data.name || '',
             description: data.description || '',
+            details: data.details || '',
             category: data.category || '',
             price: data.price || 0,
             stock: data.stock || 0,
@@ -79,11 +96,87 @@ export default function ProductDetailPage() {
     }
   }, [productId]);
 
+  useEffect(() => {
+    if (!product) return;
+    const loadedImages = product.images?.length
+      ? product.images
+      : product.image
+        ? [product.image]
+        : [];
+
+    setImagePreviews(loadedImages);
+    setFormData(prev => ({
+      ...prev,
+      ...product,
+      images: loadedImages,
+    }));
+  }, [product]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: name === 'price' || name === 'stock' ? parseInt(value) : value,
+    }));
+  };
+
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    const validFiles = files.filter(file => {
+      if (!file.type.startsWith('image/')) {
+        setError('Chỉ chấp nhận file ảnh');
+        return false;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Kích thước ảnh không được vượt quá 5MB');
+        return false;
+      }
+      return true;
+    });
+
+    if (validFiles.length === 0) return;
+
+    setUploadingImages(true);
+    setError('');
+
+    try {
+      const uploadPromises = validFiles.map(async (file) => {
+        const timestamp = Date.now();
+        const randomString = Math.random().toString(36).substring(2, 9);
+        const fileName = `products/${timestamp}-${randomString}-${file.name}`;
+        const storageRef = ref(storage, fileName);
+
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        return downloadURL;
+      });
+
+      const uploadedUrls = await Promise.all(uploadPromises);
+
+      setImageFiles(prev => [...prev, ...validFiles]);
+      setImagePreviews(prev => [...prev, ...uploadedUrls]);
+      setFormData(prev => ({
+        ...prev,
+        images: [...(prev.images || []), ...uploadedUrls],
+      }));
+
+      setSuccess(`Đã upload ${uploadedUrls.length} ảnh thành công!`);
+    } catch (err: any) {
+      console.error('Lỗi upload ảnh:', err);
+      setError('Lỗi khi upload ảnh: ' + err.message);
+    } finally {
+      setUploadingImages(false);
+    }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setImageFiles(prev => prev.filter((_, i) => i !== index));
+    setImagePreviews(prev => prev.filter((_, i) => i !== index));
+    setFormData(prev => ({
+      ...prev,
+      images: prev.images?.filter((_, i) => i !== index),
     }));
   };
 
@@ -116,10 +209,13 @@ export default function ProductDetailPage() {
       await updateDoc(docRef, {
         name: formData.name?.trim(),
         description: formData.description?.trim(),
+        details: formData.details?.trim(),
         category: formData.category,
         price: formData.price,
         stock: formData.stock,
         status: formData.status,
+        image: formData.images?.[0] || product?.image || '/placeholder.jpg',
+        images: formData.images || product?.images || [product?.image || '/placeholder.jpg'],
         updatedAt: serverTimestamp(),
       });
 
@@ -253,6 +349,81 @@ export default function ProductDetailPage() {
                   />
                 ) : (
                   <p className="text-gray-600">{product.description || '—'}</p>
+                )}
+              </div>
+
+              {/* Product Images */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Ảnh Sản Phẩm
+                </label>
+                {isEditing ? (
+                  <>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      disabled={isSubmitting || uploadingImages}
+                      className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                    />
+                    <p className="mt-2 text-xs text-gray-500">
+                      Chọn một hoặc nhiều ảnh, mỗi ảnh tối đa 5MB.
+                    </p>
+                    {uploadingImages && (
+                      <p className="mt-2 text-sm text-blue-600">Đang upload ảnh...</p>
+                    )}
+                    {imagePreviews.length > 0 && (
+                      <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                        {imagePreviews.map((src, index) => (
+                          <div key={src + index} className="relative rounded-lg overflow-hidden border border-gray-200">
+                            <img
+                              src={src}
+                              alt={`Ảnh sản phẩm ${index + 1}`}
+                              className="h-28 w-full object-cover"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveImage(index)}
+                              className="absolute top-2 right-2 bg-white/90 text-red-600 rounded-full p-1 shadow hover:bg-white"
+                            >
+                              ✕
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {imagePreviews.map((src, index) => (
+                      <img
+                        key={src + index}
+                        src={src}
+                        alt={`Ảnh sản phẩm ${index + 1}`}
+                        className="h-28 w-full object-cover rounded-lg border border-gray-200"
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Product Details */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Chi Tiết Sản Phẩm
+                </label>
+                {isEditing ? (
+                  <ReactQuill
+                    value={formData.details || ''}
+                    onChange={handleDetailsChange}
+                    theme="snow"
+                    readOnly={isSubmitting}
+                    placeholder="Nhập chi tiết sản phẩm..."
+                    className="min-h-[250px] bg-white"
+                  />
+                ) : (
+                  <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: product.details || '<p>—</p>' }} />
                 )}
               </div>
 

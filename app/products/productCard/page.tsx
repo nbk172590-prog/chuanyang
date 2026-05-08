@@ -34,7 +34,7 @@ export function ProductCard({
         <div className="flex flex-col w-full">
 
             {/* Image */}
-            <div className="relative w-full aspect-[3/4] rounded-lg overflow-hidden cursor-pointer">
+            <div className="relative w-full aspect-3/4 rounded-lg overflow-hidden cursor-pointer">
                 <img
                     onClick={() =>router.push(`/products/${id}`) }
                     src={image}

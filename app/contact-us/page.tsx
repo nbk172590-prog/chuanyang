@@ -1,13 +1,15 @@
 'use client'
 
-import HeaderComponent from "@/app/component/hader/page";
-import FooterComponent from "@/app/component/footer/page";
-import {PromoBar} from "@/app/component/announcementBar/page";
+
+import PromoBar from "@/component/announcementBar/page";
+import { ContactSection } from "@/component/contact/contactSection/page";
+import { FeatureSection } from "@/component/contact/featureSection/page";
+import { HeaderContact } from "@/component/contact/headerContact/page";
+import FooterComponent from "@/component/footer/page";
+import HeaderComponent from "@/component/hader/page";
+import StormService from "@/component/stormService/page";
 import React from "react";
-import {HeaderContact} from "@/app/contact-us/headerContact/page";
-import {FeatureSection} from "@/app/contact-us/featureSection/page";
-import {ContactSection} from "@/app/contact-us/contactSection/page";
-import StormService from "@/app/component/stormService/page";
+
 
 export default function ContactUsPage() {
     return (

@@ -1,7 +1,8 @@
 'use client';
 
+
 import { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import {
   doc,
@@ -34,8 +35,9 @@ interface Product {
 
 export default function ProductDetailPage() {
   const router = useRouter();
-  const params = useParams();
-  const productId = params.id as string;
+  const searchParams = useSearchParams();
+
+  const productId = searchParams.get('id') as string;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -620,5 +622,6 @@ export default function ProductDetailPage() {
     </div>
   );
 }
+
 
 

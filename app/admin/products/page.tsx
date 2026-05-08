@@ -201,7 +201,7 @@ export default function ProductsPage() {
                 <td className="px-6 py-4 text-sm">
                   <div className="flex items-center gap-3">
                     <Link
-                      href={`/admin/products/${product.id}`}
+                      href={`/admin/products/detail?id=${product.id}`}
                       className="text-blue-600 hover:text-blue-800 transition-colors"
                       title="Chỉnh sửa"
                     >

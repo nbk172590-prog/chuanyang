@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ProductCard } from "@/app/products/productCard/page";
+import { ProductCard } from "@/component/products/productCard/page";
 
 const PRODUCTS = [
     {

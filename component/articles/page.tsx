@@ -2,7 +2,7 @@
 
 import React from "react";
 import { ArrowRight } from "lucide-react";
-import ArticlesCard from "@/app/component/articlesCard/page";
+import ArticlesCard from "../articlesCard/page";
 
 function Articles() {
     const products = [

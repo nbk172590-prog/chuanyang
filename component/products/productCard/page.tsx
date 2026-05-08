@@ -36,7 +36,7 @@ export function ProductCard({
             {/* Image */}
             <div className="relative w-full aspect-3/4 rounded-lg overflow-hidden cursor-pointer">
                 <img
-                    onClick={() =>router.push(`/products/${id}`) }
+                    onClick={() =>router.push(`/products/detail?id=${id}`) }
                     src={image}
                     alt={name}
                     className="w-full h-full object-cover"

@@ -3,7 +3,7 @@
 import {useRouter} from "next/navigation";
 
 interface Product {
-    id: number;
+    id: string;
     name: string;
     price: number;
     originalPrice?: number;
@@ -12,7 +12,7 @@ interface Product {
     image: string;
     isNew: boolean;
     discount?: number;
-    code?: string;
+    description?: string;
 }
 
 interface ProductCardProps {
@@ -65,23 +65,23 @@ export function ProductCard({ product }: ProductCardProps) {
                 {/*        />*/}
                 {/*    ))}*/}
                 {/*</div>*/}
+                     {/* Name */}
+                <p className="text-[11px] text-gray-700 leading-tight truncate font-bold">{product.name}</p>
 
                 {/* Code / SKU */}
-                {product.code && (
-                    <p className="text-[11px] text-gray-500 leading-tight">{product.code}</p>
+                {product.description && (
+                    <p className="text-[11px] text-gray-500 leading-tight">{product.description}</p>
                 )}
 
-                {/* Name */}
-                <p className="text-[11px] text-gray-700 leading-tight truncate">{product.name}</p>
-
+               
                 {/* Price */}
                 <div className="flex items-center gap-1.5 mt-0.5">
           <span className="text-[13px] font-semibold text-gray-900">
-            ${product.price.toFixed(2)}
+            {product.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
           </span>
                     {product.originalPrice && (
                         <span className="text-[11px] text-gray-400 line-through">
-              ${product.originalPrice.toFixed(2)}
+              {product.originalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
             </span>
                     )}
                 </div>
@@ -90,20 +90,4 @@ export function ProductCard({ product }: ProductCardProps) {
     );
 }
 
-const sampleProduct: Product = {
-    id: 0,
-    name: "Sample Product",
-    price: 49.99,
-    rating: 4.5,
-    reviewCount: 10,
-    image: "https://images.pexels.com/photos/18185916/pexels-photo-18185916.png?auto=compress&cs=tinysrgb&h=650",
-    isNew: true,
-    discount: 20,
-    code: "CY-SAMPLE",
-};
 
-function ProductCardPage() {
-    return <ProductCard product={sampleProduct} />;
-}
-
-export default ProductCardPage;

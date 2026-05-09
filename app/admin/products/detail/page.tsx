@@ -12,8 +12,8 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db } from '@/lib/firebase-config';
-import { storage } from '@/lib/firebase-config';
+import { db } from '@/firebase-config';
+import { storage } from '@/firebase-config';
 import { ChevronLeft, Save, Trash2, Loader, AlertCircle, CheckCircle } from 'lucide-react';
 import ReactQuill from 'react-quill-new';
 import "react-quill-new/dist/quill.snow.css";

@@ -11,7 +11,7 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
-import { db } from '../../../lib/firebase-config';
+import { db } from '../../../firebase-config';
 import { Plus, Edit2, Trash2, Loader, AlertCircle, CheckCircle } from 'lucide-react';
 
 interface Category {

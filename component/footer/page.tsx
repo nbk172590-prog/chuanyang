@@ -55,8 +55,7 @@ function FooterComponent() {
                             {/* RIGHT: MENU */}
                             <nav className="flex gap-10 text-[15px] font-medium">
                                 <a href="/" className="hover:opacity-80">Home</a>
-                                <a href="/products" className="hover:opacity-80">Shop</a>
-                                <a href="/product" className="hover:opacity-80">Product</a>
+                                <a href="/products" className="hover:opacity-80">Products</a>
                                 <a href="/contact-us" className="hover:opacity-80">Contact Us</a>
                             </nav>
 

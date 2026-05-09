@@ -1,183 +1,86 @@
-import {ArrowRight} from "lucide-react";
-import {ProductCard} from "../productCard/page";
+'use client';
+
+import { useEffect, useState } from 'react';
+import { ArrowRight } from "lucide-react";
+import { ProductCard } from "../productCard/page";
 import Link from "next/link";
+import { collection, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { db } from '../../firebase-config';
 
+interface Product {
+    id: string;
+    name: string;
+    code?: string;
+    price: number;
+    originalPrice?: number;
+    rating: number;
+    reviewCount: number;
+    image: string;
+    isNew: boolean;
+    discount?: number;
+}
 
-const faucet1 = "https://images.pexels.com/photos/18185916/pexels-photo-18185916.png?auto=compress&cs=tinysrgb&h=350";
-const faucet2 = "https://images.pexels.com/photos/29412579/pexels-photo-29412579.jpeg?auto=compress&cs=tinysrgb&h=350";
-const faucet3 = "https://images.pexels.com/photos/29399427/pexels-photo-29399427.jpeg?auto=compress&cs=tinysrgb&h=350";
-const faucet4 = "https://images.pexels.com/photos/32473242/pexels-photo-32473242.png?auto=compress&cs=tinysrgb&h=350";
-const toaster1 = "https://images.pexels.com/photos/36573009/pexels-photo-36573009.jpeg?auto=compress&cs=tinysrgb&h=350";
-const toaster2 = "https://images.pexels.com/photos/5556176/pexels-photo-5556176.jpeg?auto=compress&cs=tinysrgb&h=350";
-const basket1 = "https://images.pexels.com/photos/10557895/pexels-photo-10557895.jpeg?auto=compress&cs=tinysrgb&h=350";
-
-const products = [
-    {
-        id: 1,
-        name: "CY-3273",
-        code: "CY-3273",
-        price: 199.0,
-        originalPrice: 400.0,
-        rating: 5,
-        reviewCount: 12,
-        image: faucet1,
-        isNew: true,
-        discount: 25,
-    },
-    {
-        id: 2,
-        name: "CY-3273",
-        code: "CY-3273",
-        price: 24.99,
-        rating: 5,
-        reviewCount: 8,
-        image: faucet2,
-        isNew: true,
-        discount: 25,
-    },
-    {
-        id: 3,
-        name: "Luxury Kitchen Sink Tap",
-        code: undefined,
-        price: 24.99,
-        rating: 5,
-        reviewCount: 15,
-        image: faucet3,
-        isNew: true,
-        discount: 25,
-    },
-    {
-        id: 4,
-        name: "Luxury Kitchen Sink Tap",
-        code: undefined,
-        price: 24.99,
-        rating: 5,
-        reviewCount: 11,
-        image: faucet4,
-        isNew: true,
-        discount: 25,
-    },
-    {
-        id: 5,
-        name: "Luxury Kitchen Sink Tap",
-        code: undefined,
-        price: 24.99,
-        rating: 5,
-        reviewCount: 9,
-        image: faucet1,
-        isNew: true,
-        discount: 25,
-    },
-    {
-        id: 6,
-        name: "Toasted",
-        code: undefined,
-        price: 224.99,
-        rating: 5,
-        reviewCount: 7,
-        image: toaster1,
-        isNew: true,
-        discount: 25,
-    },
-    {
-        id: 7,
-        name: "Bamboo basket",
-        code: undefined,
-        price: 24.99,
-        rating: 5,
-        reviewCount: 5,
-        image: basket1,
-        isNew: true,
-        discount: undefined,
-    },
-    {
-        id: 8,
-        name: "CY-3273",
-        code: "CY-3273",
-        price: 24.99,
-        rating: 5,
-        reviewCount: 6,
-        image: faucet2,
-        isNew: false,
-        discount: 25,
-    },
-    {
-        id: 9,
-        name: "CY-3273",
-        code: "CY-3273",
-        price: 24.99,
-        rating: 5,
-        reviewCount: 4,
-        image: faucet3,
-        isNew: true,
-        discount: 25,
-    },
-    {
-        id: 10,
-        name: "CY-3273",
-        code: "CY-3273",
-        price: 24.99,
-        rating: 5,
-        reviewCount: 3,
-        image: faucet4,
-        isNew: false,
-        discount: 25,
-    },
-    {
-        id: 11,
-        name: "CY-3273",
-        code: "CY-3273",
-        price: 199.0,
-        originalPrice: 400.0,
-        rating: 5,
-        reviewCount: 10,
-        image: faucet1,
-        isNew: true,
-        discount: 25,
-    },
-    {
-        id: 12,
-        name: "Toasted",
-        code: undefined,
-        price: 224.99,
-        rating: 5,
-        reviewCount: 8,
-        image: toaster2,
-        isNew: true,
-        discount: 25,
-    },
-    {
-        id: 13,
-        name: "Bamboo basket",
-        code: undefined,
-        price: 24.99,
-        rating: 5,
-        reviewCount: 5,
-        image: basket1,
-        isNew: true,
-        discount: undefined,
-    },
-    {
-        id: 14,
-        name: "CY-3273",
-        code: "CY-3273",
-        price: 24.99,
-        rating: 5,
-        reviewCount: 6,
-        image: faucet3,
-        isNew: false,
-        discount: 25,
-    },
-];
+const defaultImage = "https://images.pexels.com/photos/18185916/pexels-photo-18185916.png?auto=compress&cs=tinysrgb&h=350";
 
 export function NewArrivals() {
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const q = query(
+            collection(db, 'products'),
+            orderBy('createdAt', 'desc'),
+            limit(14)
+        );
+
+        const unsubscribe = onSnapshot(
+            q,
+            (snapshot) => {
+                const data = snapshot.docs.map((doc) => {
+                    const docData = doc.data() as any;
+                    return {
+                        id: doc.id,
+                        name: docData.name || 'Sản phẩm',
+                        description: docData.description  || undefined,
+                        price: typeof docData.price === 'number' ? docData.price : 0,
+                        originalPrice: typeof docData.originalPrice === 'number' ? docData.originalPrice : undefined,
+                        rating: typeof docData.rating === 'number' ? docData.rating : 5,
+                        reviewCount: typeof docData.reviewCount === 'number' ? docData.reviewCount : 0,
+                        image: docData.image || docData.images?.[0] || defaultImage,
+                        isNew: typeof docData.isNew === 'boolean' ? docData.isNew : true,
+                        discount: typeof docData.discount === 'number' ? docData.discount : undefined,
+                    } as Product;
+                });
+                setProducts(data);
+                console.log('Fetched products:', data);
+                setLoading(false);
+            },
+            (error) => {
+                console.error('Firestore error:', error);
+                setLoading(false);
+            }
+        );
+
+        return () => unsubscribe();
+    }, []);
+
+    if (loading) {
+        return (
+            <section className="w-full">
+                <div className="flex items-center justify-center py-16 text-gray-500">
+                    Đang tải sản phẩm...
+                </div>
+            </section>
+        );
+    }
+
     return (
         <section className="w-full">
 
             {/* HEADER */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 md:mb-8">
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
-                    Sản phẩm mới
+                    Danh sach sản phẩm
                 </h2>
 
                 <Link
@@ -191,8 +94,8 @@ export function NewArrivals() {
 
             {/* GRID */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
-                {products.slice(0, 12).map((product) => (
-                    <ProductCard key={product.id} product={product}/>
+                {products.map((product) => (
+                    <ProductCard key={product.id} product={product} />
                 ))}
             </div>
         </section>

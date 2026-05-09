@@ -32,13 +32,13 @@ function Preference() {
                     DỰ ÁN THAM KHẢO
                 </h2>
 
-                <a
-                    href="#"
-                    className="flex items-center gap-1 text-sm sm:text-base text-gray-600 hover:text-gray-900 transition-colors border-b border-[#141718] w-fit"
-                >
-                    Xem thêm
-                    <ArrowRight className="w-4 h-4"/>
-                </a>
+                {/*<a*/}
+                {/*    href="#"*/}
+                {/*    className="flex items-center gap-1 text-sm sm:text-base text-gray-600 hover:text-gray-900 transition-colors border-b border-[#141718] w-fit"*/}
+                {/*>*/}
+                {/*    Xem thêm*/}
+                {/*    <ArrowRight className="w-4 h-4"/>*/}
+                {/*</a>*/}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">

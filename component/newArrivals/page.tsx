@@ -1,5 +1,6 @@
 import {ArrowRight} from "lucide-react";
 import {ProductCard} from "../productCard/page";
+import Link from "next/link";
 
 
 const faucet1 = "https://images.pexels.com/photos/18185916/pexels-photo-18185916.png?auto=compress&cs=tinysrgb&h=350";
@@ -179,13 +180,13 @@ export function NewArrivals() {
                     Sản phẩm mới
                 </h2>
 
-                <a
-                    href="#"
+                <Link
+                    href="/products"
                     className="flex items-center gap-1 text-sm sm:text-base text-gray-600 hover:text-gray-900 transition-colors border-b border-[#141718] w-fit"
                 >
                     Xem thêm
                     <ArrowRight className="w-4 h-4"/>
-                </a>
+                </Link>
             </div>
 
             {/* GRID */}

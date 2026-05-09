@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+
 import { ProductCard } from "../productCard/page";
 
 import {
@@ -22,23 +23,38 @@ const defaultImage =
 
 const PAGE_SIZE = 12;
 
-export function ProductGrid() {
+interface ProductGridProps {
+    activeCategory: string;
+    activePrice: string;
+}
+
+export function ProductGrid({
+                                activeCategory,
+                                activePrice,
+                            }: ProductGridProps) {
+
     const [products, setProducts] = useState<Product[]>([]);
+
     const [loading, setLoading] = useState(true);
-    const [loadingMore, setLoadingMore] = useState(false);
+
+    const [loadingMore, setLoadingMore] =
+        useState(false);
 
     const [lastDoc, setLastDoc] =
         useState<QueryDocumentSnapshot<DocumentData> | null>(null);
 
-    const [hasMore, setHasMore] = useState(true);
+    const [hasMore, setHasMore] =
+        useState(true);
 
-    // FETCH FIRST 12 PRODUCTS
+    // FETCH FIRST PRODUCTS
     useEffect(() => {
         fetchProducts();
     }, []);
 
     const fetchProducts = async () => {
+
         try {
+
             setLoading(true);
 
             const q = query(
@@ -50,17 +66,24 @@ export function ProductGrid() {
             const snapshot = await getDocs(q);
 
             const data: Product[] = snapshot.docs.map((doc) => {
+
                 const docData = doc.data();
 
                 const product: Product = {
+
                     id: doc.id,
 
-                    name: docData.name || 'Sản phẩm',
+                    name:
+                        docData.name || 'Sản phẩm',
 
-                    code: docData.code || undefined,
+                    code:
+                        docData.code || undefined,
 
                     description:
                         docData.description || undefined,
+
+                    category:
+                        docData.category || 'Tất cả',
 
                     price:
                         typeof docData.price === 'number'
@@ -103,7 +126,7 @@ export function ProductGrid() {
 
             setProducts(data);
 
-            // SAVE LAST DOCUMENT
+            // SAVE LAST DOC
             const lastVisible =
                 snapshot.docs[snapshot.docs.length - 1];
 
@@ -115,17 +138,23 @@ export function ProductGrid() {
             }
 
         } catch (error) {
-            console.error('Fetch products error:', error);
+
+            console.error(error);
+
         } finally {
+
             setLoading(false);
+
         }
     };
 
-    // LOAD MORE PRODUCTS
+    // LOAD MORE
     const handleLoadMore = async () => {
+
         if (!lastDoc) return;
 
         try {
+
             setLoadingMore(true);
 
             const q = query(
@@ -137,60 +166,71 @@ export function ProductGrid() {
 
             const snapshot = await getDocs(q);
 
-            const newProducts: Product[] = snapshot.docs.map((doc) => {
-                const docData = doc.data();
+            const newProducts: Product[] =
+                snapshot.docs.map((doc) => {
 
-                const product: Product = {
-                    id: doc.id,
+                    const docData = doc.data();
 
-                    name: docData.name || 'Sản phẩm',
+                    const product: Product = {
 
-                    code: docData.code || undefined,
+                        id: doc.id,
 
-                    description:
-                        docData.description || undefined,
+                        name:
+                            docData.name || 'Sản phẩm',
 
-                    price:
-                        typeof docData.price === 'number'
-                            ? docData.price
-                            : 0,
+                        code:
+                            docData.code || undefined,
 
-                    originalPrice:
-                        typeof docData.originalPrice === 'number'
-                            ? docData.originalPrice
-                            : undefined,
+                        description:
+                            docData.description || undefined,
 
-                    rating:
-                        typeof docData.rating === 'number'
-                            ? docData.rating
-                            : 5,
+                        category:
+                            docData.category || 'Tất cả',
 
-                    reviewCount:
-                        typeof docData.reviewCount === 'number'
-                            ? docData.reviewCount
-                            : 0,
+                        price:
+                            typeof docData.price === 'number'
+                                ? docData.price
+                                : 0,
 
-                    image:
-                        docData.image ||
-                        docData.images?.[0] ||
-                        defaultImage,
+                        originalPrice:
+                            typeof docData.originalPrice === 'number'
+                                ? docData.originalPrice
+                                : undefined,
 
-                    isNew:
-                        typeof docData.isNew === 'boolean'
-                            ? docData.isNew
-                            : true,
+                        rating:
+                            typeof docData.rating === 'number'
+                                ? docData.rating
+                                : 5,
 
-                    discount:
-                        typeof docData.discount === 'number'
-                            ? docData.discount
-                            : undefined,
-                };
+                        reviewCount:
+                            typeof docData.reviewCount === 'number'
+                                ? docData.reviewCount
+                                : 0,
 
-                return product;
-            });
+                        image:
+                            docData.image ||
+                            docData.images?.[0] ||
+                            defaultImage,
 
-            // APPEND NEW PRODUCTS
-            setProducts((prev) => [...prev, ...newProducts]);
+                        isNew:
+                            typeof docData.isNew === 'boolean'
+                                ? docData.isNew
+                                : true,
+
+                        discount:
+                            typeof docData.discount === 'number'
+                                ? docData.discount
+                                : undefined,
+                    };
+
+                    return product;
+                });
+
+            // APPEND PRODUCTS
+            setProducts((prev) => [
+                ...prev,
+                ...newProducts
+            ]);
 
             // UPDATE LAST DOC
             const lastVisible =
@@ -204,11 +244,49 @@ export function ProductGrid() {
             }
 
         } catch (error) {
-            console.error('Load more error:', error);
+
+            console.error(error);
+
         } finally {
+
             setLoadingMore(false);
+
         }
     };
+
+    // FILTER PRODUCTS
+    const filteredProducts = products.filter((product) => {
+
+        // CATEGORY
+        const productCategory =
+            product.category?.trim().toLowerCase();
+
+        const selectedCategory =
+            activeCategory.trim().toLowerCase();
+
+        const matchCategory =
+            selectedCategory === 'tất cả'
+            || productCategory === selectedCategory;
+
+        // PRICE
+        let matchPrice = true;
+
+        if (activePrice === '0 - 3 triệu') {
+            matchPrice = product.price <= 3000000;
+        }
+
+        if (activePrice === '3 triệu - 10 triệu') {
+            matchPrice =
+                product.price > 3000000 &&
+                product.price <= 10000000;
+        }
+
+        if (activePrice === 'trên 10 triệu') {
+            matchPrice = product.price > 10000000;
+        }
+
+        return matchCategory && matchPrice;
+    });
 
     // LOADING
     if (loading) {
@@ -224,29 +302,52 @@ export function ProductGrid() {
     return (
         <section className="w-full flex flex-col gap-10">
 
-            {/* PRODUCT GRID */}
+            {/* GRID */}
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-                {products.map((product) => (
-                    <ProductCard
-                        key={product.id}
-                        product={product}
-                    />
-                ))}
+
+                {filteredProducts.length > 0 ? (
+
+                    filteredProducts.map((product) => (
+
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                        />
+
+                    ))
+
+                ) : (
+
+                    <div className="col-span-full text-center py-20 text-gray-500">
+                        Không có sản phẩm phù hợp
+                    </div>
+
+                )}
+
             </div>
 
-            {/* LOAD MORE BUTTON */}
-            {hasMore && (
+            {/* LOAD MORE */}
+            {hasMore && filteredProducts.length >= PAGE_SIZE && (
+
                 <div className="flex justify-center">
+
                     <button
                         onClick={handleLoadMore}
                         disabled={loadingMore}
-                        className="border border-black rounded-full px-8 py-3 text-sm font-medium hover:bg-black hover:text-white transition disabled:opacity-50"
+                        className="
+                            border border-black rounded-full
+                            px-8 py-3 text-sm font-medium
+                            hover:bg-black hover:text-white
+                            transition disabled:opacity-50
+                        "
                     >
                         {loadingMore
                             ? 'Đang tải...'
                             : 'Xem thêm'}
                     </button>
+
                 </div>
+
             )}
 
         </section>

@@ -1,201 +1,256 @@
-'use client'
+'use client';
 
-import React, {useState} from "react";
-import {ProductCard} from "@/component/products/productCard/page";
+import { useEffect, useState } from 'react';
+import { ProductCard } from "../productCard/page";
 
-const products = [
-    {
-        id: 1,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-07c83db7535d213b.png',
-        badges: [
-            {text: 'Mới', bg: '#FFFFFF', color: '#FF5630'},
-            {text: '-25%', bg: '#38CB89', color: '#FEFEFE'},
-        ],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-2aadd681dcafdc24.svg',
-        name: 'CY-3273',
-        price: '$199.00',
-        originalPrice: '$400.00',
-    },
-    {
-        id: 2,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-e2d90efb26f35eea.png',
-        badges: [
-            {text: 'Mới', bg: '#FFFFFF', color: '#FF5630'},
-            {text: '-30%', bg: '#38CB89', color: '#FEFEFE'},
-        ],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-b610452d46604952.svg',
-        name: 'CY-3273',
-        price: '$299.00',
-        originalPrice: '$500.00',
-    },
-    {
-        id: 3,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-0e7d73e85cd8b30b.png',
-        badges: [
-            {text: 'NEW', bg: '#FFFFFF', color: '#FF5630'},
-            {text: '-15%', bg: '#38CB89', color: '#FEFEFE'},
-        ],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-9ffaf09285de888a.svg',
-        name: 'CY-3273',
-        price: '$19.00',
-        originalPrice: null,
-    },
-    {
-        id: 4,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-cdd7e1444b20743b.png',
-        badges: [],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-507b52f11d7a839a.svg',
-        name: 'CY-3273',
-        price: '$199.00',
-        originalPrice: '$400.00',
-    },
-    {
-        id: 5,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-523147d87c326dcc.png',
-        badges: [],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-1bb42b85e92e26cd.svg',
-        name: 'CY-3273',
-        price: '$19.00',
-        originalPrice: null,
-    },
-    {
-        id: 6,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-63b22b7cabf02e73.png',
-        badges: [],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-005cb9abc280474d.svg',
-        name: 'CY-3273',
-        price: '$299.00',
-        originalPrice: '$500.00',
-    },
-    {
-        id: 7,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-2db5a1a35d506093.png',
-        badges: [],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-001b05437945c9f1.svg',
-        name: 'CY-3273',
-        price: '$89.99',
-        originalPrice: null,
-    },
-    {
-        id: 8,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-9946494c198c8732.png',
-        badges: [],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-2f9a0d229496abe7.svg',
-        name: 'CY-3273',
-        price: '$89.99',
-        originalPrice: null,
-    },
-    {
-        id: 9,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-91ff80d54dfd9641.png',
-        badges: [],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-53abc146897a9450.svg',
-        name: 'CY-3273',
-        price: '$89.99',
-        originalPrice: null,
-    },
-    {
-        id: 10,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-91ff80d54dfd9641.png',
-        badges: [],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-53abc146897a9450.svg',
-        name: 'CY-3273',
-        price: '$89.99',
-        originalPrice: null,
-    },
-    {
-        id: 11,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-91ff80d54dfd9641.png',
-        badges: [],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-53abc146897a9450.svg',
-        name: 'CY-3273',
-        price: '$89.99',
-        originalPrice: null,
-    },
-    {
-        id: 12,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-91ff80d54dfd9641.png',
-        badges: [],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-53abc146897a9450.svg',
-        name: 'CY-3273',
-        price: '$89.99',
-        originalPrice: null,
-    },
-    {
-        id: 13,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-91ff80d54dfd9641.png',
-        badges: [],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-53abc146897a9450.svg',
-        name: 'CY-3273',
-        price: '$89.99',
-        originalPrice: null,
-    },
-    {
-        id: 14,
-        image: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-91ff80d54dfd9641.png',
-        badges: [],
-        rating: 'https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-53abc146897a9450.svg',
-        name: 'CY-3273',
-        price: '$89.99',
-        originalPrice: null,
-    },
-];
+import {
+    collection,
+    getDocs,
+    limit,
+    orderBy,
+    query,
+    startAfter,
+    DocumentData,
+    QueryDocumentSnapshot,
+} from 'firebase/firestore';
 
-function useResponsiveCount() {
-    const [count, setCount] = useState(12);
+import { db } from "@/firebase-config";
+import { Product } from "@/types/product";
 
-    React.useEffect(() => {
-        const update = () => {
-            if (window.innerWidth >= 1440) {
-                setCount(12);
-            } else if (window.innerWidth >= 768) {
-                setCount(9);
-            } else {
-                setCount(6);
-            }
-        };
+const defaultImage =
+    "https://images.pexels.com/photos/18185916/pexels-photo-18185916.png?auto=compress&cs=tinysrgb&h=350";
 
-        update();
-        window.addEventListener("resize", update);
-        return () => window.removeEventListener("resize", update);
-    }, []);
-
-    return count;
-}
-
+const PAGE_SIZE = 12;
 
 export function ProductGrid() {
-    const baseCount = useResponsiveCount();
-    const [visibleCount, setVisibleCount] = useState(baseCount);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
 
-    React.useEffect(() => {
-        setVisibleCount(baseCount);
-    }, [baseCount]);
+    const [lastDoc, setLastDoc] =
+        useState<QueryDocumentSnapshot<DocumentData> | null>(null);
 
-    const handleShowMore = () => {
-        setVisibleCount((prev) => prev + baseCount);
+    const [hasMore, setHasMore] = useState(true);
+
+    // FETCH FIRST 12 PRODUCTS
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    const fetchProducts = async () => {
+        try {
+            setLoading(true);
+
+            const q = query(
+                collection(db, 'products'),
+                orderBy('createdAt', 'desc'),
+                limit(PAGE_SIZE)
+            );
+
+            const snapshot = await getDocs(q);
+
+            const data: Product[] = snapshot.docs.map((doc) => {
+                const docData = doc.data();
+
+                const product: Product = {
+                    id: doc.id,
+
+                    name: docData.name || 'Sản phẩm',
+
+                    code: docData.code || undefined,
+
+                    description:
+                        docData.description || undefined,
+
+                    price:
+                        typeof docData.price === 'number'
+                            ? docData.price
+                            : 0,
+
+                    originalPrice:
+                        typeof docData.originalPrice === 'number'
+                            ? docData.originalPrice
+                            : undefined,
+
+                    rating:
+                        typeof docData.rating === 'number'
+                            ? docData.rating
+                            : 5,
+
+                    reviewCount:
+                        typeof docData.reviewCount === 'number'
+                            ? docData.reviewCount
+                            : 0,
+
+                    image:
+                        docData.image ||
+                        docData.images?.[0] ||
+                        defaultImage,
+
+                    isNew:
+                        typeof docData.isNew === 'boolean'
+                            ? docData.isNew
+                            : true,
+
+                    discount:
+                        typeof docData.discount === 'number'
+                            ? docData.discount
+                            : undefined,
+                };
+
+                return product;
+            });
+
+            setProducts(data);
+
+            // SAVE LAST DOCUMENT
+            const lastVisible =
+                snapshot.docs[snapshot.docs.length - 1];
+
+            setLastDoc(lastVisible);
+
+            // CHECK HAS MORE
+            if (snapshot.docs.length < PAGE_SIZE) {
+                setHasMore(false);
+            }
+
+        } catch (error) {
+            console.error('Fetch products error:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    return (
-        <div className="flex flex-col gap-10 flex-1">
+    // LOAD MORE PRODUCTS
+    const handleLoadMore = async () => {
+        if (!lastDoc) return;
 
+        try {
+            setLoadingMore(true);
+
+            const q = query(
+                collection(db, 'products'),
+                orderBy('createdAt', 'desc'),
+                startAfter(lastDoc),
+                limit(PAGE_SIZE)
+            );
+
+            const snapshot = await getDocs(q);
+
+            const newProducts: Product[] = snapshot.docs.map((doc) => {
+                const docData = doc.data();
+
+                const product: Product = {
+                    id: doc.id,
+
+                    name: docData.name || 'Sản phẩm',
+
+                    code: docData.code || undefined,
+
+                    description:
+                        docData.description || undefined,
+
+                    price:
+                        typeof docData.price === 'number'
+                            ? docData.price
+                            : 0,
+
+                    originalPrice:
+                        typeof docData.originalPrice === 'number'
+                            ? docData.originalPrice
+                            : undefined,
+
+                    rating:
+                        typeof docData.rating === 'number'
+                            ? docData.rating
+                            : 5,
+
+                    reviewCount:
+                        typeof docData.reviewCount === 'number'
+                            ? docData.reviewCount
+                            : 0,
+
+                    image:
+                        docData.image ||
+                        docData.images?.[0] ||
+                        defaultImage,
+
+                    isNew:
+                        typeof docData.isNew === 'boolean'
+                            ? docData.isNew
+                            : true,
+
+                    discount:
+                        typeof docData.discount === 'number'
+                            ? docData.discount
+                            : undefined,
+                };
+
+                return product;
+            });
+
+            // APPEND NEW PRODUCTS
+            setProducts((prev) => [...prev, ...newProducts]);
+
+            // UPDATE LAST DOC
+            const lastVisible =
+                snapshot.docs[snapshot.docs.length - 1];
+
+            setLastDoc(lastVisible);
+
+            // CHECK HAS MORE
+            if (snapshot.docs.length < PAGE_SIZE) {
+                setHasMore(false);
+            }
+
+        } catch (error) {
+            console.error('Load more error:', error);
+        } finally {
+            setLoadingMore(false);
+        }
+    };
+
+    // LOADING
+    if (loading) {
+        return (
+            <section className="w-full">
+                <div className="flex items-center justify-center py-16 text-gray-500">
+                    Đang tải sản phẩm...
+                </div>
+            </section>
+        );
+    }
+
+    return (
+        <section className="w-full flex flex-col gap-10">
+
+            {/* PRODUCT GRID */}
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
-                {products.slice(0, visibleCount).map((product) => (
-                    <ProductCard key={product.id} {...product} />
+                {products.map((product) => (
+                    <ProductCard
+                        key={product.id}
+                        product={product}
+                    />
                 ))}
             </div>
 
-            {visibleCount < products.length && (
+            {/* LOAD MORE BUTTON */}
+            {hasMore && (
                 <div className="flex justify-center">
                     <button
-                        onClick={handleShowMore}
-                        className="border rounded-full px-10 py-2 hover:bg-black hover:text-white transition"
+                        onClick={handleLoadMore}
+                        disabled={loadingMore}
+                        className="border border-black rounded-full px-8 py-3 text-sm font-medium hover:bg-black hover:text-white transition disabled:opacity-50"
                     >
-                        Thêm sản phấm
+                        {loadingMore
+                            ? 'Đang tải...'
+                            : 'Xem thêm'}
                     </button>
                 </div>
             )}
 
-        </div>
+        </section>
     );
 }
+
+export default ProductGrid;

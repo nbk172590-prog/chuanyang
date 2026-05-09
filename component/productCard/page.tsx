@@ -1,25 +1,15 @@
 'use client'
 
 import {useRouter} from "next/navigation";
+import {Product} from "@/types/product";
 
-interface Product {
-    id: string;
-    name: string;
-    price: number;
-    originalPrice?: number;
-    rating: number;
-    reviewCount: number;
-    image: string;
-    isNew: boolean;
-    discount?: number;
-    description?: string;
-}
+
 
 interface ProductCardProps {
     product: Product;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({product}: ProductCardProps) {
     const router = useRouter();
 
 
@@ -27,9 +17,9 @@ export function ProductCard({ product }: ProductCardProps) {
         <div
             className="group relative bg-white border border-gray-100 rounded overflow-hidden cursor-pointer">
             {/* Image container */}
-            <div className="relative overflow-hidden bg-gray-50" style={{ paddingBottom: "100%" }}>
+            <div className="relative overflow-hidden bg-gray-50" style={{paddingBottom: "100%"}}>
                 <img
-                    onClick={() =>router.push(`/products/detail?id/${product.id}`) }
+                    onClick={() => router.push(`/products/detail?id=${product.id}`)}
                     src={product.image}
                     alt={product.name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -53,19 +43,8 @@ export function ProductCard({ product }: ProductCardProps) {
 
             {/* Product info */}
             <div className="p-2 pt-1.5">
-                {/* Stars */}
-                {/*<div className="flex items-center gap-0.5 mb-0.5">*/}
-                {/*    {Array.from({ length: 5 }).map((_, i) => (*/}
-                {/*        <Star*/}
-                {/*            key={i}*/}
-                {/*            className="w-2.5 h-2.5"*/}
-                {/*            fill={i < Math.floor(detail.rating) ? "#f59e0b" : "none"}*/}
-                {/*            stroke={i < Math.floor(detail.rating) ? "#f59e0b" : "#d1d5db"}*/}
-                {/*            strokeWidth={1.5}*/}
-                {/*        />*/}
-                {/*    ))}*/}
-                {/*</div>*/}
-                     {/* Name */}
+
+                {/* Name */}
                 <p className="text-[11px] text-gray-700 leading-tight truncate font-bold">{product.name}</p>
 
                 {/* Code / SKU */}
@@ -73,15 +52,15 @@ export function ProductCard({ product }: ProductCardProps) {
                     <p className="text-[11px] text-gray-500 leading-tight">{product.description}</p>
                 )}
 
-               
+
                 {/* Price */}
                 <div className="flex items-center gap-1.5 mt-0.5">
           <span className="text-[13px] font-semibold text-gray-900">
-            {product.price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+            {product.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}
           </span>
                     {product.originalPrice && (
                         <span className="text-[11px] text-gray-400 line-through">
-              {product.originalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}
+              {product.originalPrice.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}
             </span>
                     )}
                 </div>

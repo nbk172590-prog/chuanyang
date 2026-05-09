@@ -10,9 +10,9 @@ export function BrandHeader() {
                            leading-tight md:leading-[44px]
                            tracking-tight md:tracking-[-0.4px]
                            md:max-w-[430px]">
-                Exquisite in Design
+                Thiết kế tinh tế
                 <br/>
-                Classy in every detail.
+                Sang trọng đến từng chi tiết.
             </h1>
 
             {/* Right: description */}
@@ -22,9 +22,9 @@ export function BrandHeader() {
                 </span>
                 <span className="text-[#6C7275]">
                     {" "}
-                    Premium faucets crafted in Taiwan. Featuring world-class components
-                    from Germany, Korea, and Switzerland. Certified by LF, NSF, and UPC.
-                    Elegant designs for a sophisticated lifestyle.
+                    Vòi nước cao cấp sản xuất tại Đài Loan. Sử dụng các linh kiện đẳng cấp thế giới từ Đức, Hàn Quốc và Thụy Sĩ.
+                    Được chứng nhận bởi LF, NSF và UPC.
+                    Thiết kế trang nhã cho một phong cách sống tinh tế.
                 </span>
             </p>
         </div>

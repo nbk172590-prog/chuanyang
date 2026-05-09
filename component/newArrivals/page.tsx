@@ -6,19 +6,9 @@ import { ProductCard } from "../productCard/page";
 import Link from "next/link";
 import { collection, limit, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../../firebase-config';
+import {Product} from "@/types/product";
 
-interface Product {
-    id: string;
-    name: string;
-    code?: string;
-    price: number;
-    originalPrice?: number;
-    rating: number;
-    reviewCount: number;
-    image: string;
-    isNew: boolean;
-    discount?: number;
-}
+
 
 const defaultImage = "https://images.pexels.com/photos/18185916/pexels-photo-18185916.png?auto=compress&cs=tinysrgb&h=350";
 
@@ -30,7 +20,7 @@ export function NewArrivals() {
         const q = query(
             collection(db, 'products'),
             orderBy('createdAt', 'desc'),
-            limit(14)
+            limit(12)
         );
 
         const unsubscribe = onSnapshot(
@@ -80,7 +70,7 @@ export function NewArrivals() {
             {/* HEADER */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 md:mb-8">
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
-                    Danh sach sản phẩm
+                    Sản phẩm
                 </h2>
 
                 <Link

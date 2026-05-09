@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { addDoc, collection, serverTimestamp, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db } from '../../../../firebase-config';
-import { storage } from '../../../../firebase-config';
+import { db } from '@/firebase-config';
 import { ChevronLeft, Upload, Loader, AlertCircle, CheckCircle, X } from 'lucide-react';
 import ReactQuill from 'react-quill-new';
 import "react-quill-new/dist/quill.snow.css";
+import {storage} from "@/firebase-config";
 
 interface Category {
   id: string;

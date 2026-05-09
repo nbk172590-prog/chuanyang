@@ -1,81 +1,97 @@
-'use client'
+'use client';
 
 import React from "react";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
+import {Product} from "@/types/product";
 
-type Badge = {
-    text: string;
-    bg: string;
-    color: string;
-};
 
-type ProductCardProps = {
-    image: string;
-    badges?: Badge[];
-    rating: string;
-    name: string;
-    price: string;
-    originalPrice?: string | null;
-    id: number;
-};
+interface ProductCardProps {
+    product: Product;
+}
 
 export function ProductCard({
-                                image,
-                                badges = [],
-                                name,
-                                price,
-                                originalPrice,
-                                id
+                                product
                             }: ProductCardProps) {
 
     const router = useRouter();
 
     return (
-        <div className="flex flex-col w-full">
+        <div className="flex w-full flex-col">
 
-            {/* Image */}
-            <div className="relative w-full aspect-3/4 rounded-lg overflow-hidden cursor-pointer">
+            {/* IMAGE */}
+            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-[#F3F5F7]">
+
                 <img
-                    onClick={() =>router.push(`/products/detail?id=${id}`) }
-                    src={image}
-                    alt={name}
-                    className="w-full h-full object-cover"
+                    onClick={() =>
+                        router.push(`/products/detail?id=${product.id}`)
+                    }
+                    src={product.image || "/placeholder.png"}
+                    alt={product.name}
+                    className="h-full w-full cursor-pointer object-cover transition duration-300 hover:scale-105"
                 />
 
-                {badges.length > 0 && (
-                    <div className="absolute top-4 left-4 flex flex-col gap-2">
-                        {badges.map((badge, i) => (
-                            <span
-                                key={i}
-                                className="px-3 py-1 text-xs font-bold uppercase rounded"
-                                style={{backgroundColor: badge.bg, color: badge.color}}
-                            >
-                {badge.text}
-              </span>
-                        ))}
-                    </div>
-                )}
-            </div>
-            {/* Info */}
-            <div className="flex flex-col gap-1 pt-3">
+                {/* BADGES */}
+                <div className="absolute left-4 top-4 flex flex-col gap-2">
 
-                <p className="font-semibold text-[16px] text-[#141718]">
-                    {name}
-                </p>
+                    {/* NEW */}
+                    {product.isNew && (
 
-                <div className="flex items-center gap-2">
-          <span className="font-semibold text-[14px] text-[#121212]">
-            {price}
-          </span>
+                        <span className="rounded bg-white px-3 py-1 text-xs font-bold uppercase text-[#141718] shadow-sm">
+                            NEW
+                        </span>
 
-                    {originalPrice && (
-                        <span className="text-[14px] text-[#6C7275] line-through">
-              {originalPrice}
-            </span>
                     )}
+
+                    {/* DISCOUNT */}
+                    {product.discount && (
+
+                        <span className="rounded bg-[#38CB89] px-3 py-1 text-xs font-bold uppercase text-white shadow-sm">
+                            -{product.discount}%
+                        </span>
+
+                    )}
+
                 </div>
             </div>
 
+            {/* INFO */}
+            <div className="flex flex-col gap-1 pt-3">
+
+                {/* NAME */}
+                <p className="line-clamp-2 text-[16px] font-semibold text-[#141718]">
+                    {product.name}
+                </p>
+
+                {/* CATEGORY */}
+                {product.category && (
+
+                    <span className="text-[13px] text-[#6C7275]">
+                        {product.category}
+                    </span>
+
+                )}
+
+                {/* PRICE */}
+                <div className="mt-1 flex items-center gap-2 flex-wrap">
+
+                    <span className="text-[16px] font-semibold text-[#121212]">
+
+                        {product.price?.toLocaleString("vi-VN")}đ
+
+                    </span>
+
+                    {product.originalPrice && (
+
+                        <span className="text-[14px] text-[#6C7275] line-through">
+
+                            {product.originalPrice.toLocaleString("vi-VN")}đ
+
+                        </span>
+
+                    )}
+
+                </div>
+            </div>
         </div>
     );
 }

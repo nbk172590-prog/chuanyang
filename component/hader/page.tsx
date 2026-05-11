@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 
 function HeaderComponent() {
     const [open, setOpen] = useState(false);
@@ -21,7 +22,7 @@ function HeaderComponent() {
                     </button>
 
                     {/* Logo */}
-                    <a
+                    <Link
                         href="/"
                         className="order-2 md:order-1 flex items-center gap-2"
                     >
@@ -33,32 +34,32 @@ function HeaderComponent() {
                         <p className="text-lg md:text-2xl font-semibold text-emerald-950 uppercase">
                             CHUAN YANG
                         </p>
-                    </a>
+                    </Link>
 
                 </div>
 
                 {/* DESKTOP NAV (giữ nguyên giữa) */}
                 <nav className="hidden md:flex items-center gap-10">
-                    <a href="/" className="text-sm md:text-base font-medium hover:opacity-80">
+                    <Link href="/" className="text-sm md:text-base font-medium hover:opacity-80">
                         Trang chủ
-                    </a>
-                    <a href="/products" className="text-sm md:text-base font-medium hover:opacity-80">
+                    </Link>
+                    <Link href="/products" className="text-sm md:text-base font-medium hover:opacity-80">
                         Sản phẩm
-                    </a>
-                    <a href="/contact-us" className="text-sm md:text-base font-medium hover:opacity-80">
+                    </Link>
+                    <Link href="/contact-us" className="text-sm md:text-base font-medium hover:opacity-80">
                         Liên hệ
-                    </a>
+                    </Link>
                 </nav>
 
                 {/* RIGHT */}
                 <div className="flex items-center gap-3 md:gap-4">
-                    <button className="w-5 h-5 md:w-6 md:h-6">
-                        <img src="/search_02.png" alt="search" />
-                    </button>
+                    {/*<button className="w-5 h-5 md:w-6 md:h-6">*/}
+                    {/*    <img src="/search_02.png" alt="search" />*/}
+                    {/*</button>*/}
 
-                    <button className="w-5 h-5 md:w-6 md:h-6">
-                        <img src="/contax_call.png" alt="contact" />
-                    </button>
+                    {/*<button className="w-5 h-5 md:w-6 md:h-6">*/}
+                    {/*    <img src="/contax_call.png" alt="contact" />*/}
+                    {/*</button>*/}
                 </div>
             </div>
 
@@ -75,9 +76,9 @@ function HeaderComponent() {
                         </button>
 
                         <nav className="flex flex-col gap-4">
-                            <a href="/" onClick={() => setOpen(false)}>Trang chủ</a>
-                            <a href="/products" onClick={() => setOpen(false)}>Sản phẩm</a>
-                            <a href="/contact-us" onClick={() => setOpen(false)}>Liên hệ với chúng tôi</a>
+                            <Link href="/" onClick={() => setOpen(false)}>Trang chủ</Link>
+                            <Link href="/products" onClick={() => setOpen(false)}>Sản phẩm</Link>
+                            <Link href="/contact-us" onClick={() => setOpen(false)}>Liên hệ với chúng tôi</Link>
                         </nav>
 
                     </div>

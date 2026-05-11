@@ -10,6 +10,7 @@ import FooterBackground from "@/component/footer/footerBg/page";
 import FooterComponent from "@/component/footer/page";
 
 export default function ShopPage() {
+    const [searchTerm, setSearchTerm] = useState("");
 
     const [activeCategory, setActiveCategory] =
         useState('Tất cả');
@@ -34,15 +35,17 @@ export default function ShopPage() {
                 <SidebarShop
                     activeCategory={activeCategory}
                     setActiveCategory={setActiveCategory}
-
                     activePrice={activePrice}
                     setActivePrice={setActivePrice}
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
                 />
 
                 <div className="flex-1">
                     <ProductGrid
                         activeCategory={activeCategory}
                         activePrice={activePrice}
+                        searchTerm={searchTerm}
                     />
                 </div>
 

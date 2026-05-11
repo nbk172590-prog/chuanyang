@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
-import { ProductCard } from "../productCard/page";
+import {ProductCard} from "../productCard/page";
 
 import {
     collection,
@@ -15,8 +15,8 @@ import {
     QueryDocumentSnapshot,
 } from 'firebase/firestore';
 
-import { db } from "@/firebase-config";
-import { Product } from "@/types/product";
+import {db} from "@/firebase-config";
+import {Product} from "@/types/product";
 
 const defaultImage =
     "https://images.pexels.com/photos/18185916/pexels-photo-18185916.png?auto=compress&cs=tinysrgb&h=350";
@@ -26,11 +26,13 @@ const PAGE_SIZE = 12;
 interface ProductGridProps {
     activeCategory: string;
     activePrice: string;
+    searchTerm: string;
 }
 
 export function ProductGrid({
                                 activeCategory,
                                 activePrice,
+                                searchTerm,
                             }: ProductGridProps) {
 
     const [products, setProducts] = useState<Product[]>([]);
@@ -45,6 +47,13 @@ export function ProductGrid({
 
     const [hasMore, setHasMore] =
         useState(true);
+
+    // NORMALIZE TEXT
+    const normalizeText = (text: string) =>
+        text
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
 
     // FETCH FIRST PRODUCTS
     useEffect(() => {
@@ -285,7 +294,18 @@ export function ProductGrid({
             matchPrice = product.price > 10000000;
         }
 
-        return matchCategory && matchPrice;
+        // SEARCH
+        const matchSearch =
+            normalizeText(product.name)
+                .includes(
+                    normalizeText(searchTerm)
+                );
+
+        return (
+            matchCategory &&
+            matchPrice &&
+            matchSearch
+        );
     });
 
     // LOADING
@@ -319,7 +339,7 @@ export function ProductGrid({
                 ) : (
 
                     <div className="col-span-full text-center py-20 text-gray-500">
-                        Không có sản phẩm phù hợp
+                        Không tìm thấy sản phẩm phù hợp
                     </div>
 
                 )}

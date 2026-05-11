@@ -8,6 +8,9 @@ interface SidebarShopProps {
 
     activePrice: string;
     setActivePrice: (value: string) => void;
+
+    searchTerm: string;
+    setSearchTerm: (value: string) => void;
 }
 
 export function SidebarShop({
@@ -15,6 +18,8 @@ export function SidebarShop({
                                 setActiveCategory,
                                 activePrice,
                                 setActivePrice,
+                                searchTerm,
+                                setSearchTerm,
                             }: SidebarShopProps) {
 
     const categories = [
@@ -42,17 +47,36 @@ export function SidebarShop({
             "
         >
 
-            {/* HEADER */}
-            <div className="flex items-center gap-2">
-                <span
+            {/* SEARCH */}
+            <div className="flex flex-col gap-3">
+
+                <h3
                     className="
                         font-semibold
-                        text-[18px] xl:text-[20px] 2xl:text-[22px]
-                        text-[#121212]
+                        text-[14px] xl:text-[15px] 2xl:text-[16px]
+                        tracking-[0.02em] text-[#121212]
                     "
                 >
                     Tìm kiếm
-                </span>
+                </h3>
+
+                <input
+                    type="text"
+                    placeholder="Tìm sản phẩm..."
+                    value={searchTerm || ""}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="
+                        w-full
+                        border border-gray-300
+                        rounded-lg
+                        px-4 py-2.5
+                        text-[14px]
+                        outline-none
+                        focus:border-black
+                        transition
+                    "
+                />
+
             </div>
 
             {/* CATEGORY */}
@@ -75,9 +99,7 @@ export function SidebarShop({
                         <li key={cat}>
 
                             <button
-                                onClick={() =>
-                                    setActiveCategory(cat)
-                                }
+                                onClick={() => setActiveCategory(cat)}
                                 className={`
                                     text-left font-semibold transition
                                     text-[13px] xl:text-[14px] 2xl:text-[15px]
@@ -118,9 +140,7 @@ export function SidebarShop({
 
                         <li
                             key={price}
-                            onClick={() =>
-                                setActivePrice(price)
-                            }
+                            onClick={() => setActivePrice(price)}
                             className="
                                 flex justify-between items-center
                                 cursor-pointer group

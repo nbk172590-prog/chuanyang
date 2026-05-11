@@ -24,17 +24,18 @@ export function SidebarShop({
 
     const categories = [
         'Tất cả',
-        'Phòng tắm / Sen cây tắm',
-        'Lavabo / Nhà vệ sinh',
-        'Nhà bếp',
+        'Sen tắm',
+        'Vòi chậu',
+        'Vòi bếp',
+        'Khác',
         'Phụ kiện',
     ];
 
     const priceRanges = [
         'Tất cả',
-        '0 - 3 triệu',
-        '3 triệu - 10 triệu',
-        'trên 10 triệu'
+        '0 - 3.000.000',
+        '3.000.000 - 10.000.000',
+        '~ 10.000.000'
     ];
 
     return (

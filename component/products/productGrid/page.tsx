@@ -280,17 +280,17 @@ export function ProductGrid({
         // PRICE
         let matchPrice = true;
 
-        if (activePrice === '0 - 3 triệu') {
+        if (activePrice === '0 - 3.000.000') {
             matchPrice = product.price <= 3000000;
         }
 
-        if (activePrice === '3 triệu - 10 triệu') {
+        if (activePrice === '3.000.000 - 10.000.000') {
             matchPrice =
                 product.price > 3000000 &&
                 product.price <= 10000000;
         }
 
-        if (activePrice === 'trên 10 triệu') {
+        if (activePrice === '~ 10.000.000') {
             matchPrice = product.price > 10000000;
         }
 

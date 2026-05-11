@@ -40,13 +40,13 @@ function HeaderComponent() {
                 {/* DESKTOP NAV (giữ nguyên giữa) */}
                 <nav className="hidden md:flex items-center gap-10">
                     <a href="/" className="text-sm md:text-base font-medium hover:opacity-80">
-                        Home
+                        Trang chủ
                     </a>
                     <a href="/products" className="text-sm md:text-base font-medium hover:opacity-80">
-                        Products
+                        Sản phẩm
                     </a>
                     <a href="/contact-us" className="text-sm md:text-base font-medium hover:opacity-80">
-                        Contact Us
+                        Liên hệ
                     </a>
                 </nav>
 
@@ -75,9 +75,9 @@ function HeaderComponent() {
                         </button>
 
                         <nav className="flex flex-col gap-4">
-                            <a href="/" onClick={() => setOpen(false)}>Home</a>
-                            <a href="/products" onClick={() => setOpen(false)}>Products</a>
-                            <a href="/contact-us" onClick={() => setOpen(false)}>Contact Us</a>
+                            <a href="/" onClick={() => setOpen(false)}>Trang chủ</a>
+                            <a href="/products" onClick={() => setOpen(false)}>Sản phẩm</a>
+                            <a href="/contact-us" onClick={() => setOpen(false)}>Liên hệ với chúng tôi</a>
                         </nav>
 
                     </div>

@@ -11,13 +11,13 @@ const ContactMap = dynamic(
 const INFO_CARDS = [
     {
         icon: "https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-5707d1ead947ed07.svg",
-        label: "Address",
+        label: "Địa chỉ",
         value:
             "Y01-L13, An Phú Shop Villa\nKĐT Dương Nội, Hà Đông, Hanoi, Viet Nam",
     },
     {
         icon: "https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-00294d00a8ec7367.svg",
-        label: "Contact Us",
+        label: "Liên hệ",
         value: "+84 971 617 101",
     },
     {
@@ -51,7 +51,7 @@ export function ContactSection() {
                     text-center
                 "
             >
-                Contact Us
+                Liên hệ với chúng tôi
             </h2>
             {/* INFO CARDS */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
@@ -168,12 +168,12 @@ export function ContactSection() {
                                 text-[#6C7275]
                             "
                         >
-                            Full Name
+                            Họ và tên
                         </label>
 
                         <input
                             type="text"
-                            placeholder="Your Name"
+                            placeholder="Tên của bạn"
                             className="
                                 w-full
 
@@ -213,12 +213,12 @@ export function ContactSection() {
                                 text-[#6C7275]
                             "
                         >
-                            Email Address
+                            Email
                         </label>
 
                         <input
                             type="email"
-                            placeholder="Your Email"
+                            placeholder="Email"
                             className="
                                 w-full
 
@@ -258,11 +258,11 @@ export function ContactSection() {
                                 text-[#6C7275]
                             "
                         >
-                            Message
+                            Tin nhắn
                         </label>
 
                         <textarea
-                            placeholder="Your message"
+                            placeholder="Lời nhắn của bạn"
                             rows={5}
                             className="
                                 w-full
@@ -319,7 +319,7 @@ export function ContactSection() {
                             transition
                         "
                     >
-                        Send Message
+                        Gửi đi
                     </button>
 
                 </form>

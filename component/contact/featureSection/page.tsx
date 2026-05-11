@@ -68,7 +68,7 @@ export function FeatureSection() {
                             text-[#121212]
                         "
                     >
-                        About Us
+                        Về chúng tôi
                     </h2>
 
                     <p
@@ -90,13 +90,13 @@ export function FeatureSection() {
                             md:max-w-[400px]
                         "
                     >
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                        sed do eiusmod tempor incididunt ut labore et dolore
-                        magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat. Duis aute irure dolor in reprehenderit
-                        in voluptate velit esse cillum dolore eu fugiat nulla
-                        pariatur.
+                        Thiết bị vệ sinh Toàn Dương được thành lập vào năm 1971 tại Chương Hóa Đài Loan. với khái niệm
+                        cốt lõi là cung cấp các sản phẩm chất lượng cao và dịch vụ vượt trội, thiết bị vệ sinh Toàn
+                        Dương đã tích hợp nghệ thuật và công nghệ vào các sản phẩm của mình trong nhiều năm qua, trở
+                        thành một thương hiệu nổi tiếng quốc tế. Trong tương lai chúng tôi cũng sẻ tích cực đáp ứng các
+                        Mục tiêu phát triển bền vững (SDGs) của liên hợp quốc, tiếp tục phát triển các sản phẩm thông
+                        minh và thân thiện hơn với môi trường đồng thời cung cấp thêm nhiều sản phẩm chất lượng cao hơn,
+                        để đáp ứng nhu cầu đang thay đổi của thị trường.
                     </p>
 
                 </div>
@@ -128,7 +128,7 @@ export function FeatureSection() {
                         pb-[2px]
                     "
                 >
-                    <span>Shop Now</span>
+                    <span>Mua sắm ngay</span>
 
                     <img
                         src="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-88a7e52176096d6e.svg"

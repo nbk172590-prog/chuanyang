@@ -22,7 +22,7 @@ export function HeaderContact() {
                         md:tracking-[-1px]
                     "
                 >
-                    We believe in sustainable decor. We&apos;re passionate about life at home.
+                    Chúng tôi tin vào trang trí nội thất bền vững. Chúng tôi đam mê cuộc sống tại gia.
                 </h1>
 
                 <p
@@ -43,10 +43,9 @@ export function HeaderContact() {
                         Chuan Yang
                     </span>
                     {" "}
-                    Premium faucets crafted in Taiwan. Featuring world-class
-                    components from Germany, Korea, and Switzerland. Certified
-                    by LF, NSF, and UPC. Elegant designs for a sophisticated
-                    lifestyle.
+                    Vòi nước cao cấp Chuan Yang được sản xuất tại Đài Loan. Sử dụng các linh kiện hàng đầu thế giới từ
+                    Đức, Hàn Quốc và Thụy Sĩ. Được chứng nhận bởi LF, NSF và UPC. Thiết kế thanh lịch dành cho phong
+                    cách sống tinh tế.
                 </p>
 
             </div>

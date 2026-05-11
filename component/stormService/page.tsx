@@ -5,27 +5,27 @@ import React from "react";
 const products = [
     {
         id: 1,
-        title: "Free Shipping",
+        title: "Miễn phí vận chuyển",
         icon: "/shipping.png",
-        content: "Order above $200",
+        content: "Miễn phí vận chuyển cho đơn hàng trên 3 triệu đồng",
     },
     {
         id: 2,
-        title: "Money-back",
+        title: "Hoàn tiền",
         icon: "/money.png",
-        content: "30 days guarantee",
+        content: "Thời gian làm việc 30 ngày",
     },
     {
         id: 3,
-        title: "Secure Payments",
+        title: "Thanh toán an toàn",
         icon: "/lock.png",
-        content: "Secured by Stripe",
+        content: "Được bảo mật bởi Stripe",
     },
     {
         id: 4,
-        title: "24/7 Support",
+        title: "Hỗ trợ 24/7",
         icon: "/call.png",
-        content: "Phone and Email support",
+        content: "Hỗ trợ qua điện thoại và email",
     },
 ];
 

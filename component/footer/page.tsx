@@ -54,9 +54,9 @@ function FooterComponent() {
 
                             {/* RIGHT: MENU */}
                             <nav className="flex gap-10 text-[15px] font-medium">
-                                <a href="/" className="hover:opacity-80">Home</a>
-                                <a href="/products" className="hover:opacity-80">Products</a>
-                                <a href="/contact-us" className="hover:opacity-80">Contact Us</a>
+                                <a href="/" className="hover:opacity-80">Trang chủ</a>
+                                <a href="/products" className="hover:opacity-80">Sản phẩm</a>
+                                <a href="/contact-us" className="hover:opacity-80">Liên hệ</a>
                             </nav>
 
                         </div>
@@ -72,12 +72,12 @@ function FooterComponent() {
                             </p>
 
                             <div className="flex gap-8 text-[14px]">
-                                <a href="#" className="text-white hover:opacity-80">
-                                    Privacy Policy
-                                </a>
-                                <a href="#" className="text-white hover:opacity-80">
-                                    Terms of Use
-                                </a>
+                                <p className="text-white hover:opacity-80">
+                                    Chính sách bảo mật
+                                </p>
+                                <p className="text-white hover:opacity-80">
+                                    Điều khoản sử dụng
+                                </p>
                             </div>
 
                         </div>
@@ -99,10 +99,9 @@ function FooterComponent() {
 
                     {/* Menu (mobile giữ lại) */}
                     <div className="flex flex-col gap-4 text-sm">
-                        <a href="/">Home</a>
-                        <a href="/products">Shop</a>
-                        <a href="/product">Product</a>
-                        <a href="/contact-us">Contact Us</a>
+                        <a href="/">Trang chủ</a>
+                        <a href="/product">Sản phẩm</a>
+                        <a href="/contact-us">Liên hệ</a>
                     </div>
 
                     <div className="w-full h-[1px] bg-white/20"/>
@@ -133,8 +132,8 @@ function FooterComponent() {
                     <div className="w-full h-[1px] bg-white/20"/>
 
                     <div className="flex gap-6 text-xs text-gray-300">
-                        <p>Privacy Policy</p>
-                        <p>Terms of Use</p>
+                        <p>Chính sách bảo mật</p>
+                        <p>Điều khoản sử dụng</p>
                     </div>
 
                     <p className="text-xs text-gray-400">

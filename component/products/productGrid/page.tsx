@@ -281,17 +281,27 @@ export function ProductGrid({
         let matchPrice = true;
 
         if (activePrice === '0 - 3.000.000') {
-            matchPrice = product.price <= 3000000;
+            matchPrice =
+                product.price >= 0 &&
+                product.price <= 3000000;
         }
 
-        if (activePrice === '3.000.000 - 10.000.000') {
+        if (activePrice === '3.000.000 - 5.000.000') {
             matchPrice =
                 product.price > 3000000 &&
+                product.price <= 5000000;
+        }
+
+        if (activePrice === '5.000.000 - 10.000.000') {
+            matchPrice =
+                product.price > 5000000 &&
                 product.price <= 10000000;
         }
 
-        if (activePrice === '~ 10.000.000') {
-            matchPrice = product.price > 10000000;
+        if (activePrice === '10.000.000 - 30.000.000') {
+            matchPrice =
+                product.price > 10000000 &&
+                product.price <= 30000000;
         }
 
         // SEARCH

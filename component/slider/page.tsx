@@ -1,10 +1,10 @@
 "use client"
 
-import { useState } from "react";
+import {useState} from "react";
 
 const slides = [
     {
-        image: "https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-04b29bd1b72ab8ca.png",
+        image: "https://firebasestorage.googleapis.com/v0/b/chuanyang-7973f.firebasestorage.app/o/baner%2Fz7755694803169_e52b358a84351fb877acacba80f53b16.jpg?alt=media&token=5268802c-ef4c-43e8-9193-a50b2a659ff0",
         id: 1,
     },
     {
@@ -12,7 +12,7 @@ const slides = [
         id: 2,
     },
     {
-        image: "https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-04b29bd1b72ab8ca.png",
+        image: "https://firebasestorage.googleapis.com/v0/b/chuanyang-7973f.firebasestorage.app/o/baner%2F2222.jpg?alt=media&token=ecc4e542-5964-40f4-8432-ab0a9ca3c349",
         id: 3,
     },
 ];
@@ -24,7 +24,7 @@ export function Slider() {
     const next = () => setCurrent((c) => (c + 1) % slides.length);
 
     return (
-        <div className="relative w-full overflow-hidden" style={{ height: "536px" }}>
+        <div className="relative w-full overflow-hidden" style={{height: "536px"}}>
             {/* Background image */}
             <img
                 src={slides[current].image}
@@ -46,7 +46,7 @@ export function Slider() {
                 onClick={prev}
                 aria-label="Previous slide"
                 className="absolute left-8 top-1/2 -translate-y-1/2 z-10"
-                style={{ filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.04))" }}
+                style={{filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.04))"}}
             >
                 <img
                     src="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-cc963c15911f1474.svg"
@@ -60,7 +60,7 @@ export function Slider() {
                 onClick={next}
                 aria-label="Next slide"
                 className="absolute right-8 top-1/2 -translate-y-1/2 z-10"
-                style={{ filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.04))" }}
+                style={{filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.04))"}}
             >
                 <img
                     src="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-a3dfb7bf0f0e4e1c.svg"

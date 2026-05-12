@@ -12,6 +12,7 @@ export interface Product {
     code?: string;
     category?: string;
     details?: string;
+    color?: string;
     isNew?: boolean;
     discount?: number | undefined ;
     rating?: number | undefined ;

@@ -130,7 +130,7 @@ export default function ProductCarousel({
             </div>
 
             {/* PRODUCTS */}
-            <div className="grid grid-cols-2 gap-4 lg:grid-cols-4 min-[1440px]:grid-cols-6">
+            <div className="grid grid-cols-2 gap-4 lg:grid-cols-6 min-[1440px]:grid-cols-6">
 
                 {products.map((product) => (
 

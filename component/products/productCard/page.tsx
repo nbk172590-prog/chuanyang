@@ -1,7 +1,7 @@
 'use client';
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
 import {Product} from "@/types/product";
 
 
@@ -36,7 +36,8 @@ export function ProductCard({
                     {/* NEW */}
                     {product.isNew && (
 
-                        <span className="rounded bg-white px-3 py-1 text-xs font-bold uppercase text-[#141718] shadow-sm">
+                        <span
+                            className="rounded bg-white px-3 py-1 text-xs font-bold uppercase text-[#141718] shadow-sm">
                             NEW
                         </span>
 
@@ -45,7 +46,8 @@ export function ProductCard({
                     {/* DISCOUNT */}
                     {product.discount && (
 
-                        <span className="rounded bg-[#38CB89] px-3 py-1 text-xs font-bold uppercase text-white shadow-sm">
+                        <span
+                            className="rounded bg-[#38CB89] px-3 py-1 text-xs font-bold uppercase text-white shadow-sm">
                             -{product.discount}%
                         </span>
 
@@ -58,38 +60,35 @@ export function ProductCard({
             <div className="flex flex-col gap-1 pt-3">
 
                 {/* NAME */}
-                <p className="line-clamp-2 text-[16px] font-semibold text-[#141718]">
+                <p className="line-clamp-2 text-[16px] font-semibold text-[#141718] uppercasea">
                     {product.name}
                 </p>
 
-                {/* CATEGORY */}
-                {product.category && (
-
-                    <span className="text-[13px] text-[#6C7275]">
-                        {product.category}
-                    </span>
-
-                )}
-
                 {/* PRICE */}
-                <div className="mt-1 flex items-center gap-2 flex-wrap">
+                <div className="flex items-center gap-3">
+                    <div className="mt-1 flex items-center gap-2 flex-wrap">
 
-                    <span className="text-[16px] font-semibold text-[#121212]">
+                    <span className="text-[14px] font-semibold text-[#B91C1C]">
 
                         {product.price?.toLocaleString("vi-VN")}đ
 
                     </span>
 
-                    {product.originalPrice && (
+                        {product.originalPrice && (
 
-                        <span className="text-[14px] text-[#6C7275] line-through">
+                            <span className="text-[14px] text-[#6C7275] line-through">
 
                             {product.originalPrice.toLocaleString("vi-VN")}đ
 
                         </span>
 
-                    )}
+                        )}
 
+                    </div>
+
+                    <div className="text-[14px] font-semibold text-[#6C7275] line-through">
+                        {product.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,87 +1,201 @@
 'use client';
 
-import {useState} from 'react';
-import {Product} from "@/types/product";
-
+import { useState } from 'react';
+import { Product } from '@/types/product';
 
 interface ProductTabsProps {
     product: Product;
 }
 
 export default function ProductTabs({
-                                        product
+                                        product,
                                     }: ProductTabsProps) {
 
     const [open, setOpen] = useState(true);
 
     /**
-     * Specs data từ product
+     * Specs data
      */
     const SPEC_ROWS = [
         {
             label: 'Chức năng',
-            value: product.waterMode || 'Nóng lạnh',
+            value: product.waterMode,
         },
         {
             label: 'Chất liệu',
-            value: product.material || 'Chrome',
+            value: product.material,
         },
         {
             label: 'Màu sắc',
-            value: product.colors || 'Chrome',
+            value: product.colors,
         },
         {
             label: 'Mã sản phẩm',
-            value: product.code || product.id,
+            value: product.code || product.name,
         },
         {
             label: 'Danh mục',
-            value: product.category || 'Đang cập nhật',
+            value: product.category,
         },
-    ];
-
-    const formatDetails = (text?: string) => {
-
-        if (!text) {
-            return "<p>Thông tin sản phẩm đang được cập nhật.</p>";
-        }
-
-        /**
-         * detect numbered list
-         */
-        const lines = text.split("\n");
-
-        const isNumberList = lines.every((line) =>
-            /^\d+\./.test(line.trim())
-        );
-
-        if (isNumberList) {
-
-            const items = lines
-                .map((line) =>
-                    line.replace(/^\d+\.\s*/, "")
-                )
-                .map((item) => `<li>${item}</li>`)
-                .join("");
-
-            return `<ol>${items}</ol>`;
-        }
-
-        /**
-         * normal paragraph
-         */
-        return `<p>${text}</p>`;
-    };
+    ].filter((item) => item.value);
 
     return (
         <section className="bg-white py-10">
 
             <div
-                className="mx-auto flex max-w-[1440px] flex-col gap-6 px-4 md:px-8 min-[1440px]:flex-row min-[1440px]:items-start min-[1440px]:px-[160px]">
+                className="
+                mx-auto
+                flex
+                max-w-[1120px]
+                flex-col
+                gap-6
+                px-4
+                md:px-8
+                lg:flex-row
+                lg:items-start
+                lg:px-0
+                "
+            >
+
+                {/* DESCRIPTION */}
+                <div
+                    className="
+                    order-2
+                    flex
+                    min-w-0
+                    flex-1
+                    flex-col
+                    gap-4
+                    rounded-[12px]
+                    bg-[#F3F5F7]
+                    p-6
+
+                    lg:order-1
+                    "
+                >
+
+                    {/* HEADER */}
+                    <div
+                        className="
+                        flex
+                        cursor-pointer
+                        select-none
+                        items-center
+                        justify-between
+                        "
+                        onClick={() => setOpen(!open)}
+                    >
+
+                        <span className="text-[16px] font-semibold text-black">
+                            Thông tin sản phẩm
+                        </span>
+
+                        <div
+                            className={`transition-transform duration-300 ${
+                                open ? 'rotate-0' : 'rotate-180'
+                            }`}
+                        >
+                            ↓
+                        </div>
+                    </div>
+
+                    {/* CONTENT */}
+                    {open && (
+
+                        <div className="flex min-w-0 flex-col gap-5">
+
+                            {/* IMAGE */}
+                            <img
+                                src={product.image || '/placeholder.png'}
+                                alt={product.name}
+                                className="
+                                max-h-[500px]
+                                w-full
+                                rounded-[8px]
+                                object-cover
+                                "
+                            />
+
+                            {/* NAME */}
+                            <h2
+                                className="
+                                break-words
+                                text-[24px]
+                                font-bold
+                                text-[#141718]
+                                "
+                            >
+                                {product.name}
+                            </h2>
+
+                            {/* DETAILS */}
+                            <div
+                                className="
+                                w-full
+                                max-w-[696px]
+                                overflow-hidden
+                                break-words
+                                whitespace-pre-wrap
+
+                                text-[14px]
+                                leading-6
+                                text-[#141718]
+
+                                md:text-[15px]
+                                md:leading-7
+
+                                [&_*]:max-w-full
+                                [&_*]:break-words
+
+                                [&_img]:h-auto
+                                [&_img]:max-w-full
+                                [&_img]:rounded-[8px]
+
+                                [&_iframe]:max-w-full
+
+                                [&_table]:block
+                                [&_table]:w-full
+                                [&_table]:overflow-x-auto
+
+                                [&_ol]:list-decimal
+                                [&_ol]:pl-5
+
+                                [&_ul]:list-disc
+                                [&_ul]:pl-5
+
+                                [&_li]:mb-2
+
+                                [&_a]:break-all
+                                "
+                                dangerouslySetInnerHTML={{
+                                    __html:
+                                        product.details ||
+                                        '<p>Thông tin sản phẩm đang được cập nhật.</p>',
+                                }}
+                            />
+
+                        </div>
+                    )}
+
+                </div>
 
                 {/* SPECS */}
                 <div
-                    className="order-1 flex w-full flex-col gap-6 rounded-[12px] bg-[#F3F5F7] p-6 min-[1440px]:order-2 min-[1440px]:w-[400px] min-[1440px]:flex-shrink-0">
+                    className="
+                    order-1
+                    flex
+                    w-full
+                    flex-col
+                    gap-6
+                    rounded-[12px]
+                    bg-[#F3F5F7]
+                    p-6
+
+                    lg:order-2
+                    lg:w-[360px]
+                    lg:flex-shrink-0
+                    "
+                >
 
                     <h3 className="text-[16px] font-semibold text-black">
                         Thông số kỹ thuật
@@ -104,7 +218,16 @@ export default function ProductTabs({
                                     {row.label}
                                 </span>
 
-                                <span className="text-[14px] font-semibold text-black text-right">
+                                <span
+                                    className="
+                                    max-w-[180px]
+                                    break-words
+                                    text-right
+                                    text-[14px]
+                                    font-semibold
+                                    text-black
+                                    "
+                                >
                                     {row.value}
                                 </span>
 
@@ -113,65 +236,6 @@ export default function ProductTabs({
                     </div>
                 </div>
 
-                {/* DESCRIPTION */}
-                <div
-                    className="order-2 flex flex-1 flex-col gap-4 rounded-[12px] bg-[#F3F5F7] p-6 min-[1440px]:order-1">
-
-                    {/* HEADER */}
-                    <div
-                        className="flex cursor-pointer select-none items-center justify-between"
-                        onClick={() => setOpen(!open)}
-                    >
-
-                        <span className="text-[16px] font-semibold text-black">
-                            Thông tin sản phẩm
-                        </span>
-
-                        <div
-                            className={`transition-transform duration-300 ${
-                                open ? 'rotate-0' : 'rotate-180'
-                            }`}
-                        >
-                            ↓
-                        </div>
-                    </div>
-
-                    {/* CONTENT */}
-                    {open && (
-
-                        <div className="flex flex-col gap-5">
-
-                            {/* IMAGE */}
-                            <img
-                                src={product.image || '/placeholder.png'}
-                                alt={product.name}
-                                className="max-h-[500px] w-full rounded-[8px] object-cover"
-                            />
-
-                            {/* NAME */}
-                            <h2 className="text-[24px] font-bold text-[#141718]">
-                                {product.name}
-                            </h2>
-
-                            {/* details */}
-                            <div
-                                className="max-w-none text-[15px] leading-7 text-[#141718]
-    [&_ol]:list-decimal
-    [&_ol]:pl-5
-    [&_ul]:list-disc
-    [&_ul]:pl-5
-    [&_li]:mb-2"
-                                dangerouslySetInnerHTML={{
-                                    __html:
-                                        product.details ||
-                                        '<p>Thông tin sản phẩm đang được cập nhật.</p>',
-                                }}
-                            />
-
-                        </div>
-                    )}
-
-                </div>
             </div>
         </section>
     );

@@ -43,7 +43,7 @@ function ProductDetailLoader({
     return <ProductDetail product={product}/>;
 }
 
-export default function ProductScreen() {
+ function ProductScreenDetail() {
 
     const searchParams = useSearchParams();
 
@@ -119,20 +119,14 @@ export default function ProductScreen() {
 
     return (
         <div>
-
+            
             <PromoBar/>
 
             <HeaderComponent/>
 
-            <Suspense
-                fallback={
-                    <div className="py-8 text-center text-gray-500">
-                        Đang tải chi tiết sản phẩm...
-                    </div>
-                }
-            >
+            
                 <ProductDetailLoader product={product}/>
-            </Suspense>
+          
 
             <ProductTabs product={product}/>
 
@@ -148,7 +142,21 @@ export default function ProductScreen() {
             <FooterBackground/>
 
             <FooterComponent/>
-
+                
         </div>
     );
+}
+
+export default function ProductScreen(){
+    return <div>
+        <Suspense
+                fallback={
+                    <div className="py-8 text-center text-gray-500">
+                        Đang tải chi tiết sản phẩm...
+                    </div>
+                }
+            >
+                <ProductScreenDetail/>
+            </Suspense>
+    </div>
 }

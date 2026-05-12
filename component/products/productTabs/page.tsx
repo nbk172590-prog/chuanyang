@@ -104,17 +104,17 @@ export default function ProductTabs({
 
                         <div className="flex min-w-0 flex-col gap-5">
 
-                            {/* IMAGE */}
-                            <img
-                                src={product.image || '/placeholder.png'}
-                                alt={product.name}
-                                className="
-                                max-h-[500px]
-                                w-full
-                                rounded-[8px]
-                                object-cover
-                                "
-                            />
+                            {/*/!* IMAGE *!/*/}
+                            {/*<img*/}
+                            {/*    src={product.image || '/placeholder.png'}*/}
+                            {/*    alt={product.name}*/}
+                            {/*    className="*/}
+                            {/*    max-h-[500px]*/}
+                            {/*    w-full*/}
+                            {/*    rounded-[8px]*/}
+                            {/*    object-cover*/}
+                            {/*    "*/}
+                            {/*/>*/}
 
                             {/* NAME */}
                             <h2

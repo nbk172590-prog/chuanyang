@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from "react";
+import {useState} from "react";
 
-import { ProductGrid } from "@/component/products/productGrid/page";
+import {ProductGrid} from "@/component/products/productGrid/page";
 import PromoBar from "@/component/announcementBar/page";
 import HeaderComponent from "@/component/hader/page";
 import {SidebarShop} from "@/component/products/sidebar/page";
@@ -21,8 +21,8 @@ export default function ShopPage() {
     return (
         <main className="bg-white min-h-screen">
 
-            <PromoBar />
-            <HeaderComponent />
+            <PromoBar/>
+            <HeaderComponent/>
 
             <img
                 className="w-full h-auto object-cover"
@@ -30,8 +30,7 @@ export default function ShopPage() {
                 alt=""
             />
 
-            <div className="flex gap-6 px-4 md:px-10 lg:px-[160px] pt-6 md:pt-10 lg:pt-[60px] pb-10 md:pb-16 lg:pb-[100px]">
-
+            <div className="flex flex-row items-start gap-6 px-4 md:px-10 lg:px-10 xl:px-40 pt-6 md:pt-10 lg:pt-15 pb-10 md:pb-16 lg:pb-25">
                 <SidebarShop
                     activeCategory={activeCategory}
                     setActiveCategory={setActiveCategory}
@@ -51,8 +50,8 @@ export default function ShopPage() {
 
             </div>
 
-            <FooterBackground />
-            <FooterComponent />
+            <FooterBackground/>
+            <FooterComponent/>
 
         </main>
     );

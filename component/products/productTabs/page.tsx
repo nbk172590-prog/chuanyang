@@ -116,18 +116,6 @@ export default function ProductTabs({
                             {/*    "*/}
                             {/*/>*/}
 
-                            {/* NAME */}
-                            <h2
-                                className="
-                                break-words
-                                text-[24px]
-                                font-bold
-                                text-[#141718]
-                                "
-                            >
-                                {product.name}
-                            </h2>
-
                             {/* DETAILS */}
                             <div
                                 className="

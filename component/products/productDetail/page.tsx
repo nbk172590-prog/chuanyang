@@ -23,15 +23,15 @@ export default function ProductDetail({
         },
         {
             label: 'Chế độ nước',
-            value: product?.waterMode,
+            value: product?.waterMode || 'Nóng / Lạnh',
         },
         {
             label: 'Màu sắc',
-            value: product?.color,
+            value: product?.color || 'Bạc inox',
         },
         {
             label: 'Vật liệu',
-            value: product?.material,
+            value: product?.material || 'Đồng ≥ 60%',
         },
     ]
 

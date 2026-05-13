@@ -168,7 +168,7 @@ export default function ProductDetail({
                         <div className="flex items-center gap-3">
                             <div>
                                 <span className="text-[28px] font-bold text-red-700">
-                            {product.price.toLocaleString('vi-VN')} đs
+                            {product.price.toLocaleString('vi-VN')} đ
                         </span>
                             </div>
                             <div className="text-[20px] font-semibold text-[#6C7275] line-through">

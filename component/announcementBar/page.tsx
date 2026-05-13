@@ -33,7 +33,7 @@ export function PromoBar() {
                     30% off storewide — Limited time!
                 </span>
 
-                <Link href="/products" className="inline-flex items-center gap-1 whitespace-nowrap">
+                <Link href="/products" className="inline-flex items-center gap-1 whitespace-nowrap">s
 
                     <span className="border-b border-[#377DFF] text-[#377DFF]">
                         Mua sắm ngay

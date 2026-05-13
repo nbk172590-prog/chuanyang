@@ -1,14 +1,14 @@
 "use client"
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const slides = [
     {
-        image: "https://firebasestorage.googleapis.com/v0/b/chuanyang-7973f.firebasestorage.app/o/baner%2Fz7755694803169_e52b358a84351fb877acacba80f53b16.jpg?alt=media&token=5268802c-ef4c-43e8-9193-a50b2a659ff0",
+        image: "https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-04b29bd1b72ab8ca.png",
         id: 1,
     },
     {
-        image: "https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-04b29bd1b72ab8ca.png",
+        image: "../../../banerApp.jpg",
         id: 2,
     },
     {
@@ -18,18 +18,44 @@ const slides = [
 ];
 
 export function Slider() {
+
     const [current, setCurrent] = useState(0);
 
-    const prev = () => setCurrent((c) => (c - 1 + slides.length) % slides.length);
-    const next = () => setCurrent((c) => (c + 1) % slides.length);
+    /**
+     * PREV
+     */
+    const prev = () =>
+        setCurrent((c) => (c - 1 + slides.length) % slides.length);
+
+    /**
+     * NEXT
+     */
+    const next = () =>
+        setCurrent((c) => (c + 1) % slides.length);
+
+    /**
+     * AUTO SLIDE
+     */
+    useEffect(() => {
+
+        const interval = setInterval(() => {
+
+            setCurrent((c) => (c + 1) % slides.length);
+
+        }, 4000);
+
+        return () => clearInterval(interval);
+
+    }, []);
 
     return (
-        <div className="relative w-full overflow-hidden" style={{height: "536px"}}>
+        <div className="relative h-[536px] w-full overflow-hidden rounded-2xl">
+
             {/* Background image */}
             <img
                 src={slides[current].image}
                 alt="Slider background"
-                className="absolute inset-0 w-full h-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover transition-all duration-700"
             />
 
             {/* Gradient overlay */}
@@ -45,13 +71,15 @@ export function Slider() {
             <button
                 onClick={prev}
                 aria-label="Previous slide"
-                className="absolute left-8 top-1/2 -translate-y-1/2 z-10"
-                style={{filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.04))"}}
+                className="absolute left-4 top-1/2 z-10 -translate-y-1/2 md:left-8"
+                style={{
+                    filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.04))",
+                }}
             >
                 <img
                     src="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-cc963c15911f1474.svg"
                     alt="Previous"
-                    className="w-[52px] h-[52px]"
+                    className="h-10 w-10 md:h-[52px] md:w-[52px]"
                 />
             </button>
 
@@ -59,18 +87,21 @@ export function Slider() {
             <button
                 onClick={next}
                 aria-label="Next slide"
-                className="absolute right-8 top-1/2 -translate-y-1/2 z-10"
-                style={{filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.04))"}}
+                className="absolute right-4 top-1/2 z-10 -translate-y-1/2 md:right-8"
+                style={{
+                    filter: "drop-shadow(0px 8px 16px rgba(0,0,0,0.04))",
+                }}
             >
                 <img
                     src="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-a3dfb7bf0f0e4e1c.svg"
                     alt="Next"
-                    className="w-[52px] h-[52px]"
+                    className="h-10 w-10 md:h-[52px] md:w-[52px]"
                 />
             </button>
 
             {/* Navigation Dots */}
-            <div className="absolute bottom-[40px] left-1/2 -translate-x-1/2 z-10 flex gap-2 items-center">
+            <div className="absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 md:bottom-10">
+
                 {slides.map((_, i) => (
                     <button
                         key={i}
@@ -78,12 +109,14 @@ export function Slider() {
                         aria-label={`Go to slide ${i + 1}`}
                         className={`rounded-full transition-all duration-300 ${
                             i === current
-                                ? "w-5 h-2 bg-white"
-                                : "w-2 h-2 bg-white/50"
+                                ? "h-2 w-5 bg-white"
+                                : "h-2 w-2 bg-white/50"
                         }`}
                     />
                 ))}
+
             </div>
+
         </div>
     );
 }

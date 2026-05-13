@@ -14,7 +14,6 @@ export default function ProductDetail({
 
     /**
      * INFO DATA
-     * có dữ liệu mới hiển thị
      */
     const items = [
         {
@@ -33,7 +32,7 @@ export default function ProductDetail({
             label: 'Vật liệu',
             value: product?.material || 'Đồng ≥ 60%',
         },
-    ]
+    ];
 
     /**
      * IMAGE LIST
@@ -87,20 +86,20 @@ export default function ProductDetail({
     );
 
     return (
-        <section className="bg-white px-4 pt-4 md:px-8 lg:px-0">
+        <section className="w-full bg-white">
 
-            <div className="mx-auto flex max-w-[1440px] flex-col gap-8 lg:flex-row lg:gap-[63px] lg:px-[160px]">
+            <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-20">
 
                 {/* LEFT */}
-                <div className="w-full lg:w-[450px]">
+                <div className="w-full shrink-0 lg:w-[345px]">
 
                     {/* MAIN IMAGE */}
-                    <div className="relative overflow-hidden rounded-[12px] bg-white">
+                    <div className="relative h-[458px] w-full overflow-hidden rounded-2xl bg-[#F3F5F7]">
 
                         <img
                             src={thumbnails[activeImg]}
                             alt={product.name}
-                            className="aspect-square w-full object-contain"
+                            className="h-full w-full object-contain"
                         />
 
                         {/* PREV */}
@@ -120,6 +119,7 @@ export default function ProductDetail({
                         >
                             <ChevronRight size={20}/>
                         </button>
+
                     </div>
 
                     {/* THUMBNAILS */}
@@ -133,7 +133,7 @@ export default function ProductDetail({
                                 <button
                                     key={realIndex}
                                     onClick={() => setActiveImg(realIndex)}
-                                    className={`overflow-hidden rounded-[10px] border-2 transition ${
+                                    className={`overflow-hidden rounded-xl border-2 bg-[#F3F5F7] transition-all duration-200 ${
                                         activeImg === realIndex
                                             ? 'border-black'
                                             : 'border-transparent'
@@ -143,65 +143,77 @@ export default function ProductDetail({
                                     <img
                                         src={src}
                                         alt=""
-                                        className="aspect-square w-full object-cover cursor-pointer"
+                                        className="aspect-square w-full object-contain cursor-pointer"
                                     />
 
                                 </button>
                             );
                         })}
+
                     </div>
+
                 </div>
 
                 {/* RIGHT */}
-                <div className="flex-1">
+                <div className="min-w-0 flex-1">
 
-                    <h1 className="mb-5 text-[28px] font-bold md:text-[40px] uppercase">
+                    <h1 className="text-[28px] font-bold uppercase leading-tight md:text-[40px]">
                         {product.name}
                     </h1>
 
-                    <div
-                        className="inline rounded-lg bg-[#FF5630] px-4 py-2 text-[14px] font-bold uppercase text-white">
-                        {product?.category}
+                    <div className="mt-5">
+
+                        <div
+                            className="inline-flex rounded-lg bg-[#FF5630] px-4 py-2 text-[14px] font-bold uppercase text-white">
+                            {product?.category}
+                        </div>
+
                     </div>
 
-                    <div className="mt-4">
-                        <div className="flex items-center gap-3">
-                            <div>
-                                <span className="text-[28px] font-bold text-red-700">
+                    {/* PRICE */}
+                    <div className="mt-6 flex flex-wrap items-center gap-3">
+
+                        <span className="text-[28px] font-bold text-red-700">
                             {product.price.toLocaleString('vi-VN')} đ
                         </span>
-                            </div>
-                            <div className="text-[20px] font-semibold text-[#6C7275] line-through">
-                                {product.price.toLocaleString('vi-VN', {style: 'currency', currency: 'VND'})}
-                            </div>
-                        </div>
+
+                        <span className="text-[20px] font-semibold text-[#6C7275] line-through">
+                            {product.price.toLocaleString('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND',
+                            })}
+                        </span>
+
                     </div>
 
                     {/* INFO */}
                     {items.length > 0 && (
-                        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
 
                             {items.map((item, index) => (
                                 <div
                                     key={index}
-                                    className="rounded-2xl bg-gray-100 px-4 py-6 text-center shadow-sm"
+                                    className="rounded-2xl bg-[#F3F5F7] px-4 py-6 text-center"
                                 >
 
-                                    <p className="mb-3 text-sm text-gray-500">
+                                    <p className="mb-3 text-sm text-[#6C7275]">
                                         {item.label}
                                     </p>
 
-                                    <h3 className="text-xl font-medium text-black">
+                                    <h3 className="break-words text-lg font-semibold text-black md:text-xl">
                                         {item.value}
                                     </h3>
 
                                 </div>
                             ))}
+
                         </div>
                     )}
 
                 </div>
+
             </div>
+
         </section>
     );
 }

@@ -22,13 +22,11 @@ const Container = ({
     return (
         <div
             className={`
-                mx-auto
                 w-full
-                max-w-360
                 px-4
-                md:px-8
-                xl:px-20
-                2xl:px-40
+                md:px-10
+                lg:px-10
+                xl:px-40
                 ${className}
             `}
         >
@@ -40,7 +38,7 @@ const Container = ({
 export default function ContactUsPage() {
 
     return (
-        <main className="bg-white min-h-screen">
+        <main className="bg-white min-h-screen flex flex-col">
 
             <PromoBar/>
 
@@ -56,29 +54,24 @@ export default function ContactUsPage() {
                     md:pt-8
                     pb-14
                     md:pb-20
-                    flex
-                    flex-col
-                    gap-10
-                    md:gap-12
-                    bg-white
                 "
             >
+                <div className="flex flex-col gap-10 md:gap-12">
 
-                <HeaderContact/>
+                    <HeaderContact/>
 
-                <FeatureSection/>
+                    <FeatureSection/>
 
-                <ContactSection/>
+                    <ContactSection/>
 
+                </div>
             </Container>
 
             {/* SERVICE */}
-            <div className="w-full bg-[#F3F5F7]">
-
+            <div className="w-full bg-[#F3F5F7] py-10 md:py-14">
                 <Container>
                     <StormService/>
                 </Container>
-
             </div>
 
             <FooterComponent/>

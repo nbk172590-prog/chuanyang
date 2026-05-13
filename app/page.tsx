@@ -20,8 +20,7 @@ import Videos from "@/component/videos/page";
  */
 const Container = ({children}: { children: React.ReactNode }) => {
     return (
-        <div
-            className="mx-auto w-full max-w-360 px-4 md:px-8 xl:px-20 2xl:px-40 pb-10 flex flex-col gap-8 items-center">
+        <div className="w-full px-4 md:px-10 lg:px-10 xl:px-40">
             {children}
         </div>
     );
@@ -30,39 +29,39 @@ const Container = ({children}: { children: React.ReactNode }) => {
 export default function Home() {
     return (
         <main className="bg-white min-h-screen flex flex-col">
-            {/* 🔥 Top announcement */}
+
             <PromoBar/>
 
-            {/* 🔝 Main hero section */}
             <Container>
-                <HeaderComponent/>
-                <Slider/>
-                <BrandHeader/>
-                <BannerGrid/>
-                <NewArrivals/>
-                <Videos/>
+                <div className="flex flex-col gap-8">
+                    <HeaderComponent/>
+                    <Slider/>
+                    <BrandHeader/>
+                    <BannerGrid/>
+                    <NewArrivals/>
+                    <Videos/>
+                </div>
             </Container>
 
-            {/* 💎 Quality highlight (full width section) */}
             <SuperiorQuality/>
 
-            {/* 🎯 Middle content */}
             <Container>
-                <Preference/>
+                <div className="flex flex-col gap-8">
+                    <Preference/>
+                </div>
             </Container>
 
-            {/* 🤝 Brands */}
             <SponsorBrand/>
 
-            {/* 📰 Articles + services */}
             <Container>
-                {/*<Articles/>*/}
-                <StormService/>
+                <div className="flex flex-col gap-8">
+                    <StormService/>
+                </div>
             </Container>
 
-            {/* 🔚 Footer */}
             <FooterBackground/>
             <FooterComponent/>
+
         </main>
     );
 }

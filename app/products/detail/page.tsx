@@ -19,14 +19,24 @@ import {Product} from "@/types/product";
 /**
  * Reusable layout container
  */
-
 const Container = ({
                        children,
+                       className = "",
                    }: {
     children: React.ReactNode;
+    className?: string;
 }) => {
     return (
-        <div className="w-full px-4 md:px-8 xl:px-20 2xl:px-40 pb-10 flex flex-col gap-8 items-center">
+        <div
+            className={`
+                w-full
+                px-4
+                md:px-10
+                lg:px-10
+                xl:px-40
+                ${className}
+            `}
+        >
             {children}
         </div>
     );
@@ -43,7 +53,7 @@ function ProductDetailLoader({
     return <ProductDetail product={product}/>;
 }
 
- function ProductScreenDetail() {
+function ProductScreenDetail() {
 
     const searchParams = useSearchParams();
 
@@ -97,7 +107,7 @@ function ProductDetailLoader({
 
     useEffect(() => {
 
-        getProductById()
+        getProductById();
 
     }, [id]);
 
@@ -118,47 +128,58 @@ function ProductDetailLoader({
     }
 
     return (
-        <div>
-            
+        <main className="bg-white min-h-screen flex flex-col">
+
             <PromoBar/>
-            <div className="w-full px-4 md:px-8 xl:px-20 2xl:px-40">
-                <HeaderComponent/>
-            </div>
 
-
-            
-                <ProductDetailLoader product={product}/>
-          
-
-            <ProductTabs product={product}/>
-
-            <ProductCarousel
-                currentProductId={product.id}
-                category={product.category}
-            />
-
+            {/* HEADER */}
             <Container>
-                <StormService/>
+                <HeaderComponent/>
             </Container>
+
+            {/* PRODUCT DETAIL */}
+            <Container className="pt-6 md:pt-10 pb-10">
+                <ProductDetailLoader product={product}/>
+            </Container>
+
+            {/* PRODUCT TABS */}
+            <Container className="pb-10">
+                <ProductTabs product={product}/>
+            </Container>
+
+            {/* RELATED PRODUCTS */}
+            <Container className="pb-14 md:pb-20">
+                <ProductCarousel
+                    currentProductId={product.id}
+                    category={product.category}
+                />
+            </Container>
+
+            {/* SERVICE */}
+            <div className="w-full bg-[#F3F5F7] py-10 md:py-14">
+                <Container>
+                    <StormService/>
+                </Container>
+            </div>
 
             <FooterBackground/>
 
             <FooterComponent/>
-                
-        </div>
+
+        </main>
     );
 }
 
-export default function ProductScreen(){
-    return <div>
+export default function ProductScreen() {
+    return (
         <Suspense
-                fallback={
-                    <div className="py-8 text-center text-gray-500">
-                        Đang tải chi tiết sản phẩm...
-                    </div>
-                }
-            >
-                <ProductScreenDetail/>
-            </Suspense>
-    </div>
+            fallback={
+                <div className="py-8 text-center text-gray-500">
+                    Đang tải chi tiết sản phẩm...
+                </div>
+            }
+        >
+            <ProductScreenDetail/>
+        </Suspense>
+    );
 }

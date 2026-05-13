@@ -15,7 +15,7 @@ function SuperiorQuality() {
                         src="/paste_image.png"
                         alt=""
                         className="w-full h-full object-cover
-                                   aspect-[4/3] md:aspect-auto"
+                                   aspect-4/3 md:aspect-auto"
                     />
                 </div>
 
@@ -24,7 +24,7 @@ function SuperiorQuality() {
                                 px-4 sm:px-6 md:px-12
                                 py-8 md:py-0">
 
-                    <p className="font-medium text-[#141718]
+                    <p className="font-bold text-[#141718]
                                   text-2xl sm:text-3xl md:text-5xl
                                   mb-3 md:mb-4">
                         Chất lượng vượt trội

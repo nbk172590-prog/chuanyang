@@ -15,8 +15,6 @@ import {db} from "@/firebase-config";
 import {ProductCard} from "@/component/products/productCard/page";
 import {Product} from "@/types/product";
 
-
-
 interface ProductCarouselProps {
     currentProductId: string;
     category?: string;
@@ -30,7 +28,6 @@ export default function ProductCarousel({
     const [products, setProducts] = useState<Product[]>([]);
 
     const [loading, setLoading] = useState(true);
-
 
     /**
      * GET RELATED PRODUCTS
@@ -105,18 +102,37 @@ export default function ProductCarousel({
     }
 
     return (
-        <section className="overflow-hidden bg-white px-4 py-10 md:px-8 xl:px-20">
+        <section className="w-full bg-white">
 
             {/* HEADER */}
-            <div className="mb-12 flex items-end justify-between">
+            <div className="mb-8 md:mb-12 flex items-center justify-between gap-4">
 
-                <h2 className="text-[28px] font-medium tracking-[-0.6px] text-black">
+                <h2
+                    className="
+                        text-[24px]
+                        md:text-[28px]
+                        font-bold
+                        tracking-[-0.6px]
+                        text-black
+                    "
+                >
                     Sản phẩm liên quan
                 </h2>
 
                 <Link
-                    href="/products"
-                    className="flex items-center gap-1 border-b border-[#141718] text-[16px] font-medium text-[#141718]"
+                    href={`/products?category=${encodeURIComponent(category || '')}`}
+                    className="
+                        flex
+                        items-center
+                        gap-1
+                        border-b
+                        border-[#141718]
+                        text-[14px]
+                        md:text-[16px]
+                        font-medium
+                        text-[#141718]
+                        whitespace-nowrap
+                    "
                 >
                     Xem thêm
 
@@ -130,16 +146,38 @@ export default function ProductCarousel({
             </div>
 
             {/* PRODUCTS */}
-            <div className="grid grid-cols-2 gap-4 lg:grid-cols-6 min-[1440px]:grid-cols-6">
+            <div
+                className="
+                    grid
+                    grid-cols-2
+                    gap-4
+                    md:grid-cols-3
+                    lg:grid-cols-4
+                "
+            >
 
-                {products.map((product) => (
+                {[...products]
+                    .sort((a, b) => {
 
-                    <ProductCard
-                        key={product.id}
-                        product={product}
-                    />
+                        const dateA = a.createdAt
+                            ? new Date(a.createdAt).getTime()
+                            : 0;
 
-                ))}
+                        const dateB = b.createdAt
+                            ? new Date(b.createdAt).getTime()
+                            : 0;
+
+                        return dateB - dateA;
+                    })
+                    .slice(0, 4)
+                    .map((product) => (
+
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                        />
+
+                    ))}
 
             </div>
 

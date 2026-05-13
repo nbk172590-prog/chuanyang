@@ -17,4 +17,5 @@ export interface Product {
     discount?: number | undefined ;
     rating?: number | undefined ;
     reviewCount?: number | undefined ;
+    createdAt?:  string | number | Date
 }

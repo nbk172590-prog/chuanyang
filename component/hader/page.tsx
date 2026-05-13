@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 
 function HeaderComponent() {
@@ -8,7 +8,7 @@ function HeaderComponent() {
 
     return (
         <header className="w-full bg-white border-b border-[#F3F5F7]">
-            <div className="max-w-[1440px] mx-auto flex items-center justify-between py-4 px-4 md:px-6">
+            <div className="mx-auto flex items-center justify-between py-4 px-4 md:px-6">
 
                 {/* LEFT GROUP */}
                 <div className="flex items-center gap-3">
@@ -51,16 +51,6 @@ function HeaderComponent() {
                     </Link>
                 </nav>
 
-                {/* RIGHT */}
-                <div className="flex items-center gap-3 md:gap-4">
-                    {/*<button className="w-5 h-5 md:w-6 md:h-6">*/}
-                    {/*    <img src="/search_02.png" alt="search" />*/}
-                    {/*</button>*/}
-
-                    {/*<button className="w-5 h-5 md:w-6 md:h-6">*/}
-                    {/*    <img src="/contax_call.png" alt="contact" />*/}
-                    {/*</button>*/}
-                </div>
             </div>
 
             {/* Mobile Menu */}

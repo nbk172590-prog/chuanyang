@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import { ProductGrid } from "@/component/products/productGrid/page";
@@ -10,7 +10,7 @@ import { SidebarShop } from "@/component/products/sidebar/page";
 import FooterBackground from "@/component/footer/footerBg/page";
 import FooterComponent from "@/component/footer/page";
 
-export default function ShopPage() {
+function ShopContent() {
 
     const searchParams = useSearchParams();
 
@@ -82,5 +82,14 @@ export default function ShopPage() {
             <FooterComponent />
 
         </main>
+    );
+}
+
+export default function ShopPage() {
+
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <ShopContent />
+        </Suspense>
     );
 }

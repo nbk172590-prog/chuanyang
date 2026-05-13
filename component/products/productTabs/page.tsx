@@ -46,7 +46,6 @@ export default function ProductTabs({
                 className="
                 mx-auto
                 flex
-                max-w-[1120px]
                 flex-col
                 gap-6
                 px-4

@@ -16,7 +16,7 @@ export function ProductCard({product}: ProductCardProps) {
         <div
             className="group relative bg-white overflow-hidden cursor-pointer">
             {/* Image container */}
-            <div className="relative overflow-hidden bg-gray-50" style={{paddingBottom: "100%"}}>
+            <div className="h-[249px] min-[1440px]:h-[359px] relative overflow-hidden bg-gray-50" style={{paddingBottom: "100%"}}>
                 <img
                     onClick={() => router.push(`/products/detail?id=${product.id}`)}
                     src={product.image}

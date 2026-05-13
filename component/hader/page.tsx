@@ -28,7 +28,7 @@ function HeaderComponent() {
                     >
                         <img
                             className="w-8 h-5 md:w-10 md:h-6 object-contain"
-                            src="https://media.base44.com/images/public/69f8168291dbd5fd35722438/bb324a18d_4fd52f27a_a6d982d03e4eea741e5c66a327cd4922036ced70.png"
+                            src="/icon.png"
                             alt="logo"
                         />
                         <p className="text-lg md:text-2xl font-semibold text-emerald-950 uppercase">

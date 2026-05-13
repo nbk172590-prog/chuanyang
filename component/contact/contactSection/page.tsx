@@ -35,18 +35,15 @@ export function ContactSection() {
             <h2
                 className="
                     font-[Poppins]
-                    font-medium
+                    font-bold
                     text-[30px]
                     leading-[36px]
                     tracking-[-0.3px]
-
                     sm:text-[34px]
                     sm:leading-[40px]
-
                     md:text-[40px]
                     md:leading-[44px]
                     md:tracking-[-0.4px]
-
                     text-[#121212]
                     text-center
                 "
@@ -61,19 +58,14 @@ export function ContactSection() {
                         key={card.label}
                         className="
                             bg-[#F3F5F7]
-
                             flex
                             flex-col
                             items-center
-
                             gap-4
-
                             px-5
                             sm:px-8
-
                             py-6
                             md:py-4
-
                             text-center
                         "
                     >

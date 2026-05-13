@@ -8,7 +8,7 @@ export function HeaderContact() {
                 <h1
                     className="
                         font-[Poppins]
-                        font-medium
+                        font-bold
                         text-[32px]
                         leading-[40px]
                         tracking-[-0.5px]
@@ -39,7 +39,7 @@ export function HeaderContact() {
                         md:max-w-[760px]
                     "
                 >
-                    <span className="text-[#343839] font-normal">
+                    <span className="text-[#343839] font-bold">
                         Chuan Yang
                     </span>
                     {" "}

@@ -22,30 +22,50 @@ function CategoryCard({
             : "absolute top-4 left-4 md:top-12 md:left-8";
 
     return (
-        <div
-            className="relative w-full h-full rounded-lg overflow-hidden bg-cover bg-center"
-            style={{backgroundImage: `url(${imageUrl})`}}
-        >
-            <div className={positionClass}>
-                <h2 className="text-lg md:text-3xl font-medium text-[#141718]">
+        <div className="relative w-full h-full rounded-lg overflow-hidden group">
+
+            {/* IMAGE */}
+            <div
+                className="
+                    absolute inset-0
+                    bg-cover bg-center
+                    transition-transform duration-500 ease-out
+                    group-hover:scale-105
+                    cursor-pointer
+                "
+                style={{backgroundImage: `url(${imageUrl})`}}
+            />
+
+            {/* CONTENT */}
+            <div className={`${positionClass} z-10`}>
+                <h2 className="text-lg md:text-3xl text-[#141718] font-bold">
                     {title}
                 </h2>
 
-                <Link href="/products" className="inline-flex items-center gap-1 mt-2 md:mt-3">
-    <span className="text-sm md:text-base border-b border-[#141718]">
-        Mua sắm ngay
-    </span>
-                    <img src={arrowUrl} alt="arrow" className="w-4 h-4 md:w-5 md:h-5"/>
+                <Link
+                    href="/products"
+                    className="inline-flex items-center gap-1 mt-2 md:mt-3"
+                >
+                    <span className="text-sm md:text-base border-b border-[#141718]">
+                        Mua sắm ngay
+                    </span>
+
+                    <img
+                        src={arrowUrl}
+                        alt="arrow"
+                        className="w-4 h-4 md:w-5 md:h-5"
+                    />
                 </Link>
             </div>
+
         </div>
-)
-    ;
+    );
 }
 
 export default function BannerGrid() {
     return (
         <section className="w-full bg-white">
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
 
                 {/* LEFT BIG */}
@@ -79,7 +99,9 @@ export default function BannerGrid() {
                     </div>
 
                 </div>
+
             </div>
+
         </section>
     );
 }

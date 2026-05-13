@@ -6,6 +6,7 @@ interface CategoryCardProps {
     title: string;
     imageUrl: string;
     arrowUrl: string;
+    href: string;
     contentPosition?: "top-left" | "bottom-left";
 }
 
@@ -13,6 +14,7 @@ function CategoryCard({
                           title,
                           imageUrl,
                           arrowUrl,
+                          href,
                           contentPosition = "top-left",
                       }: CategoryCardProps) {
 
@@ -24,23 +26,27 @@ function CategoryCard({
     return (
         <div
             className="relative w-full h-full rounded-lg overflow-hidden bg-cover bg-center"
-            style={{backgroundImage: `url(${imageUrl})`}}
+            style={{ backgroundImage: `url(${imageUrl})` }}
         >
             <div className={positionClass}>
                 <h2 className="text-lg md:text-3xl font-medium text-[#141718]">
                     {title}
                 </h2>
 
-                <Link href="/products" className="inline-flex items-center gap-1 mt-2 md:mt-3">
-    <span className="text-sm md:text-base border-b border-[#141718]">
-        Mua sắm ngay
-    </span>
-                    <img src={arrowUrl} alt="arrow" className="w-4 h-4 md:w-5 md:h-5"/>
+                <Link href={href} className="inline-flex items-center gap-1 mt-2 md:mt-3">
+                    <span className="text-sm md:text-base border-b border-[#141718]">
+                        Mua sắm ngay
+                    </span>
+
+                    <img
+                        src={arrowUrl}
+                        alt="arrow"
+                        className="w-4 h-4 md:w-5 md:h-5"
+                    />
                 </Link>
             </div>
         </div>
-)
-    ;
+    );
 }
 
 export default function BannerGrid() {
@@ -52,6 +58,7 @@ export default function BannerGrid() {
                 <div className="aspect-[4/5] md:aspect-[548/664]">
                     <CategoryCard
                         title="Phòng tắm"
+                        href="/products?category=Sen tắm"
                         imageUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-1d6c5bfc5ee9cf06.png"
                         arrowUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-0db9131d45f1b116.svg"
                     />
@@ -63,6 +70,7 @@ export default function BannerGrid() {
                     <div className="aspect-[4/3] md:aspect-[548/319]">
                         <CategoryCard
                             title="Lavabo/Nhà vệ sinh"
+                            href="/products?category=Vòi chậu"
                             imageUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-0569f57b8e21f96b.png"
                             arrowUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-7079d2de927937b5.svg"
                             contentPosition="bottom-left"
@@ -72,6 +80,7 @@ export default function BannerGrid() {
                     <div className="aspect-[4/3] md:aspect-[548/319]">
                         <CategoryCard
                             title="Phòng bếp"
+                            href="/products?category=Vòi bếp"
                             imageUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-78deba1751c9c6a2.png"
                             arrowUrl="https://cdn.codia.ai/figma/TwVJpJ9GPMQBhVfqGBVrZG/img-788131a26ffffd29.svg"
                             contentPosition="bottom-left"

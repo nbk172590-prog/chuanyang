@@ -1,15 +1,19 @@
 'use client'
 
-import {useState} from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
-import {ProductGrid} from "@/component/products/productGrid/page";
+import { ProductGrid } from "@/component/products/productGrid/page";
 import PromoBar from "@/component/announcementBar/page";
 import HeaderComponent from "@/component/hader/page";
-import {SidebarShop} from "@/component/products/sidebar/page";
+import { SidebarShop } from "@/component/products/sidebar/page";
 import FooterBackground from "@/component/footer/footerBg/page";
 import FooterComponent from "@/component/footer/page";
 
 export default function ShopPage() {
+
+    const searchParams = useSearchParams();
+
     const [searchTerm, setSearchTerm] = useState("");
 
     const [activeCategory, setActiveCategory] =
@@ -18,11 +22,24 @@ export default function ShopPage() {
     const [activePrice, setActivePrice] =
         useState('Tất cả');
 
+    useEffect(() => {
+
+        const category = searchParams.get('category');
+
+        if (category) {
+            setActiveCategory(category);
+        } else {
+            setActiveCategory('Tất cả');
+        }
+
+    }, [searchParams]);
+
     return (
         <main className="bg-white min-h-screen">
 
-            <PromoBar/>
-            <HeaderComponent/>
+            <PromoBar />
+
+            <HeaderComponent />
 
             <img
                 className="w-full h-auto object-cover"
@@ -30,7 +47,15 @@ export default function ShopPage() {
                 alt=""
             />
 
-            <div className="flex flex-row items-start gap-6 px-4 md:px-10 lg:px-10 xl:px-40 pt-6 md:pt-10 lg:pt-15 pb-10 md:pb-16 lg:pb-25">
+            <div
+                className="
+                    flex flex-row items-start gap-6
+                    px-4 md:px-10 lg:px-10 xl:px-40
+                    pt-6 md:pt-10 lg:pt-15
+                    pb-10 md:pb-16 lg:pb-25
+                "
+            >
+
                 <SidebarShop
                     activeCategory={activeCategory}
                     setActiveCategory={setActiveCategory}
@@ -41,17 +66,20 @@ export default function ShopPage() {
                 />
 
                 <div className="flex-1">
+
                     <ProductGrid
                         activeCategory={activeCategory}
                         activePrice={activePrice}
                         searchTerm={searchTerm}
                     />
+
                 </div>
 
             </div>
 
-            <FooterBackground/>
-            <FooterComponent/>
+            <FooterBackground />
+
+            <FooterComponent />
 
         </main>
     );

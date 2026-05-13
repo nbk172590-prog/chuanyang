@@ -23,15 +23,15 @@ export default function ProductDetail({
         },
         {
             label: 'Chế độ nước',
-            value: product?.waterMode,
+            value: product?.waterMode || 'Nóng / Lạnh',
         },
         {
             label: 'Màu sắc',
-            value: product?.color,
+            value: product?.color || 'Bạc inox',
         },
         {
             label: 'Vật liệu',
-            value: product?.material,
+            value: product?.material || 'Đồng ≥ 60%',
         },
     ]
 
@@ -168,7 +168,7 @@ export default function ProductDetail({
                         <div className="flex items-center gap-3">
                             <div>
                                 <span className="text-[28px] font-bold text-red-700">
-                            {product.price.toLocaleString('vi-VN')} đs
+                            {product.price.toLocaleString('vi-VN')} đ
                         </span>
                             </div>
                             <div className="text-[20px] font-semibold text-[#6C7275] line-through">

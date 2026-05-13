@@ -41,12 +41,8 @@ export function ProductGrid({
 
     const [loadingMore, setLoadingMore] =
         useState(false);
-
-    const [lastDoc, setLastDoc] =
-        useState<QueryDocumentSnapshot<DocumentData> | null>(null);
-
-    const [hasMore, setHasMore] =
-        useState(true);
+    const [page, setPage] =
+        useState(1);
 
     // NORMALIZE TEXT
     const normalizeText = (text: string) =>
@@ -68,8 +64,7 @@ export function ProductGrid({
 
             const q = query(
                 collection(db, 'products'),
-                orderBy('createdAt', 'desc'),
-                limit(PAGE_SIZE)
+                orderBy('createdAt', 'desc'),            
             );
 
             const snapshot = await getDocs(q);
@@ -135,17 +130,6 @@ export function ProductGrid({
 
             setProducts(data);
 
-            // SAVE LAST DOC
-            const lastVisible =
-                snapshot.docs[snapshot.docs.length - 1];
-
-            setLastDoc(lastVisible);
-
-            // CHECK HAS MORE
-            if (snapshot.docs.length < PAGE_SIZE) {
-                setHasMore(false);
-            }
-
         } catch (error) {
 
             console.error(error);
@@ -158,109 +142,9 @@ export function ProductGrid({
     };
 
     // LOAD MORE
-    const handleLoadMore = async () => {
+    const handleLoadMore =  () => {
 
-        if (!lastDoc) return;
-
-        try {
-
-            setLoadingMore(true);
-
-            const q = query(
-                collection(db, 'products'),
-                orderBy('createdAt', 'desc'),
-                startAfter(lastDoc),
-                limit(PAGE_SIZE)
-            );
-
-            const snapshot = await getDocs(q);
-
-            const newProducts: Product[] =
-                snapshot.docs.map((doc) => {
-
-                    const docData = doc.data();
-
-                    const product: Product = {
-
-                        id: doc.id,
-
-                        name:
-                            docData.name || 'Sản phẩm',
-
-                        code:
-                            docData.code || undefined,
-
-                        description:
-                            docData.description || undefined,
-
-                        category:
-                            docData.category || 'Tất cả',
-
-                        price:
-                            typeof docData.price === 'number'
-                                ? docData.price
-                                : 0,
-
-                        originalPrice:
-                            typeof docData.originalPrice === 'number'
-                                ? docData.originalPrice
-                                : undefined,
-
-                        rating:
-                            typeof docData.rating === 'number'
-                                ? docData.rating
-                                : 5,
-
-                        reviewCount:
-                            typeof docData.reviewCount === 'number'
-                                ? docData.reviewCount
-                                : 0,
-
-                        image:
-                            docData.image ||
-                            docData.images?.[0] ||
-                            defaultImage,
-
-                        isNew:
-                            typeof docData.isNew === 'boolean'
-                                ? docData.isNew
-                                : true,
-
-                        discount:
-                            typeof docData.discount === 'number'
-                                ? docData.discount
-                                : undefined,
-                    };
-
-                    return product;
-                });
-
-            // APPEND PRODUCTS
-            setProducts((prev) => [
-                ...prev,
-                ...newProducts
-            ]);
-
-            // UPDATE LAST DOC
-            const lastVisible =
-                snapshot.docs[snapshot.docs.length - 1];
-
-            setLastDoc(lastVisible);
-
-            // CHECK HAS MORE
-            if (snapshot.docs.length < PAGE_SIZE) {
-                setHasMore(false);
-            }
-
-        } catch (error) {
-
-            console.error(error);
-
-        } finally {
-
-            setLoadingMore(false);
-
-        }
+      setPage((prev) => prev + 1);
     };
 
     // FILTER PRODUCTS
@@ -309,6 +193,9 @@ export function ProductGrid({
             normalizeText(product.name)
                 .includes(
                     normalizeText(searchTerm)
+                ) || normalizeText(product.category || '')
+                .includes(
+                    normalizeText(searchTerm)
                 );
 
         return (
@@ -337,7 +224,7 @@ export function ProductGrid({
 
                 {filteredProducts.length > 0 ? (
 
-                    filteredProducts.map((product) => (
+                    filteredProducts.slice(0, PAGE_SIZE * page).map((product) => (
 
                         <ProductCard
                             key={product.id}
@@ -357,7 +244,7 @@ export function ProductGrid({
             </div>
 
             {/* LOAD MORE */}
-            {hasMore && filteredProducts.length >= PAGE_SIZE && (
+            { filteredProducts.length >= PAGE_SIZE * page && (
 
                 <div className="flex justify-center">
 

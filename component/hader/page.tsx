@@ -1,7 +1,9 @@
 "use client";
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
+import {usePathname} from "next/navigation";
+
 import {
     X,
     Search,
@@ -14,151 +16,237 @@ import {
 } from "react-icons/fa";
 
 function HeaderComponent() {
+
     const [open, setOpen] = useState(false);
 
+    const pathname = usePathname();
+
+    /**
+     * Prevent body scroll when menu open
+     */
+    useEffect(() => {
+
+        if (open) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+
+        return () => {
+            document.body.style.overflow = "auto";
+        };
+
+    }, [open]);
+
+    /**
+     * Active route
+     */
+    const isActive = (path: string) => {
+
+        if (path === "/") {
+            return pathname === "/";
+        }
+
+        return pathname.startsWith(path);
+    };
+
+    /**
+     * Desktop nav style
+     */
+    const navClass = (path: string) =>
+        `relative px-4 py-2 rounded-full text-sm md:text-[15px] transition-all duration-300 ${
+            isActive(path)
+                ? "bg-black text-white font-semibold shadow-sm"
+                : "text-gray-500 hover:text-black hover:bg-gray-100"
+        }`;
+
+    /**
+     * Mobile nav style
+     */
+    const mobileNavClass = (path: string) =>
+        `h-[58px] flex items-center px-1 border-b border-[#E5E7EB] text-[16px] transition-all duration-300 ${
+            isActive(path)
+                ? "font-semibold text-black translate-x-2"
+                : "text-gray-500"
+        }`;
+
     return (
-        <header className="w-full bg-white border-b border-[#F3F5F7]">
-            <div className="mx-auto flex items-center justify-between py-4 px-4 md:px-6">
+        <>
 
-                {/* LEFT */}
-                <div className="flex items-center gap-3">
+            {/* HEADER */}
+            <header className="sticky top-0 z-[9998] w-full border-b border-[#F3F5F7] bg-white/80 backdrop-blur-xl">
 
-                    {/* Mobile Hamburger */}
-                    <button
-                        onClick={() => setOpen(true)}
-                        className="md:hidden w-6 h-6 flex items-center justify-center text-xl"
-                    >
-                        ☰
-                    </button>
+                <div className="mx-auto flex items-center justify-between py-4 px-4 md:px-6">
 
-                    {/* Logo */}
-                    <Link
-                        href="/"
-                        className="flex items-center gap-2"
-                    >
-                        <img
-                            className="w-8 h-5 md:w-10 md:h-6 object-contain"
-                            src="/icon.png"
-                            alt="logo"
-                        />
+                    {/* LEFT */}
+                    <div className="flex items-center gap-3">
 
-                        <p className="text-lg md:text-2xl font-semibold text-emerald-950 uppercase">
-                            CHUAN YANG
-                        </p>
-                    </Link>
+                        {/* Mobile Hamburger */}
+                        <button
+                            onClick={() => setOpen(true)}
+                            className="md:hidden w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-all"
+                        >
+                            ☰
+                        </button>
+
+                        {/* Logo */}
+                        <Link
+                            href="/"
+                            className="flex items-center gap-2"
+                        >
+
+                            <img
+                                className="w-8 h-5 md:w-10 md:h-6 object-contain"
+                                src="/icon.png"
+                                alt="logo"
+                            />
+
+                            <p className="text-lg md:text-2xl font-semibold text-emerald-950 uppercase tracking-wide">
+                                CHUAN YANG
+                            </p>
+
+                        </Link>
+
+                    </div>
+
+                    {/* Desktop Nav */}
+                    <nav className="hidden md:flex items-center gap-3">
+
+                        <Link href="/" className={navClass("/")}>
+                            Trang chủ
+                        </Link>
+
+                        <Link href="/products" className={navClass("/products")}>
+                            Sản phẩm
+                        </Link>
+
+                        <Link href="/contact-us" className={navClass("/contact-us")}>
+                            Liên hệ
+                        </Link>
+
+                    </nav>
 
                 </div>
 
-                {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-10">
-                    <Link href="/" className="text-sm md:text-base font-medium hover:opacity-80">
-                        Trang chủ
-                    </Link>
-
-                    <Link href="/products" className="text-sm md:text-base font-medium hover:opacity-80">
-                        Sản phẩm
-                    </Link>
-
-                    <Link href="/contact-us" className="text-sm md:text-base font-medium hover:opacity-80">
-                        Liên hệ
-                    </Link>
-                </nav>
-
-            </div>
+            </header>
 
             {/* MOBILE MENU */}
-            {open && (
-                <div className="fixed inset-0 z-50 bg-black/30 md:hidden">
+            <div
+                className={`fixed inset-0 z-[99999] md:hidden transition-all duration-300 ${
+                    open
+                        ? "visible opacity-100"
+                        : "invisible opacity-0 pointer-events-none"
+                }`}
+            >
 
-                    <div className="h-full w-[88%] max-w-[320px] bg-[#FAFAFA] px-5 py-6 flex flex-col">
+                {/* BACKDROP */}
+                <div
+                    onClick={() => setOpen(false)}
+                    className="absolute inset-0 bg-black/45 backdrop-blur-sm"
+                />
 
-                        {/* Top */}
-                        <div className="flex items-center justify-between mb-6">
+                {/* SIDEBAR */}
+                <div
+                    className={`relative h-full w-[88%] max-w-[320px] bg-white px-5 py-6 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${
+                        open
+                            ? "translate-x-0"
+                            : "-translate-x-full"
+                    }`}
+                >
 
-                            <h2 className="text-[24px] font-semibold text-black">
-                                ChuanYang Global
-                            </h2>
+                    {/* TOP */}
+                    <div className="flex items-center justify-between mb-6">
 
-                            <button
-                                onClick={() => setOpen(false)}
-                                className="w-8 h-8 flex items-center justify-center"
-                            >
-                                <X size={22} strokeWidth={1.8}/>
-                            </button>
+                        <h2 className="text-[24px] font-semibold text-black">
+                            ChuanYang Global
+                        </h2>
 
-                        </div>
+                        <button
+                            onClick={() => setOpen(false)}
+                            className="w-9 h-9 rounded-full hover:bg-gray-100 flex items-center justify-center transition-all"
+                        >
+                            <X size={22} strokeWidth={1.8}/>
+                        </button>
 
-                        {/* Search */}
-                        <div className="relative mb-6">
+                    </div>
 
-                            <Search
-                                size={20}
-                                className="absolute left-4 top-1/2 -translate-y-1/2 text-[#777]"
-                            />
+                    {/* SEARCH */}
+                    <div className="relative mb-6">
 
-                            <input
-                                type="text"
-                                placeholder="Search"
-                                className="w-full h-[50px] rounded-lg border border-[#9CA3AF] bg-transparent pl-12 pr-4 text-[15px] outline-none"
-                            />
+                        <Search
+                            size={20}
+                            className="absolute left-4 top-1/2 -translate-y-1/2 text-[#777]"
+                        />
 
-                        </div>
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            className="w-full h-[50px] rounded-2xl border border-[#E5E7EB] bg-[#FAFAFA] pl-12 pr-4 text-[15px] outline-none focus:border-black transition-all"
+                        />
 
-                        {/* Menu */}
-                        <nav className="flex flex-col">
+                    </div>
 
-                            <Link
-                                href="/"
-                                onClick={() => setOpen(false)}
-                                className="h-[58px] flex items-center border-b border-[#E5E7EB] text-[16px] text-black"
-                            >
-                                Home
-                            </Link>
+                    {/* MENU */}
+                    <nav className="flex flex-col">
 
-                            <Link
-                                href="/products"
-                                onClick={() => setOpen(false)}
-                                className="h-[58px] flex items-center border-b border-[#E5E7EB] text-[16px] text-black"
-                            >
-                                Products
-                            </Link>
+                        <Link
+                            href="/"
+                            onClick={() => setOpen(false)}
+                            className={mobileNavClass("/")}
+                        >
+                            Trang chủ
+                        </Link>
 
-                            <Link
-                                href="/contact-us"
-                                onClick={() => setOpen(false)}
-                                className="h-[58px] flex items-center border-b border-[#E5E7EB] text-[16px] text-black"
-                            >
-                                Contact Us
-                            </Link>
+                        <Link
+                            href="/products"
+                            onClick={() => setOpen(false)}
+                            className={mobileNavClass("/products")}
+                        >
+                            Sản phẩm
+                        </Link>
 
-                        </nav>
+                        <Link
+                            href="/contact-us"
+                            onClick={() => setOpen(false)}
+                            className={mobileNavClass("/contact-us")}
+                        >
+                            Liên hệ
+                        </Link>
 
-                        {/* Bottom Social */}
-                        <div className="mt-auto pt-10 flex items-center justify-center gap-7">
+                    </nav>
 
-                            <Link
-                                href="https://www.facebook.com/thietbivesinhdailoanhanoi"
-                                target="_blank"
-                            >
-                                <FaFacebookF size={20}/>
+                    {/* SOCIAL */}
+                    <div className="mt-auto pt-10 flex items-center justify-center gap-5">
 
-                            </Link>
+                        <Link
+                            href="https://www.facebook.com/thietbivesinhdailoanhanoi"
+                            target="_blank"
+                            className="w-11 h-11 rounded-full bg-[#F5F5F5] hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center"
+                        >
+                            <FaFacebookF size={18}/>
+                        </Link>
 
-                            <Link href="/">
-                                <FaInstagram size={20}/>
-                            </Link>
+                        <Link
+                            href="/"
+                            className="w-11 h-11 rounded-full bg-[#F5F5F5] hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center"
+                        >
+                            <FaInstagram size={18}/>
+                        </Link>
 
-                            <Link href="/">
-                                <FaYoutube size={20}/>
-                            </Link>
-
-                        </div>
+                        <Link
+                            href="/"
+                            className="w-11 h-11 rounded-full bg-[#F5F5F5] hover:bg-black hover:text-white transition-all duration-300 flex items-center justify-center"
+                        >
+                            <FaYoutube size={18}/>
+                        </Link>
 
                     </div>
 
                 </div>
-            )}
-        </header>
+
+            </div>
+
+        </>
     );
 }
 

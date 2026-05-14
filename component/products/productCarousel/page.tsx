@@ -133,6 +133,7 @@ export default function ProductCarousel({
                         text-[#141718]
                         whitespace-nowrap
                     "
+                    scroll={true}
                 >
                     Xem thêm
 

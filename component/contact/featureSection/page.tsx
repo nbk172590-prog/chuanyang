@@ -47,13 +47,13 @@ export function FeatureSection() {
                 "
             >
 
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-3">
 
                     <h2
                         className="
                             font-[Poppins]
                             font-bold
-                            text-[30px]
+                            text-[29px]
                             leading-[36px]
                             tracking-[-0.3px]
                             sm:text-[34px]

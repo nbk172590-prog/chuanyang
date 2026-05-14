@@ -81,6 +81,7 @@ export default function ProductDetailPage() {
         if (docSnap.exists()) {
           const data = docSnap.data();
           const product: Product = {
+            ...data,
             id: docSnap.id,
             name: data.name || '',
             description: data.description || '',
@@ -266,9 +267,7 @@ export default function ProductDetailPage() {
 
       // Add settings to updateData
       settings.forEach((setting) => {
-        if (formData[setting.field] !== undefined) {
-          updateData[setting.field] = formData[setting.field];
-        }
+        updateData[setting.field] = formData[setting.field];
       });
 
       await updateDoc(docRef, updateData);

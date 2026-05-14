@@ -30,10 +30,10 @@ export function PromoBar() {
                 <img src="/ticket-percent.png" alt="" className="h-5 w-5 flex-shrink-0"/>
 
                 <span className="mr-1 text-[#343839]">
-                    30% off storewide — Limited time!
+                    30% Giảm giá toàn cửa hàng — Có thời hạn!
                 </span>
 
-                <Link href="/products" className="inline-flex items-center gap-1 whitespace-nowrap">s
+                <Link href="/products" className="inline-flex items-center gap-1 whitespace-nowrap">
 
                     <span className="border-b border-[#377DFF] text-[#377DFF]">
                         Mua sắm ngay

@@ -35,10 +35,7 @@ export default function CategoriesPage() {
   // Fetch categories in real-time
   useEffect(() => {
     try {
-      const q = query(
-        collection(db, 'categories'),
-        orderBy('createdAt', 'desc')
-      );
+      const q = query(collection(db, 'categories'), orderBy('createdAt', 'desc'));
 
       const unsubscribe = onSnapshot(
         q,
@@ -206,9 +203,7 @@ export default function CategoriesPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Name Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Tên Danh Mục *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Tên Danh Mục *</label>
               <input
                 type="text"
                 value={formData.name}
@@ -221,9 +216,7 @@ export default function CategoriesPage() {
 
             {/* Description Field */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Mô Tả
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Mô Tả</label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -261,7 +254,9 @@ export default function CategoriesPage() {
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         {categories.length === 0 ? (
           <div className="p-8 text-center">
-            <p className="text-gray-500 text-lg">Chưa có danh mục nào. Hãy tạo danh mục đầu tiên!</p>
+            <p className="text-gray-500 text-lg">
+              Chưa có danh mục nào. Hãy tạo danh mục đầu tiên!
+            </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -271,9 +266,7 @@ export default function CategoriesPage() {
                   <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
                     Tên Danh Mục
                   </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
-                    Mô Tả
-                  </th>
+                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Mô Tả</th>
                   <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
                     Ngày Tạo
                   </th>

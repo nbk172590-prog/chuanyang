@@ -1,6 +1,5 @@
 'use client';
 
-
 import { useState, useEffect } from 'react';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -10,13 +9,17 @@ import {
   updateDoc,
   deleteDoc,
   serverTimestamp,
+  query,
+  collection,
+  onSnapshot,
+  orderBy,
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db } from '@/firebase-config';
 import { storage } from '@/firebase-config';
 import { ChevronLeft, Save, Trash2, Loader, AlertCircle, CheckCircle } from 'lucide-react';
 import ReactQuill from 'react-quill-new';
-import "react-quill-new/dist/quill.snow.css";
+import 'react-quill-new/dist/quill.snow.css';
 
 interface Product {
   id: string;
@@ -25,12 +28,21 @@ interface Product {
   details: string;
   category: string;
   price: number;
+  discountPrice?: number;
   stock: number;
   status: 'active' | 'inactive';
   image: string;
   images?: string[];
   createdAt: Date;
   updatedAt: Date;
+  [key: string]: any;
+}
+
+interface Setting {
+  id: string;
+  name: string;
+  field: string;
+  options: string[];
 }
 
 export default function ProductDetailPage() {
@@ -48,11 +60,12 @@ export default function ProductDetailPage() {
   const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState<Partial<Product>>({});
   const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [settings, setSettings] = useState<Setting[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [uploadingImages, setUploadingImages] = useState(false);
 
   const handleDetailsChange = (value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       details: value,
     }));
@@ -99,6 +112,33 @@ export default function ProductDetailPage() {
   }, [productId]);
 
   useEffect(() => {
+    try {
+      const qSetting = query(collection(db, 'settings'));
+      const unsubscribeSetting = onSnapshot(
+        qSetting,
+        (snapshot) => {
+          const data = snapshot.docs.map((doc) => {
+            const docData = doc.data();
+            return {
+              id: doc.id,
+              ...docData,
+            };
+          });
+          setSettings(data as Setting[]);
+        },
+        (err) => {
+          console.error('Lỗi khi tải settings:', err);
+        }
+      );
+      return () => {
+        unsubscribeSetting();
+      };
+    } catch (err) {
+      console.error('Lỗi khi tải settings:', err);
+    }
+  }, []);
+
+  useEffect(() => {
     if (!product) return;
     const loadedImages = product.images?.length
       ? product.images
@@ -107,18 +147,20 @@ export default function ProductDetailPage() {
         : [];
 
     setImagePreviews(loadedImages);
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       ...product,
       images: loadedImages,
     }));
   }, [product]);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const intFields = ['price', 'stock', 'discountPrice'];
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: name === 'price' || name === 'stock' ? parseInt(value) : value,
+      [name]: intFields.includes(name) ? parseInt(value) : value,
     }));
   };
 
@@ -126,7 +168,7 @@ export default function ProductDetailPage() {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
-    const validFiles = files.filter(file => {
+    const validFiles = files.filter((file) => {
       if (!file.type.startsWith('image/')) {
         setError('Chỉ chấp nhận file ảnh');
         return false;
@@ -157,9 +199,9 @@ export default function ProductDetailPage() {
 
       const uploadedUrls = await Promise.all(uploadPromises);
 
-      setImageFiles(prev => [...prev, ...validFiles]);
-      setImagePreviews(prev => [...prev, ...uploadedUrls]);
-      setFormData(prev => ({
+      setImageFiles((prev) => [...prev, ...validFiles]);
+      setImagePreviews((prev) => [...prev, ...uploadedUrls]);
+      setFormData((prev) => ({
         ...prev,
         images: [...(prev.images || []), ...uploadedUrls],
       }));
@@ -174,9 +216,9 @@ export default function ProductDetailPage() {
   };
 
   const handleRemoveImage = (index: number) => {
-    setImageFiles(prev => prev.filter((_, i) => i !== index));
-    setImagePreviews(prev => prev.filter((_, i) => i !== index));
-    setFormData(prev => ({
+    setImageFiles((prev) => prev.filter((_, i) => i !== index));
+    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+    setFormData((prev) => ({
       ...prev,
       images: prev.images?.filter((_, i) => i !== index),
     }));
@@ -208,18 +250,28 @@ export default function ProductDetailPage() {
       }
 
       const docRef = doc(db, 'products', productId);
-      await updateDoc(docRef, {
+      const updateData: { [key: string]: any } = {
         name: formData.name?.trim(),
         description: formData.description?.trim(),
         details: formData.details?.trim(),
         category: formData.category,
         price: formData.price,
+        discountPrice: formData.discountPrice || 0,
         stock: formData.stock,
         status: formData.status,
         image: formData.images?.[0] || product?.image || '/placeholder.jpg',
         images: formData.images || product?.images || [product?.image || '/placeholder.jpg'],
         updatedAt: serverTimestamp(),
+      };
+
+      // Add settings to updateData
+      settings.forEach((setting) => {
+        if (formData[setting.field] !== undefined) {
+          updateData[setting.field] = formData[setting.field];
+        }
       });
+
+      await updateDoc(docRef, updateData);
 
       setSuccess('Cập nhật sản phẩm thành công!');
       if (product) {
@@ -278,7 +330,10 @@ export default function ProductDetailPage() {
   return (
     <div className="p-8">
       <div className="flex items-center gap-4 mb-8">
-        <Link href="/admin/products" className="text-blue-600 hover:text-blue-800 transition-colors">
+        <Link
+          href="/admin/products"
+          className="text-blue-600 hover:text-blue-800 transition-colors"
+        >
           <ChevronLeft size={24} />
         </Link>
         <div className="flex-1">
@@ -337,9 +392,7 @@ export default function ProductDetailPage() {
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Mô Tả
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Mô Tả</label>
                 {isEditing ? (
                   <textarea
                     name="description"
@@ -378,7 +431,10 @@ export default function ProductDetailPage() {
                     {imagePreviews.length > 0 && (
                       <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                         {imagePreviews.map((src, index) => (
-                          <div key={src + index} className="relative rounded-lg overflow-hidden border border-gray-200">
+                          <div
+                            key={src + index}
+                            className="relative rounded-lg overflow-hidden border border-gray-200"
+                          >
                             <img
                               src={src}
                               alt={`Ảnh sản phẩm ${index + 1}`}
@@ -425,16 +481,17 @@ export default function ProductDetailPage() {
                     className="min-h-[250px] bg-white"
                   />
                 ) : (
-                  <div className="prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: product.details || '<p>—</p>' }} />
+                  <div
+                    className="prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: product.details || '<p>—</p>' }}
+                  />
                 )}
               </div>
 
               {/* Category */}
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Danh Mục
-                  </label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Danh Mục</label>
                   {isEditing ? (
                     <select
                       name="category"
@@ -459,9 +516,7 @@ export default function ProductDetailPage() {
               {/* Pricing & Stock */}
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Giá Bán
-                  </label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Giá Bán</label>
                   {isEditing ? (
                     <input
                       type="number"
@@ -480,34 +535,57 @@ export default function ProductDetailPage() {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Tồn Kho
+                    Giá Khuyến Mại
                   </label>
                   {isEditing ? (
                     <input
                       type="number"
-                      name="stock"
-                      value={formData.stock || 0}
+                      name="discountPrice"
+                      value={formData.discountPrice || 0}
                       onChange={handleInputChange}
                       disabled={isSubmitting}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
                     />
                   ) : (
-                    <p className="text-gray-800">
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        product.stock > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                      }`}>
-                        {product.stock} sản phẩm
-                      </span>
+                    <p className="text-gray-800 font-semibold text-lg">
+                      {product.discountPrice
+                        ? product.discountPrice.toLocaleString('vi-VN') + ' ₫'
+                        : '—'}
                     </p>
                   )}
                 </div>
               </div>
 
+              {/* Stock */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Tồn Kho</label>
+                {isEditing ? (
+                  <input
+                    type="number"
+                    name="stock"
+                    value={formData.stock || 0}
+                    onChange={handleInputChange}
+                    disabled={isSubmitting}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
+                  />
+                ) : (
+                  <p className="text-gray-800">
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        product.stock > 0
+                          ? 'bg-green-100 text-green-700'
+                          : 'bg-red-100 text-red-700'
+                      }`}
+                    >
+                      {product.stock} sản phẩm
+                    </span>
+                  </p>
+                )}
+              </div>
+
               {/* Status */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Trạng Thái
-                </label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Trạng Thái</label>
                 {isEditing ? (
                   <select
                     name="status"
@@ -520,13 +598,46 @@ export default function ProductDetailPage() {
                     <option value="inactive">Ngừng</option>
                   </select>
                 ) : (
-                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
-                    product.status === 'active' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'
-                  }`}>
+                  <span
+                    className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${
+                      product.status === 'active'
+                        ? 'bg-blue-100 text-blue-700'
+                        : 'bg-gray-100 text-gray-700'
+                    }`}
+                  >
                     {product.status === 'active' ? 'Hoạt động' : 'Ngừng'}
                   </span>
                 )}
               </div>
+
+              {/* Settings Fields */}
+              {settings.map((setting) => (
+                <div key={setting.id}>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    {setting.name}
+                  </label>
+                  {isEditing ? (
+                    <select
+                      name={setting.field}
+                      value={formData[setting.field] || ''}
+                      onChange={handleInputChange}
+                      disabled={isSubmitting}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
+                    >
+                      <option value="">Chọn {setting.name.toLowerCase()}</option>
+                      {setting.options.map((option, index) => (
+                        <option key={index} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <p className="text-gray-800">
+                      {formData[setting.field] || product[setting.field] || '—'}
+                    </p>
+                  )}
+                </div>
+              ))}
 
               {/* Form Actions */}
               {isEditing && (
@@ -622,6 +733,3 @@ export default function ProductDetailPage() {
     </div>
   );
 }
-
-
-

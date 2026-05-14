@@ -2,12 +2,14 @@ export interface Product {
     id: string;
     name: string;
     price: number;
+    discountPrice: number;
     originalPrice?: number;
     image: string;
     images?: string[];
     description?: string;
     material?: string;
     waterMode?: string;
+    water?: string;
     colors?: string;
     code?: string;
     category?: string;

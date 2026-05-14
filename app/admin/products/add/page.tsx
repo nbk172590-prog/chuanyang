@@ -3,27 +3,52 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { addDoc, collection, serverTimestamp, query, orderBy, onSnapshot } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  query,
+  orderBy,
+  onSnapshot,
+} from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db } from '@/firebase-config';
 import { ChevronLeft, Upload, Loader, AlertCircle, CheckCircle, X } from 'lucide-react';
 import ReactQuill from 'react-quill-new';
-import "react-quill-new/dist/quill.snow.css";
-import {storage} from "@/firebase-config";
+import 'react-quill-new/dist/quill.snow.css';
+import { storage } from '@/firebase-config';
 
 interface Category {
   id: string;
   name: string;
 }
+interface Setting {
+  id: string;
+  name: string;
+  field: string;
+  options: string[];
+}
 
 export default function AddProductPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    name: string;
+    description: string;
+    details: string;
+    category: string;
+    price: string;
+    discountPrice: number;
+    stock: string;
+    status: string;
+    images: string[];
+    [key: string]: any;
+  }>({
     name: '',
     description: '',
     details: '',
     category: '',
     price: '',
+    discountPrice: 0,
     stock: '',
     status: 'active',
     images: [] as string[],
@@ -34,25 +59,22 @@ export default function AddProductPage() {
   const [uploadingImages, setUploadingImages] = useState(false);
 
   const [categories, setCategories] = useState<Category[]>([]);
+  const [settings, setSettings] = useState<Setting[]>([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
   const handleDetailsChange = (value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       details: value,
     }));
   };
 
-  // Fetch categories from Firestore
   useEffect(() => {
     try {
-      const q = query(
-        collection(db, 'categories'),
-        orderBy('createdAt', 'desc')
-      );
+      const q = query(collection(db, 'categories'), orderBy('createdAt', 'desc'));
 
       const unsubscribe = onSnapshot(
         q,
@@ -72,17 +94,49 @@ export default function AddProductPage() {
           setLoadingCategories(false);
         }
       );
+      const qSetting = query(collection(db, 'settings'));
 
-      return () => unsubscribe();
+      const unsubscribeSetting = onSnapshot(
+        qSetting,
+        (snapshot) => {
+          const data = snapshot.docs.map((doc) => {
+            const docData = doc.data();
+            return {
+              id: doc.id,
+              ...docData,
+            };
+          });
+          setSettings(data as Setting[]);
+
+          // Initialize form data with setting fields
+          const settingsObject: { [key: string]: any } = {};
+          data.forEach((setting: any) => {
+            settingsObject[setting.field] = '';
+          });
+          setFormData((prev) => ({
+            ...prev,
+            ...settingsObject,
+          }));
+
+          setLoadingCategories(false);
+        },
+        (err) => {}
+      );
+      return () => {
+        unsubscribe();
+        unsubscribeSetting();
+      };
     } catch (err) {
       console.error('Lỗi khi tải danh mục:', err);
       setLoadingCategories(false);
     }
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -93,12 +147,13 @@ export default function AddProductPage() {
     if (files.length === 0) return;
 
     // Validate file types and sizes
-    const validFiles = files.filter(file => {
+    const validFiles = files.filter((file) => {
       if (!file.type.startsWith('image/')) {
         setError('Chỉ chấp nhận file ảnh');
         return false;
       }
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      if (file.size > 5 * 1024 * 1024) {
+        // 5MB limit
         setError('Kích thước ảnh không được vượt quá 5MB');
         return false;
       }
@@ -125,9 +180,9 @@ export default function AddProductPage() {
       const uploadedUrls = await Promise.all(uploadPromises);
 
       // Update state with new images
-      setImageFiles(prev => [...prev, ...validFiles]);
-      setImagePreviews(prev => [...prev, ...uploadedUrls]);
-      setFormData(prev => ({
+      setImageFiles((prev) => [...prev, ...validFiles]);
+      setImagePreviews((prev) => [...prev, ...uploadedUrls]);
+      setFormData((prev) => ({
         ...prev,
         images: [...prev.images, ...uploadedUrls],
       }));
@@ -142,9 +197,9 @@ export default function AddProductPage() {
   };
 
   const handleRemoveImage = (index: number) => {
-    setImageFiles(prev => prev.filter((_, i) => i !== index));
-    setImagePreviews(prev => prev.filter((_, i) => i !== index));
-    setFormData(prev => ({
+    setImageFiles((prev) => prev.filter((_, i) => i !== index));
+    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+    setFormData((prev) => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index),
     }));
@@ -183,12 +238,13 @@ export default function AddProductPage() {
       }
 
       // Save to Firestore
-      const productData = {
+      const productData: { [key: string]: any } = {
         name: formData.name.trim(),
         description: formData.description.trim(),
         details: formData.details.trim(),
         category: formData.category,
         price: parseFloat(formData.price),
+        discountPrice: formData.discountPrice ? parseInt(formData.discountPrice as any, 10) : 0,
         stock: parseInt(formData.stock),
         status: formData.status,
         image: formData.images[0] || '/placeholder.jpg',
@@ -196,6 +252,13 @@ export default function AddProductPage() {
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       };
+
+      // Add settings to productData
+      settings.forEach((setting) => {
+        if (formData[setting.field]) {
+          productData[setting.field] = formData[setting.field];
+        }
+      });
 
       await addDoc(collection(db, 'products'), productData);
 
@@ -244,9 +307,7 @@ export default function AddProductPage() {
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Product Name */}
           <div className="md:col-span-2">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Tên Sản Phẩm *
-            </label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Tên Sản Phẩm *</label>
             <input
               type="text"
               name="name"
@@ -261,9 +322,7 @@ export default function AddProductPage() {
 
           {/* Description */}
           <div className="md:col-span-2">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Mô Tả
-            </label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Mô Tả</label>
             <textarea
               name="description"
               value={formData.description}
@@ -277,9 +336,7 @@ export default function AddProductPage() {
 
           {/* Product Images */}
           <div className="md:col-span-2">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Ảnh Sản Phẩm
-            </label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Ảnh Sản Phẩm</label>
             <input
               type="file"
               multiple
@@ -291,13 +348,14 @@ export default function AddProductPage() {
             <p className="mt-2 text-xs text-gray-500">
               Chọn một hoặc nhiều ảnh, mỗi ảnh tối đa 5MB.
             </p>
-            {uploadingImages && (
-              <p className="mt-2 text-sm text-blue-600">Đang upload ảnh...</p>
-            )}
+            {uploadingImages && <p className="mt-2 text-sm text-blue-600">Đang upload ảnh...</p>}
             {imagePreviews.length > 0 && (
               <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {imagePreviews.map((src, index) => (
-                  <div key={src + index} className="relative rounded-lg overflow-hidden border border-gray-200">
+                  <div
+                    key={src + index}
+                    className="relative rounded-lg overflow-hidden border border-gray-200"
+                  >
                     <img
                       src={src}
                       alt={`Ảnh sản phẩm ${index + 1}`}
@@ -333,9 +391,7 @@ export default function AddProductPage() {
 
           {/* Category */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Danh Mục *
-            </label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Danh Mục *</label>
             <select
               name="category"
               value={formData.category}
@@ -357,9 +413,7 @@ export default function AddProductPage() {
 
           {/* Price */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Giá Bán *
-            </label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Giá Bán *</label>
             <input
               type="number"
               name="price"
@@ -373,11 +427,24 @@ export default function AddProductPage() {
             />
           </div>
 
+          {/* Discount Price */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Giá Khuyến Mại</label>
+            <input
+              type="number"
+              name="discountPrice"
+              value={formData.discountPrice}
+              onChange={handleInputChange}
+              placeholder="0"
+              step="1"
+              disabled={isSubmitting}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
+            />
+          </div>
+
           {/* Stock */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Tồn Kho *
-            </label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Tồn Kho *</label>
             <input
               type="number"
               name="stock"
@@ -392,9 +459,7 @@ export default function AddProductPage() {
 
           {/* Status */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Trạng Thái
-            </label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Trạng Thái</label>
             <select
               name="status"
               value={formData.status}
@@ -406,6 +471,29 @@ export default function AddProductPage() {
               <option value="inactive">Ngừng</option>
             </select>
           </div>
+
+          {/* Settings Fields */}
+          {settings.map((setting) => (
+            <div key={setting.id}>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                {setting.name}
+              </label>
+              <select
+                name={setting.field}
+                value={formData[setting.field] || ''}
+                onChange={handleInputChange}
+                disabled={isSubmitting}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
+              >
+                <option value="">Chọn {setting.name.toLowerCase()}</option>
+                {setting.options.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
 
           {/* Submit Buttons */}
           <div className="md:col-span-2 flex gap-4">

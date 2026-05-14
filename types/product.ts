@@ -10,6 +10,9 @@ export interface Product {
     material?: string;
     waterMode?: string;
     water?: string;
+    surface?: string;
+    cables?: string;
+    filter_head?: string;
     colors?: string;
     code?: string;
     category?: string;

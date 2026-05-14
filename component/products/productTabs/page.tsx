@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Product } from '@/types/product';
+import {useState} from 'react';
+import {Product} from '@/types/product';
 
 interface ProductTabsProps {
     product: Product;
@@ -16,26 +16,32 @@ export default function ProductTabs({
     /**
      * Specs data
      */
+
+    console.log(product);
     const SPEC_ROWS = [
         {
             label: 'Chức năng',
-            value: product.waterMode,
+            value: product.water || '-',
         },
         {
             label: 'Chất liệu',
-            value: product.material,
+            value: product.material || '-',
         },
         {
-            label: 'Màu sắc',
-            value: product.colors,
+            label: 'Bề mặt',
+            value: product.surface || '-',
         },
         {
-            label: 'Mã sản phẩm',
-            value: product.code || product.name,
+            label: 'Dây cáp',
+            value: product.cables || '-',
         },
         {
-            label: 'Danh mục',
-            value: product.category,
+            label: 'Đầu lọc',
+            value: product.filter_head || '-'
+        },
+        {
+            label: 'Xuất xứ',
+            value: 'TaiWan',
         },
     ].filter((item) => item.value);
 

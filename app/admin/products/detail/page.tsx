@@ -44,7 +44,10 @@ interface Setting {
   field: string;
   options: string[];
 }
-
+interface Category {
+  id: string;
+  name: string;
+}
 export default function ProductDetailPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -63,7 +66,7 @@ export default function ProductDetailPage() {
   const [settings, setSettings] = useState<Setting[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [uploadingImages, setUploadingImages] = useState(false);
-
+  const [categories, setCategories] = useState<Category[]>([]);
   const handleDetailsChange = (value: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -110,6 +113,27 @@ export default function ProductDetailPage() {
     if (productId) {
       fetchProduct();
     }
+    const q = query(collection(db, 'categories'), orderBy('createdAt', 'desc'));
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const data = snapshot.docs.map((doc) => {
+          const docData = doc.data();
+          return {
+            id: doc.id,
+            name: docData.name,
+          };
+        });
+        setCategories(data);
+      },
+      (err) => {
+        console.error('Lỗi khi tải danh mục:', err);
+      }
+    );
+    return () => {
+      unsubscribe();
+    };
   }, [productId]);
 
   useEffect(() => {
@@ -500,11 +524,11 @@ export default function ProductDetailPage() {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
                     >
                       <option value="">Chọn danh mục</option>
-                      <option value="Điện tử">Điện tử</option>
-                      <option value="Phụ kiện">Phụ kiện</option>
-                      <option value="Quần áo">Quần áo</option>
-                      <option value="Nhà cửa">Nhà cửa</option>
-                      <option value="Khác">Khác</option>
+                      {categories.map((cat) => (
+                        <option key={cat.id} value={cat.name}>
+                          {cat.name}
+                        </option>
+                      ))}
                     </select>
                   ) : (
                     <p className="text-gray-800">{product.category}</p>

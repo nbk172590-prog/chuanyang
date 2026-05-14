@@ -100,7 +100,7 @@ function FooterComponent() {
                     {/* Menu (mobile giữ lại) */}
                     <div className="flex flex-col gap-4 text-sm">
                         <a href="/">Trang chủ</a>
-                        <a href="/product">Sản phẩm</a>
+                        <a href="/products">Sản phẩm</a>
                         <a href="/contact-us">Liên hệ</a>
                     </div>
 

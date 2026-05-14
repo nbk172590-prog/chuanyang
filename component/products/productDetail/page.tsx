@@ -76,6 +76,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const getPrirceFormatter = (price: number) => {
     return Number(price).toLocaleString('vi-VN') + ' ₫';
   };
+  const getDiscountPrice = () => {
+    return product.price - (product.price * (product.discountPrice || 0)) / 100;
+  };
   return (
     <section className="w-full bg-white">
       <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-20">
@@ -148,7 +151,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {product.discountPrice && (
             <div className="mt-6 flex flex-wrap items-center gap-3">
               <div className="text-[28px] font-bold text-red-700">
-                {getPrirceFormatter(product.discountPrice)}
+                {getPrirceFormatter(getDiscountPrice())}
               </div>
               <div className="text-[20px] font-semibold text-[#6C7275] line-through">
                 {getPrirceFormatter(product.price)}

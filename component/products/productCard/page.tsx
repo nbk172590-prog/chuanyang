@@ -10,12 +10,8 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const router = useRouter();
-  const getDiscountPercentage = () => {
-    if (product.discountPrice && product.price) {
-      const discountAmount = product.price - product.discountPrice;
-      return `${Math.round((discountAmount / product.price) * 100)}%`;
-    }
-    return '';
+  const getDiscountPrice = () => {
+    return product.price - (product.price * (product.discountPrice || 0)) / 100;
   };
   return (
     <div className="flex w-full flex-col">
@@ -40,7 +36,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {/* DISCOUNT */}
           {product.discountPrice && (
             <span className="rounded bg-[#38CB89] px-3 py-1 text-xs font-bold uppercase text-white shadow-sm">
-              -{getDiscountPercentage()}%
+              -{product.discountPrice}%
             </span>
           )}
         </div>
@@ -59,7 +55,7 @@ export function ProductCard({ product }: ProductCardProps) {
             {product.discountPrice ? (
               <React.Fragment>
                 <span className="text-[14px] font-semibold text-[#B91C1C]">
-                  {product.discountPrice?.toLocaleString('vi-VN')}đ
+                  {getDiscountPrice().toLocaleString('vi-VN')}đ
                 </span>
 
                 <span className="text-[14px] text-[#6C7275] line-through">

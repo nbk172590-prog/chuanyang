@@ -429,7 +429,7 @@ export default function AddProductPage() {
 
           {/* Discount Price */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Giá Khuyến Mại</label>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Giảm giá (%)</label>
             <input
               type="number"
               name="discountPrice"
@@ -438,6 +438,8 @@ export default function AddProductPage() {
               placeholder="0"
               step="1"
               disabled={isSubmitting}
+              max={100}
+              min={0}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-50"
             />
           </div>

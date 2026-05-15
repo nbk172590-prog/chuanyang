@@ -291,7 +291,7 @@ export default function ProductDetailPage() {
 
       // Add settings to updateData
       settings.forEach((setting) => {
-        updateData[setting.field] = formData[setting.field];
+        updateData[setting.field] = formData[setting.field] || '';
       });
 
       await updateDoc(docRef, updateData);

@@ -256,7 +256,7 @@ export default function AddProductPage() {
       // Add settings to productData
       settings.forEach((setting) => {
         if (formData[setting.field]) {
-          productData[setting.field] = formData[setting.field];
+          productData[setting.field] = formData[setting.field] || '';
         }
       });
 
